@@ -1,10 +1,11 @@
-import styled from 'styled-components';
+import styled, { keyframes } from 'styled-components';
+import { FaGithub, FaLinkedin, FaTelegramPlane, FaEnvelope } from 'react-icons/fa';
 
 const SOCIAL = [
-  { label: 'GitHub',   short: 'GH', href: 'https://github.com/ScriptManBuilder' },
-  { label: 'LinkedIn', short: 'LI', href: 'https://www.linkedin.com/in/daniil-hora/' },
-  { label: 'Telegram', short: 'TG', href: 'https://t.me/wellCoderDmg' },
-  { label: 'Email',    short: '@',  href: 'mailto:shadowProgrammer@proton.me' },
+  { label: 'GitHub',   Icon: FaGithub,       href: 'https://github.com/ScriptManBuilder' },
+  { label: 'LinkedIn', Icon: FaLinkedin,      href: 'https://www.linkedin.com/in/daniil-hora/' },
+  { label: 'Telegram', Icon: FaTelegramPlane, href: 'https://t.me/wellCoderDmg' },
+  { label: 'Email',    Icon: FaEnvelope,      href: 'mailto:shadowProgrammer@proton.me' },
 ];
 
 const NAV = [
@@ -174,22 +175,21 @@ const SocialLink = styled.a`
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 38px;
-  height: 38px;
-  border-radius: 10px;
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
   border: 1px solid ${({ theme }) => theme.colors.border};
   color: ${({ theme }) => theme.colors.textSecondary};
-  font-size: 0.72rem;
-  font-weight: 700;
-  font-family: ${({ theme }) => theme.fonts.mono};
-  transition: all ${({ theme }) => theme.transition};
+  font-size: 1.05rem;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   background: ${({ theme }) => theme.colors.bgCard};
 
   &:hover {
     border-color: ${({ theme }) => theme.colors.primary};
     color: ${({ theme }) => theme.colors.primary};
-    box-shadow: 0 0 16px rgba(0, 240, 255, 0.12);
-    transform: translateY(-2px);
+    background: rgba(0, 240, 255, 0.07);
+    box-shadow: 0 0 20px rgba(0, 240, 255, 0.15);
+    transform: translateY(-3px);
   }
 `;
 
@@ -215,13 +215,33 @@ const Copyright = styled.p`
   font-family: ${({ theme }) => theme.fonts.mono};
 `;
 
-const MadeWith = styled.p`
-  font-size: 0.73rem;
-  color: ${({ theme }) => theme.colors.textMuted};
-  font-family: ${({ theme }) => theme.fonts.mono};
+const pulse = keyframes`
+  0%, 100% { opacity: 1; box-shadow: 0 0 0 0 rgba(0, 232, 135, 0.5); }
+  50% { opacity: 0.7; box-shadow: 0 0 0 5px rgba(0, 232, 135, 0); }
+`;
 
-  span {
-    color: ${({ theme }) => theme.colors.primary};
+const StatusBadge = styled.div`
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.35rem 0.85rem;
+  border-radius: 9999px;
+  border: 1px solid rgba(0, 232, 135, 0.2);
+  background: rgba(0, 232, 135, 0.06);
+  font-size: 0.72rem;
+  font-family: ${({ theme }) => theme.fonts.mono};
+  color: ${({ theme }) => theme.colors.accent};
+  letter-spacing: 0.04em;
+
+  &::before {
+    content: '';
+    display: block;
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: ${({ theme }) => theme.colors.accent};
+    animation: ${pulse} 2.2s ease infinite;
+    flex-shrink: 0;
   }
 `;
 
@@ -257,7 +277,7 @@ const Footer = () => {
           <SocialBlock>
             <SocialLabel>Find me on</SocialLabel>
             <SocialRow>
-              {SOCIAL.map(({ label, short, href }) => (
+              {SOCIAL.map(({ label, Icon, href }) => (
                 <SocialLink
                   key={label}
                   href={href}
@@ -265,7 +285,7 @@ const Footer = () => {
                   target={href.startsWith('mailto') ? undefined : '_blank'}
                   rel={href.startsWith('mailto') ? undefined : 'noopener noreferrer'}
                 >
-                  {short}
+                  <Icon />
                 </SocialLink>
               ))}
             </SocialRow>
@@ -274,7 +294,7 @@ const Footer = () => {
 
         <BottomBar>
           <Copyright>&copy; {year} Daniil Hora. All rights reserved.</Copyright>
-          <MadeWith>Built with React &amp; <span>TypeScript</span></MadeWith>
+          <StatusBadge>Open to new opportunities</StatusBadge>
         </BottomBar>
       </Inner>
     </FooterWrapper>

@@ -4,8 +4,10 @@ interface ProjectCardProps {
   title: string;
   description: string;
   technologies: string[];
-  github: string;
-  demo: string;
+  github: string | null;
+  demo: string | null;
+  githubLabel?: string;
+  demoLabel?: string;
 }
 
 const Card = styled.div`
@@ -97,24 +99,129 @@ const LinkBtn = styled.a`
   }
 `;
 
-const ProjectCard = ({ title, description, technologies, github, demo }: ProjectCardProps) => (
-  <Card>
-    <Title>{title}</Title>
-    <Description>{description}</Description>
-    <TechList>
-      {technologies.map((tech) => (
-        <TechTag key={tech}>{tech}</TechTag>
-      ))}
-    </TechList>
-    <Links>
-      <LinkBtn href={github} target="_blank" rel="noopener noreferrer">
-        GitHub →
-      </LinkBtn>
-      <LinkBtn href={demo} target="_blank" rel="noopener noreferrer">
-        Live Demo →
-      </LinkBtn>
-    </Links>
-  </Card>
-);
+interface UnavailableBtnProps {
+  $variant?: 'red' | 'green' | 'yellow';
+}
+
+const UnavailableBtn = styled.span<UnavailableBtnProps & { $hoverText?: string }>`
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  padding: 0.3rem 0.9rem;
+  border-radius: 9999px;
+  font-size: 0.78rem;
+  font-weight: 500;
+  font-family: ${({ theme }) => theme.fonts.mono};
+  background: ${({ $variant }) =>
+    $variant === 'green'
+      ? 'rgba(80, 255, 120, 0.10)'
+      : $variant === 'yellow'
+      ? 'rgba(255, 220, 80, 0.10)'
+      : 'rgba(255, 80, 80, 0.08)'};
+  border: 1px solid
+    ${({ $variant }) =>
+      $variant === 'green'
+        ? 'rgba(80, 255, 120, 0.35)'
+        : $variant === 'yellow'
+        ? 'rgba(255, 220, 80, 0.35)'
+        : 'rgba(255, 80, 80, 0.35)'};
+  color: ${({ $variant }) =>
+    $variant === 'green'
+      ? '#4be38a'
+      : $variant === 'yellow'
+      ? '#ffd43b'
+      : '#ff6b6b'};
+  cursor: not-allowed;
+  transition: all 0.25s ease;
+  user-select: none;
+  position: relative;
+
+  &:hover {
+    background: ${({ $variant }) =>
+      $variant === 'green'
+        ? 'rgba(80, 255, 120, 0.18)'
+        : $variant === 'yellow'
+        ? 'rgba(255, 220, 80, 0.18)'
+        : 'rgba(255, 80, 80, 0.14)'};
+    border-color: ${({ $variant }) =>
+      $variant === 'green'
+        ? 'rgba(80, 255, 120, 0.6)'
+        : $variant === 'yellow'
+        ? 'rgba(255, 220, 80, 0.6)'
+        : 'rgba(255, 80, 80, 0.6)'};
+    box-shadow: 0 0 10px
+      ${({ $variant }) =>
+        $variant === 'green'
+          ? 'rgba(80, 255, 120, 0.18)'
+          : $variant === 'yellow'
+          ? 'rgba(255, 220, 80, 0.18)'
+          : 'rgba(255, 80, 80, 0.2)'};
+  }
+
+  /* Hover text for green variant */
+  ${({ $variant, $hoverText }) =>
+    $variant === 'green' && $hoverText && `
+      &:hover::after {
+        content: '${'Contact for access'}';
+        position: absolute;
+        left: 50%;
+        top: 100%;
+        transform: translateX(-50%) translateY(8px);
+        background: rgba(40, 40, 40, 0.98);
+        color: #4be38a;
+        border-radius: 8px;
+        padding: 6px 16px;
+        font-size: 0.85em;
+        font-weight: 500;
+        white-space: nowrap;
+        box-shadow: 0 2px 12px rgba(0,0,0,0.18);
+        z-index: 10;
+        pointer-events: none;
+        opacity: 1;
+        transition: opacity 0.2s;
+      }
+    `}
+`;
+
+const getVariant = (label: string) => {
+  if (/private/i.test(label)) return 'green';
+  if (/nda|confidential/i.test(label)) return 'yellow';
+  return 'red';
+};
+
+const ProjectCard = ({ title, description, technologies, github, demo, githubLabel = '⛔ Unavailable', demoLabel = '⛔ Unavailable' }: ProjectCardProps) => {
+  // Only for Digital Shop & E-Commerce Platform
+  const isDigitalShop = title === 'Digital Shop & E-Commerce Platform';
+  const isDemoPrivate = /private/i.test(demoLabel);
+  const demoHoverText = isDigitalShop && isDemoPrivate ? 'Contact for access' : undefined;
+
+  return (
+    <Card>
+      <Title>{title}</Title>
+      <Description>{description}</Description>
+      <TechList>
+        {technologies.map((tech) => (
+          <TechTag key={tech}>{tech}</TechTag>
+        ))}
+      </TechList>
+      <Links>
+        {github ? (
+          <LinkBtn href={github} target="_blank" rel="noopener noreferrer">
+            GitHub →
+          </LinkBtn>
+        ) : (
+          <UnavailableBtn $variant={getVariant(githubLabel)}>{githubLabel}</UnavailableBtn>
+        )}
+        {demo ? (
+          <LinkBtn href={demo} target="_blank" rel="noopener noreferrer">
+            Live Demo →
+          </LinkBtn>
+        ) : (
+          <UnavailableBtn $variant={getVariant(demoLabel)} $hoverText={demoHoverText}>{demoLabel}</UnavailableBtn>
+        )}
+      </Links>
+    </Card>
+  );
+};
 
 export default ProjectCard;

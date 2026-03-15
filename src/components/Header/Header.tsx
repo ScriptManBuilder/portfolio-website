@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 
 const Nav = styled.header`
@@ -7,7 +7,7 @@ const Nav = styled.header`
   left: 0;
   right: 0;
   z-index: 1000;
-  background: rgba(6, 6, 17, 0.85);
+  background: rgba(6, 6, 17, 0.88);
   backdrop-filter: blur(24px);
   -webkit-backdrop-filter: blur(24px);
   border-bottom: 1px solid rgba(0, 240, 255, 0.07);
@@ -16,15 +16,15 @@ const Nav = styled.header`
 const NavContainer = styled.div`
   max-width: ${({ theme }) => theme.maxWidth};
   margin: 0 auto;
-  padding: 0 2rem;
+  padding: 0 1.5rem;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  height: 68px;
+  height: 64px;
 `;
 
 const Logo = styled.a`
-  font-size: 1.15rem;
+  font-size: 1.1rem;
   font-weight: 700;
   font-family: ${({ theme }) => theme.fonts.heading};
   color: ${({ theme }) => theme.colors.white};
@@ -32,6 +32,7 @@ const Logo = styled.a`
   display: flex;
   align-items: center;
   gap: 0.5rem;
+  z-index: 1001;
   transition: opacity ${({ theme }) => theme.transition};
 
   &:hover { opacity: 0.85; }
@@ -48,47 +49,25 @@ const LogoMark = styled.span`
   font-size: 0.85rem;
   font-weight: 700;
   color: ${({ theme }) => theme.colors.bg};
-  font-family: ${({ theme }) => theme.fonts.heading};
   flex-shrink: 0;
 `;
 
 const LogoText = styled.span`
   color: ${({ theme }) => theme.colors.white};
-
   em {
     font-style: normal;
     color: ${({ theme }) => theme.colors.primary};
   }
 `;
 
-const NavRight = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-
-  @media (max-width: ${({ theme }) => theme.breakpoints.md}) {
-    gap: 0.8rem;
-  }
-`;
-
-const NavLinks = styled.nav<{ $open: boolean }>`
+/* ─── Desktop nav links ─── */
+const DesktopNav = styled.nav`
   display: flex;
   align-items: center;
   gap: 0.2rem;
 
   @media (max-width: ${({ theme }) => theme.breakpoints.md}) {
-    position: fixed;
-    top: 68px;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    flex-direction: column;
-    justify-content: center;
-    gap: 0.5rem;
-    background: rgba(6, 6, 17, 0.97);
-    backdrop-filter: blur(24px);
-    transform: translateX(${({ $open }) => ($open ? '0' : '100%')});
-    transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    display: none;
   }
 `;
 
@@ -123,11 +102,6 @@ const NavLink = styled.a`
   &:hover::after {
     transform: translateX(-50%) scaleX(1);
   }
-
-  @media (max-width: ${({ theme }) => theme.breakpoints.md}) {
-    font-size: 1.3rem;
-    padding: 0.8rem 1.5rem;
-  }
 `;
 
 const HireMeBtn = styled.a`
@@ -149,7 +123,7 @@ const HireMeBtn = styled.a`
     background: linear-gradient(135deg, #00f0ff 0%, #5ef5d2 50%, #00e887 100%);
     color: #060611;
     border-color: transparent;
-    box-shadow: 0 6px 24px rgba(0, 240, 255, 0.4), 0 0 50px rgba(0, 240, 255, 0.1);
+    box-shadow: 0 6px 24px rgba(0, 240, 255, 0.4);
     transform: translateY(-1px) scale(1.04);
   }
 
@@ -158,32 +132,48 @@ const HireMeBtn = styled.a`
   }
 `;
 
+/* ─── Hamburger ─── */
 const Hamburger = styled.button<{ $open: boolean }>`
   display: none;
   flex-direction: column;
+  justify-content: center;
+  align-items: center;
   gap: 5px;
-  background: none;
-  padding: 4px;
+  width: 44px;
+  height: 44px;
+  background: rgba(0, 240, 255, 0.06);
+  border: 1px solid rgba(0, 240, 255, 0.12);
+  border-radius: 10px;
+  cursor: pointer;
+  z-index: 1001;
+  transition: background 0.25s ease, border-color 0.25s ease;
+
+  &:hover {
+    background: rgba(0, 240, 255, 0.12);
+    border-color: rgba(0, 240, 255, 0.3);
+  }
 
   span {
     display: block;
-    width: 22px;
+    width: 20px;
     height: 2px;
     background: ${({ theme }) => theme.colors.primary};
     border-radius: 2px;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+    transform-origin: center;
   }
 
   span:nth-child(1) {
-    transform: ${({ $open }) => ($open ? 'rotate(45deg) translate(5px, 5px)' : 'none')};
+    transform: ${({ $open }) => ($open ? 'translateY(7px) rotate(45deg)' : 'none')};
   }
 
   span:nth-child(2) {
     opacity: ${({ $open }) => ($open ? 0 : 1)};
+    transform: ${({ $open }) => ($open ? 'scaleX(0)' : 'scaleX(1)')};
   }
 
   span:nth-child(3) {
-    transform: ${({ $open }) => ($open ? 'rotate(-45deg) translate(5px, -5px)' : 'none')};
+    transform: ${({ $open }) => ($open ? 'translateY(-7px) rotate(-45deg)' : 'none')};
   }
 
   @media (max-width: ${({ theme }) => theme.breakpoints.md}) {
@@ -191,41 +181,154 @@ const Hamburger = styled.button<{ $open: boolean }>`
   }
 `;
 
-const NAV_ITEMS = ['Home', 'About', 'Skills', 'Projects', 'Education', 'Contact'] as const;
+/* ─── Mobile drawer backdrop ─── */
+const Backdrop = styled.div<{ $open: boolean }>`
+  display: none;
+
+  @media (max-width: ${({ theme }) => theme.breakpoints.md}) {
+    display: block;
+    position: fixed;
+    inset: 0;
+    z-index: 998;
+    background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(4px);
+    opacity: ${({ $open }) => ($open ? 1 : 0)};
+    pointer-events: ${({ $open }) => ($open ? 'all' : 'none')};
+    transition: opacity 0.35s ease;
+  }
+`;
+
+/* ─── Mobile drawer ─── */
+const MobileDrawer = styled.div<{ $open: boolean }>`
+  display: none;
+
+  @media (max-width: ${({ theme }) => theme.breakpoints.md}) {
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    width: min(80vw, 300px);
+    z-index: 999;
+    background: #0b0b1e;
+    border-left: 1px solid rgba(0, 240, 255, 0.1);
+    box-shadow: -12px 0 60px rgba(0, 0, 0, 0.5);
+    padding: 90px 2rem 2.5rem;
+    gap: 0.4rem;
+    transform: translateX(${({ $open }) => ($open ? '0' : '100%')});
+    transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    overflow-y: auto;
+  }
+`;
+
+const MobileNavLink = styled.a`
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  color: ${({ theme }) => theme.colors.textSecondary};
+  font-size: 1rem;
+  font-weight: 500;
+  padding: 0.85rem 1rem;
+  border-radius: 10px;
+  transition: all 0.25s ease;
+  border: 1px solid transparent;
+  font-family: ${({ theme }) => theme.fonts.heading};
+
+  &:hover {
+    color: ${({ theme }) => theme.colors.primary};
+    background: rgba(0, 240, 255, 0.06);
+    border-color: rgba(0, 240, 255, 0.12);
+    transform: translateX(4px);
+  }
+`;
+
+const MobileDivider = styled.div`
+  height: 1px;
+  background: rgba(0, 240, 255, 0.06);
+  margin: 0.5rem 0;
+`;
+
+const MobileHireBtn = styled.a`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 0.75rem;
+  padding: 0.9rem 1.5rem;
+  border-radius: 50px;
+  background: linear-gradient(135deg, #00f0ff 0%, #7b61ff 50%, #00e887 100%);
+  color: #060611;
+  font-size: 0.95rem;
+  font-weight: 700;
+  letter-spacing: 0.3px;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 20px rgba(0, 240, 255, 0.25);
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 30px rgba(0, 240, 255, 0.4);
+  }
+`;
+
+const NAV_ITEMS = [
+  { label: 'Home',      icon: '⌂' },
+  { label: 'About',     icon: '◈' },
+  { label: 'Skills',    icon: '◉' },
+  { label: 'Projects',  icon: '▦' },
+  { label: 'Education', icon: '◎' },
+  { label: 'Contact',   icon: '✉' },
+] as const;
 
 const Header = () => {
   const [open, setOpen] = useState(false);
-  const handleClick = () => setOpen(false);
+
+  // Lock body scroll when drawer is open
+  useEffect(() => {
+    document.body.style.overflow = open ? 'hidden' : '';
+    return () => { document.body.style.overflow = ''; };
+  }, [open]);
+
+  const close = () => setOpen(false);
 
   return (
-    <Nav>
-      <NavContainer>
-        <Logo href="#home">
-          <LogoMark>DH</LogoMark>
-          <LogoText>Daniil <em>Hora</em></LogoText>
-        </Logo>
+    <>
+      <Nav>
+        <NavContainer>
+          <Logo href="#home" onClick={close}>
+            <LogoMark>DH</LogoMark>
+            <LogoText>Daniil <em>Hora</em></LogoText>
+          </Logo>
 
-        <NavRight>
-          <NavLinks $open={open}>
-            {NAV_ITEMS.map((item) => (
-              <NavLink
-                key={item}
-                href={`#${item.toLowerCase()}`}
-                onClick={handleClick}
-              >
-                {item}
-              </NavLink>
+          {/* Desktop */}
+          <DesktopNav>
+            {NAV_ITEMS.map(({ label }) => (
+              <NavLink key={label} href={`#${label.toLowerCase()}`}>{label}</NavLink>
             ))}
-          </NavLinks>
+          </DesktopNav>
           <HireMeBtn href="#contact">Hire Me</HireMeBtn>
-          <Hamburger $open={open} onClick={() => setOpen(!open)} aria-label="Toggle menu">
+
+          {/* Mobile hamburger */}
+          <Hamburger $open={open} onClick={() => setOpen(v => !v)} aria-label="Toggle menu">
             <span />
             <span />
             <span />
           </Hamburger>
-        </NavRight>
-      </NavContainer>
-    </Nav>
+        </NavContainer>
+      </Nav>
+
+      {/* Mobile drawer */}
+      <Backdrop $open={open} onClick={close} />
+      <MobileDrawer $open={open}>
+        {NAV_ITEMS.map(({ label, icon }) => (
+          <MobileNavLink key={label} href={`#${label.toLowerCase()}`} onClick={close}>
+            <span style={{ opacity: 0.5, fontFamily: 'monospace' }}>{icon}</span>
+            {label}
+          </MobileNavLink>
+        ))}
+        <MobileDivider />
+        <MobileHireBtn href="#contact" onClick={close}>✦ Hire Me</MobileHireBtn>
+      </MobileDrawer>
+    </>
   );
 };
 

@@ -5,51 +5,63 @@ const PROJECTS = [
   {
     title: 'Digital Shop & E-Commerce Platform',
     description:
-      'Production-ready digital store with user authentication, personal profiles, product catalog, shopping cart, order tracking, and a full-featured admin dashboard with analytics (users, orders, revenue).',
+      'Production-ready digital store with user authentication, personal profiles, product catalog, shopping cart, order tracking, and a full-featured admin dashboard with analytics (users, orders, revenue,order status).',
     technologies: ['TypeScript', 'React', 'NestJS', 'PostgreSQL', 'Prisma', 'Docker'],
-    github: 'https://github.com',
-    demo: 'https://example.com',
+    github: 'https://github.com/ScriptManBuilder/DigitalOnlineStoreClient',    
+     demoLabel: 'Demo Private',
   },
   {
     title: 'Cryptocurrency Exchange Platform',
     description:
       'Web platform for a crypto exchange with JWT authentication, personal user profiles, admin panel for content and system management. Deployed with Docker ensuring performance, security, and scalability.',
-    technologies: ['TypeScript', 'React', 'NestJS', 'PostgreSQL', 'Docker'],
-    github: 'https://github.com',
-    demo: 'https://example.com',
+    technologies: ['TypeScript', 'React','Styled Components', 'NestJS', 'PostgreSQL','Prisma', 'Docker'],
+    github: 'https://github.com/ScriptManBuilder/CryptoMonytorWebsitePulseChain',
+    demo: 'https://crypto-monytor-website-pulse-chain.vercel.app/',
+  },
+  {
+    title: 'Twin Medical Website',
+    description:
+      'Web platform for medical devices and healthcare products, providing structured product catalogs, category navigation, and an administrative interface for managing medical equipment listings and content.',
+    technologies: [
+      'React','TypeScript','Tailwind CSS','NestJS','PostgreSQL','Vercel','Render'
+    ],
+    github: 'https://github.com/ScriptManBuilder/TwinMedicalClient',
+    demo: 'https://www.twinmedicals.com',
   },
   {
     title: 'FinTech & Banking Websites',
     description:
       'FinTech and banking-oriented websites for international clients with compliance-ready structures, secure authentication, admin panels, and scalable frontend architectures suitable for enterprise use.',
-    technologies: ['TypeScript', 'React', 'NestJS', 'PostgreSQL'],
-    github: 'https://github.com',
-    demo: 'https://example.com',
+    technologies: ['TypeScript', 'React', 'NestJS', 'PostgreSQL', 'Docker'],
+    github: null,
+    demo: null,
+    demoLabel: '🔒 NDA',
   },
+    
   {
-    title: 'Booking System (U.S. Market)',
-    description:
-      'Booking and scheduling platform for service-based businesses in the U.S. market, featuring appointment management, notifications, and a content admin panel.',
-    technologies: ['React', 'TypeScript', 'Node.js', 'PostgreSQL'],
-    github: 'https://github.com',
-    demo: 'https://example.com',
-  },
+  title: 'E-Learning Platforms',
+  description:
+    'Online learning platform for digital courses (including Photoshop training) with user authentication, personal dashboards, course progress tracking, and an admin panel for managing content and users. Similar learning platforms were also developed for other educational niches.',
+  technologies: [
+    'React',
+    'TypeScript',
+    'NestJS',
+    'PostgreSQL',
+    'Styled Components'
+  ],
+  github: 'https://github.com/ScriptManBuilder/EuropePhotoshop2-server',
+  demo: 'https://www.photoshop-ecourses.com/',
+},
   {
-    title: 'E-Learning Platform',
-    description:
-      'Online platform for e-learning courses and digital content with course catalogs, user progress tracking, authentication, and responsive UI optimized for performance.',
-    technologies: ['React', 'Node.js', 'MongoDB'],
-    github: 'https://github.com',
-    demo: 'https://example.com',
-  },
-  {
-    title: 'Crypto Trading Bot',
-    description:
-      'Automated trading bot for Binance in Python with real-time market data processing, strategy execution, and integration with external APIs.',
-    technologies: ['Python', 'Binance API', 'Redis'],
-    github: 'https://github.com',
-    demo: 'https://example.com',
-  },
+  title: 'Various Commercial Projects (NDA)',
+  description:
+    'Contributed to multiple commercial projects under NDA across fintech, e-commerce, healthcare, and marketing platforms. Responsibilities included full-stack feature development, API integrations, admin dashboards, and scalable web applications for production environments.',
+  technologies: ['TypeScript', 'React', 'NestJS', '.NET', 'PostgreSQL', 'MongoDB', 'Railway', 'Other'],
+  github: null,
+  demo: null,
+  githubLabel: '🔒 Confidential',
+  demoLabel: '🔒 NDA',
+},
 ];
 
 const Section = styled.section`
