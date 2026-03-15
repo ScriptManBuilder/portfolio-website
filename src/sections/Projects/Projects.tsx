@@ -7,8 +7,9 @@ const PROJECTS = [
     description:
       'Production-ready digital store with user authentication, personal profiles, product catalog, shopping cart, order tracking, and a full-featured admin dashboard with analytics (users, orders, revenue,order status).',
     technologies: ['TypeScript', 'React', 'NestJS', 'PostgreSQL', 'Prisma', 'Docker'],
-    github: 'https://github.com/ScriptManBuilder/DigitalOnlineStoreClient',    
-     demoLabel: 'Demo Private',
+    github: 'https://github.com/ScriptManBuilder/DigitalOnlineStoreClient',
+    demo: null,
+    demoLabel: 'Demo Private',
   },
   {
     title: 'Cryptocurrency Exchange Platform',
