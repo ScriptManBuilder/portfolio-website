@@ -40,18 +40,20 @@ const PROJECTS = [
   },
     
   {
-  title: 'E-Learning Platforms',
+  title: 'TopRange — Corporate Landing',
   description:
-    'Online learning platform for digital courses (including Photoshop training) with user authentication, personal dashboards, course progress tracking, and an admin panel for managing content and users. Similar learning platforms were also developed for other educational niches.',
+    'High-converting corporate landing page for an international business partner network. Features a modern, polished UI with smooth animations, strategic call-to-action sections, and a responsive layout crafted to reflect brand authority and drive engagement.',
   technologies: [
-    'React',
     'TypeScript',
-    'NestJS',
-    'PostgreSQL',
-    'Styled Components'
+    'React',
+    'Styled Components',
+    'Vercel',
+    
+    'Telegram API',
+    
   ],
-  github: 'https://github.com/ScriptManBuilder/EuropePhotoshop2-server',
-  demo: 'https://www.photoshop-ecourses.com/',
+  github: 'https://github.com/ScriptManBuilder/TopRangeMainLanding',
+  demo: 'https://www.toprangepartners.com/',
 },
   {
   title: 'Various Commercial Projects (NDA)',

@@ -1,3 +1,4 @@
+import { useState, useEffect } from 'react';
 import styled from 'styled-components';
 
 interface ProjectCardProps {
@@ -99,11 +100,41 @@ const LinkBtn = styled.a`
   }
 `;
 
+const LinkPill = styled.a`
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  padding: 0.3rem 0.9rem;
+  border-radius: 9999px;
+  font-size: 0.78rem;
+  font-weight: 500;
+  font-family: ${({ theme }) => theme.fonts.mono};
+  background: rgba(80, 255, 120, 0.10);
+  border: 1px solid rgba(80, 255, 120, 0.35);
+  color: #4be38a;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  user-select: none;
+  text-decoration: none;
+
+  span {
+    display: inline-block;
+    transition: opacity 0.4s ease;
+  }
+
+  &:hover {
+    background: rgba(80, 255, 120, 0.18);
+    border-color: rgba(80, 255, 120, 0.6);
+    box-shadow: 0 0 10px rgba(80, 255, 120, 0.18);
+    color: #4be38a;
+  }
+`;
+
 interface UnavailableBtnProps {
   $variant?: 'red' | 'green' | 'yellow';
 }
 
-const UnavailableBtn = styled.span<UnavailableBtnProps & { $hoverText?: string }>`
+const UnavailableBtn = styled.span<UnavailableBtnProps>`
   display: inline-flex;
   align-items: center;
   gap: 0.3rem;
@@ -136,6 +167,11 @@ const UnavailableBtn = styled.span<UnavailableBtnProps & { $hoverText?: string }
   user-select: none;
   position: relative;
 
+  span {
+    display: inline-block;
+    transition: opacity 0.4s ease;
+  }
+
   &:hover {
     background: ${({ $variant }) =>
       $variant === 'green'
@@ -157,30 +193,6 @@ const UnavailableBtn = styled.span<UnavailableBtnProps & { $hoverText?: string }
           ? 'rgba(255, 220, 80, 0.18)'
           : 'rgba(255, 80, 80, 0.2)'};
   }
-
-  /* Hover text for green variant */
-  ${({ $variant, $hoverText }) =>
-    $variant === 'green' && $hoverText && `
-      &:hover::after {
-        content: '${'Contact for access'}';
-        position: absolute;
-        left: 50%;
-        top: 100%;
-        transform: translateX(-50%) translateY(8px);
-        background: rgba(40, 40, 40, 0.98);
-        color: #4be38a;
-        border-radius: 8px;
-        padding: 6px 16px;
-        font-size: 0.85em;
-        font-weight: 500;
-        white-space: nowrap;
-        box-shadow: 0 2px 12px rgba(0,0,0,0.18);
-        z-index: 10;
-        pointer-events: none;
-        opacity: 1;
-        transition: opacity 0.2s;
-      }
-    `}
 `;
 
 const getVariant = (label: string) => {
@@ -189,11 +201,46 @@ const getVariant = (label: string) => {
   return 'red';
 };
 
+const CYCLING_MAP: Record<string, string[]> = {
+  'Demo Private': ['Demo Private', 'Contact for access'],
+  '🔒 NDA': ['🔒 NDA', 'Under NDA'],
+  '🔒 Confidential': ['🔒 Confidential', 'Private Repo'],
+  'Live Demo': ['Live Demo →', 'Click to open ↗'],
+};
+
+function useCyclingLabel(label: string, delayMs = 0) {
+  const options = CYCLING_MAP[label];
+  const [index, setIndex] = useState(0);
+  const [visible, setVisible] = useState(true);
+
+  useEffect(() => {
+    if (!options) return;
+    let interval: ReturnType<typeof setInterval>;
+    const timeout = setTimeout(() => {
+      interval = setInterval(() => {
+        setVisible(false);
+        setTimeout(() => {
+          setIndex((i) => (i + 1) % options.length);
+          setVisible(true);
+        }, 500);
+      }, 3000);
+    }, delayMs);
+    return () => {
+      clearTimeout(timeout);
+      clearInterval(interval);
+    };
+  }, [label, delayMs]);
+
+  return {
+    displayLabel: options ? options[index] : label,
+    visible: options ? visible : true,
+  };
+}
+
 const ProjectCard = ({ title, description, technologies, github, demo, githubLabel = '⛔ Unavailable', demoLabel = '⛔ Unavailable' }: ProjectCardProps) => {
-  // Only for Digital Shop & E-Commerce Platform
-  const isDigitalShop = title === 'Digital Shop & E-Commerce Platform';
-  const isDemoPrivate = /private/i.test(demoLabel);
-  const demoHoverText = isDigitalShop && isDemoPrivate ? 'Contact for access' : undefined;
+  const { displayLabel: displayGithubLabel, visible: githubVisible } = useCyclingLabel(githubLabel, 0);
+  const { displayLabel: displayDemoLabel, visible: demoVisible } = useCyclingLabel(demoLabel, 1000);
+  const { displayLabel: displayDemoLinkLabel, visible: demoLinkVisible } = useCyclingLabel('Live Demo', 500);
 
   return (
     <Card>
@@ -210,14 +257,20 @@ const ProjectCard = ({ title, description, technologies, github, demo, githubLab
             GitHub →
           </LinkBtn>
         ) : (
-          <UnavailableBtn $variant={getVariant(githubLabel)}>{githubLabel}</UnavailableBtn>
+          <UnavailableBtn $variant={getVariant(githubLabel)}>
+            <span style={{ opacity: githubVisible ? 1 : 0 }}>{displayGithubLabel}</span>
+          </UnavailableBtn>
         )}
         {demo ? (
-          <LinkBtn href={demo} target="_blank" rel="noopener noreferrer">
-            Live Demo →
-          </LinkBtn>
+          <LinkPill href={demo} target="_blank" rel="noopener noreferrer">
+            <span style={{ opacity: demoLinkVisible ? 1 : 0 }}>
+              {displayDemoLinkLabel}
+            </span>
+          </LinkPill>
         ) : (
-          <UnavailableBtn $variant={getVariant(demoLabel)} $hoverText={demoHoverText}>{demoLabel}</UnavailableBtn>
+          <UnavailableBtn $variant={getVariant(demoLabel)}>
+            <span style={{ opacity: demoVisible ? 1 : 0 }}>{displayDemoLabel}</span>
+          </UnavailableBtn>
         )}
       </Links>
     </Card>
