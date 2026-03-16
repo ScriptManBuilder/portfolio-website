@@ -85,21 +85,6 @@ const Links = styled.div`
   margin-top: 0.5rem;
 `;
 
-const LinkBtn = styled.a`
-  font-size: 0.85rem;
-  font-weight: 500;
-  color: ${({ theme }) => theme.colors.primary};
-  transition: all ${({ theme }) => theme.transition};
-  display: inline-flex;
-  align-items: center;
-  gap: 0.3rem;
-
-  &:hover {
-    color: ${({ theme }) => theme.colors.accent};
-    text-shadow: 0 0 8px rgba(0, 232, 135, 0.3);
-  }
-`;
-
 const LinkPill = styled.a`
   display: inline-flex;
   align-items: center;
@@ -127,6 +112,30 @@ const LinkPill = styled.a`
     border-color: rgba(80, 255, 120, 0.6);
     box-shadow: 0 0 10px rgba(80, 255, 120, 0.18);
     color: #4be38a;
+  }
+`;
+
+const GitHubPill = styled.a`
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  padding: 0.3rem 0.9rem;
+  border-radius: 9999px;
+  font-size: 0.78rem;
+  font-weight: 500;
+  font-family: ${({ theme }) => theme.fonts.mono};
+  background: rgba(0, 240, 255, 0.07);
+  border: 1px solid rgba(0, 240, 255, 0.25);
+  color: ${({ theme }) => theme.colors.primary};
+  cursor: pointer;
+  transition: all 0.25s ease;
+  text-decoration: none;
+
+  &:hover {
+    background: rgba(0, 240, 255, 0.14);
+    border-color: rgba(0, 240, 255, 0.5);
+    box-shadow: 0 0 10px rgba(0, 240, 255, 0.15);
+    color: ${({ theme }) => theme.colors.primary};
   }
 `;
 
@@ -253,9 +262,9 @@ const ProjectCard = ({ title, description, technologies, github, demo, githubLab
       </TechList>
       <Links>
         {github ? (
-          <LinkBtn href={github} target="_blank" rel="noopener noreferrer">
+          <GitHubPill href={github} target="_blank" rel="noopener noreferrer">
             GitHub →
-          </LinkBtn>
+          </GitHubPill>
         ) : (
           <UnavailableBtn $variant={getVariant(githubLabel)}>
             <span style={{ opacity: githubVisible ? 1 : 0 }}>{displayGithubLabel}</span>
