@@ -290,20 +290,20 @@ const OutlineBtn = styled.a`
   }
 `;
 
-const TextLink = styled.a`
-  display: inline-flex;
-  align-items: center;
-  gap: 0.35rem;
-  font-size: 0.84rem;
-  color: ${({ theme }) => theme.colors.textSecondary};
-  font-weight: 500;
-  padding: 0.73rem 0.4rem;
-  transition: color ${({ theme }) => theme.transition};
+// const TextLink = styled.a`
+//   display: inline-flex;
+//   align-items: center;
+//   gap: 0.35rem;
+//   font-size: 0.84rem;
+//   color: ${({ theme }) => theme.colors.textSecondary};
+//   font-weight: 500;
+//   padding: 0.73rem 0.4rem;
+//   transition: color ${({ theme }) => theme.transition};
 
-  &:hover {
-    color: ${({ theme }) => theme.colors.primary};
-  }
-`;
+//   &:hover {
+//     color: ${({ theme }) => theme.colors.primary};
+//   }
+// `;
 
 /* ── Right column ───────────────────────────────────────────────── */
 
@@ -462,9 +462,7 @@ const Hero = () => (
           <PrimaryBtn href="#projects">View Projects</PrimaryBtn>
           <OutlineBtn href="#contact">Contact Me</OutlineBtn>
           <OutlineBtn href={cvFile} download>↓ CV</OutlineBtn>
-          <TextLink href="https://t.me/wellCoderDmg" target="_blank" rel="noopener noreferrer">
-            ✉ Telegram
-          </TextLink>
+        
         </Actions>
       </Left>
 

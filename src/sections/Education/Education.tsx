@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import styled, { keyframes } from 'styled-components';
 
 const EDUCATION = [
@@ -7,6 +8,12 @@ const EDUCATION = [
     period: '2021 — 2025',
     type: 'University',
     color: '#00f0ff',
+    highlights: [
+      'Developed full-stack applications and system design projects',
+      'Focused on algorithms, databases, and scalable architectures',
+      "Bachelor's thesis: building a production-ready web platform",
+      'Team collaboration using Git and modern development workflows',
+    ],
   },
   {
     degree: 'Secondary Education in Computer Science',
@@ -14,6 +21,11 @@ const EDUCATION = [
     period: '2019 — 2021',
     type: 'Lyceum',
     color: '#7b61ff',
+    highlights: [
+      'Participant in programming olympiads and IT competitions',
+      'Strong foundation in algorithms, logic, and problem-solving',
+      'Early start in software development and coding practices',
+    ],
   },
   {
     degree: 'Professional Course in Web Development',
@@ -21,6 +33,11 @@ const EDUCATION = [
     period: '2018 — 2019',
     type: 'Course',
     color: '#00e887',
+    highlights: [
+      'Built first full-stack web projects',
+      'Learned core web technologies (HTML, CSS, JavaScript)',
+      'Hands-on experience with real-world development basics',
+    ],
   },
 ];
 
@@ -204,31 +221,146 @@ const TypeTag = styled.span<{ $color: string }>`
   border-radius: 20px;
 `;
 
-const Education = () => (
-  <Section id="education">
-    <Container>
-      <SectionLabel>// Education</SectionLabel>
-      <SectionTitle>
-        Academic <span>background</span>
-      </SectionTitle>
+const CardBottom = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+`;
 
-      <Timeline>
-        {EDUCATION.map((item, i) => (
-          <Item key={item.institution} $delay={i * 120}>
-            <Dot $color={item.color} />
-            <Card $color={item.color}>
-              <CardTop>
-                <Degree>{item.degree}</Degree>
-                <Period>{item.period}</Period>
-              </CardTop>
-              <Institution>{item.institution}</Institution>
-              <TypeTag $color={item.color}>{item.type}</TypeTag>
-            </Card>
-          </Item>
-        ))}
-      </Timeline>
-    </Container>
-  </Section>
-);
+const ToggleBtn = styled.button<{ $color: string; $open: boolean }>`
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  padding: 0.18rem 0.55rem;
+  border-radius: 20px;
+  font-size: 0.65rem;
+  font-family: ${({ theme }) => theme.fonts.mono};
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  cursor: pointer;
+  background: transparent;
+  border: 1px solid ${({ $color }) => $color}30;
+  color: ${({ $color }) => $color};
+  transition: all ${({ theme }) => theme.transition};
+  flex-shrink: 0;
+
+  &::after {
+    content: '';
+    display: inline-block;
+    width: 0;
+    height: 0;
+    border-left: 4px solid transparent;
+    border-right: 4px solid transparent;
+    border-top: 4px solid currentColor;
+    transform: ${({ $open }) => ($open ? 'rotate(180deg)' : 'rotate(0deg)')};
+    transition: transform 0.3s ease;
+  }
+
+  &:hover {
+    background: ${({ $color }) => $color}12;
+    border-color: ${({ $color }) => $color}55;
+  }
+`;
+
+const HighlightsWrapper = styled.div<{ $open: boolean }>`
+  display: grid;
+  grid-template-rows: ${({ $open }) => ($open ? '1fr' : '0fr')};
+  transition: grid-template-rows 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+  margin-top: ${({ $open }) => ($open ? '0.9rem' : '0')};
+  transition: grid-template-rows 0.35s cubic-bezier(0.4, 0, 0.2, 1),
+              margin-top 0.35s ease;
+`;
+
+const HighlightsInner = styled.div`
+  overflow: hidden;
+`;
+
+const HighlightsList = styled.ul<{ $color: string }>`
+  list-style: none;
+  margin: 0;
+  padding: 0.75rem 0.9rem;
+  border-radius: 8px;
+  background: ${({ $color }) => $color}06;
+  border: 1px solid ${({ $color }) => $color}18;
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+`;
+
+const HighlightItem = styled.li<{ $color: string }>`
+  font-size: 0.83rem;
+  color: ${({ theme }) => theme.colors.textSecondary};
+  line-height: 1.5;
+  display: flex;
+  align-items: flex-start;
+  gap: 0.55rem;
+
+  &::before {
+    content: '▸';
+    color: ${({ $color }) => $color};
+    font-size: 0.7rem;
+    margin-top: 0.18rem;
+    flex-shrink: 0;
+  }
+`;
+
+const Education = () => {
+  const [openIndex, setOpenIndex] = useState<number | null>(0);
+
+  const toggle = (i: number) => setOpenIndex(prev => (prev === i ? null : i));
+
+  return (
+    <Section id="education">
+      <Container>
+        <SectionLabel>// Education</SectionLabel>
+        <SectionTitle>
+          Academic <span>background</span>
+        </SectionTitle>
+
+        <Timeline>
+          {EDUCATION.map((item, i) => {
+            const isOpen = openIndex === i;
+            return (
+              <Item key={item.institution} $delay={i * 120}>
+                <Dot $color={item.color} />
+                <Card $color={item.color}>
+                  <CardTop>
+                    <Degree>{item.degree}</Degree>
+                    <Period>{item.period}</Period>
+                  </CardTop>
+                  <Institution>{item.institution}</Institution>
+                  <CardBottom>
+                    <TypeTag $color={item.color}>{item.type}</TypeTag>
+                    <ToggleBtn
+                      $color={item.color}
+                      $open={isOpen}
+                      onClick={() => toggle(i)}
+                    >
+                      {isOpen ? 'Hide' : 'Details'}
+                    </ToggleBtn>
+                  </CardBottom>
+
+                  <HighlightsWrapper $open={isOpen}>
+                    <HighlightsInner>
+                      <HighlightsList $color={item.color}>
+                        {item.highlights.map(h => (
+                          <HighlightItem key={h} $color={item.color}>
+                            {h}
+                          </HighlightItem>
+                        ))}
+                      </HighlightsList>
+                    </HighlightsInner>
+                  </HighlightsWrapper>
+                </Card>
+              </Item>
+            );
+          })}
+        </Timeline>
+      </Container>
+    </Section>
+  );
+};
 
 export default Education;

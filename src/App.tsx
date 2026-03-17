@@ -1,5 +1,6 @@
 import Header from './components/Header';
 import Footer from './components/Footer';
+import TelegramButton from './components/TelegramButton';
 import Hero from './sections/Hero';
 import About from './sections/About';
 import Skills from './sections/Skills';
@@ -19,6 +20,7 @@ const App = () => (
       <Contact />
     </main>
     <Footer />
+    <TelegramButton />
   </>
 );
 

@@ -213,7 +213,7 @@ const getVariant = (label: string) => {
 const CYCLING_MAP: Record<string, string[]> = {
   'Demo Private': ['Demo Private', 'Contact for access'],
   '🔒 NDA': ['🔒 NDA', 'Under NDA'],
-  '🔒 Confidential': ['🔒 Confidential', 'Private Repo'],
+  '🔒 Confidential': ['🔒 Confidential', 'Private Repos'],
   'Live Demo': ['Live Demo →', 'Click to open ↗'],
 };
 
