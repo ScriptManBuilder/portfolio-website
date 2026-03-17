@@ -35,7 +35,7 @@ const SKILL_DATA: SkillCategory[] = [
     num: '04',
     title: 'DevOps & Tools',
     color: '#f59e0b',
-    skills: ['Docker', 'Git', 'CI/CD', 'Vercel', 'Render', 'Railway'],
+    skills: ['Git', 'Postman', 'Swagger', 'CI/CD', 'Docker', 'VPS','Vercel', 'Render', 'Railway'],
   },
 ];
 

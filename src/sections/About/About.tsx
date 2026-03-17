@@ -1,4 +1,5 @@
 import styled, { keyframes } from 'styled-components';
+import { FaBriefcase, FaRocket, FaCode, FaStar } from 'react-icons/fa';
 
 const shimmer = keyframes`
   0% { background-position: -200% center; }
@@ -8,6 +9,7 @@ const shimmer = keyframes`
 const Section = styled.section`
   padding: 7rem 2rem;
   position: relative;
+  background: ${({ theme }) => theme.colors.bgSecondary};
 
   &::before {
     content: '';
@@ -47,13 +49,13 @@ const SectionLabel = styled.p`
 `;
 
 const SectionTitle = styled.h2`
-  font-size: 2.4rem;
-  font-weight: 700;
+  font-size: clamp(2rem, 4vw, 2.8rem);
+  font-weight: 800;
   font-family: ${({ theme }) => theme.fonts.heading};
   color: ${({ theme }) => theme.colors.white};
   margin-bottom: 1.5rem;
-  letter-spacing: -1px;
-  line-height: 1.15;
+  letter-spacing: -1.5px;
+  line-height: 1.1;
 
   span {
     background: ${({ theme }) => theme.colors.gradient};
@@ -79,10 +81,11 @@ const Right = styled.div`
   gap: 1rem;
 `;
 
-const StatCard = styled.div`
+const StatCard = styled.div<{ $accent: string }>`
   padding: 1.2rem 1.5rem;
   background: ${({ theme }) => theme.colors.bgCard};
   border: 1px solid ${({ theme }) => theme.colors.border};
+  border-left: 3px solid ${({ $accent }) => $accent};
   border-radius: 12px;
   display: flex;
   align-items: center;
@@ -90,9 +93,29 @@ const StatCard = styled.div`
   transition: all ${({ theme }) => theme.transition};
 
   &:hover {
-    border-color: rgba(0, 240, 255, 0.2);
-    box-shadow: 0 4px 20px rgba(0, 240, 255, 0.05);
+    border-color: ${({ $accent }) => $accent}45;
+    border-left-color: ${({ $accent }) => $accent};
+    box-shadow: 0 4px 24px ${({ $accent }) => $accent}12, -2px 0 14px ${({ $accent }) => $accent}18;
+    transform: translateX(5px);
   }
+`;
+
+const IconBox = styled.div<{ $accent: string }>`
+  width: 46px;
+  height: 46px;
+  border-radius: 10px;
+  background: ${({ $accent }) => $accent}10;
+  border: 1px solid ${({ $accent }) => $accent}28;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  color: ${({ $accent }) => $accent};
+  font-size: 1.15rem;
+`;
+
+const StatInfo = styled.div`
+  flex: 1;
 `;
 
 const StatValue = styled.span`
@@ -114,6 +137,43 @@ const StatLabel = styled.span`
   line-height: 1.4;
 `;
 
+const ExpertiseRow = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+  margin-top: 1.6rem;
+`;
+
+const Tag = styled.span<{ $accent?: string }>`
+  padding: 0.28rem 0.75rem;
+  border-radius: 20px;
+  font-size: 0.73rem;
+  font-family: ${({ theme }) => theme.fonts.mono};
+  font-weight: 500;
+  border: 1px solid ${({ $accent }) => $accent ? `${$accent}30` : 'rgba(0, 240, 255, 0.15)'};
+  background: ${({ $accent }) => $accent ? `${$accent}08` : 'rgba(0, 240, 255, 0.04)'};
+  color: ${({ $accent, theme }) => $accent ?? theme.colors.textSecondary};
+  cursor: default;
+`;
+
+const EXPERTISE = [
+  { label: '🌍 Remote-first',    accent: '#00f0ff' },
+  { label: '🇬🇧 English B2',     accent: '#7b61ff' },
+  { label: '⚡ Fast delivery',   accent: '#00e887' },
+  { label: '🤝 Team player',     accent: '#f7b731' },
+  { label: '🎯 Result-oriented', accent: '#00f0ff' },
+  { label: '🔒 Security-minded', accent: '#7b61ff' },
+  { label: '📐 Clean code',      accent: '#00e887' },
+  { label: '🚀 Open to hire',    accent: '#f7b731' },
+];
+
+const STATS = [
+  { value: '2.5+', label: ['Years of professional', 'development experience'], accent: '#00f0ff', icon: <FaBriefcase /> },
+  { value: '10+', label: ['Production projects', 'delivered to clients'], accent: '#7b61ff', icon: <FaRocket /> },
+  { value: '20+', label: ['Technologies', 'in active use'], accent: '#00e887', icon: <FaCode /> },
+  { value: '∞', label: ['Commitment to clean code', '& best practices'], accent: '#f7b731', icon: <FaStar /> },
+];
+
 const About = () => (
   <Section id="about">
     <Container>
@@ -123,7 +183,7 @@ const About = () => (
           Building <span>digital products</span> that matter
         </SectionTitle>
         <Text>
-          I'm a Full-Stack Developer with 2.5+ years of professional experience,
+          I’m a Full-Stack Developer with 2.5+ years of professional experience,
           working both freelance and as part of development teams. I specialize in
           building production-ready websites and web applications, focusing on
           clean architecture, performance, and real business use cases.
@@ -139,24 +199,22 @@ const About = () => (
           performance — ensuring solutions are ready for real-world production
           environments.
         </Text>
+        <ExpertiseRow>
+          {EXPERTISE.map(({ label, accent }) => (
+            <Tag key={label} $accent={accent}>{label}</Tag>
+          ))}
+        </ExpertiseRow>
       </Left>
       <Right>
-        <StatCard>
-          <StatValue>2.5+</StatValue>
-          <StatLabel>Years of professional<br />development experience</StatLabel>
-        </StatCard>
-        <StatCard>
-          <StatValue>10+</StatValue>
-          <StatLabel>Production projects<br />delivered to clients</StatLabel>
-        </StatCard>
-        <StatCard>
-          <StatValue>20+</StatValue>
-          <StatLabel>Technologies<br />in active use</StatLabel>
-        </StatCard>
-        <StatCard>
-          <StatValue>∞</StatValue>
-          <StatLabel>Commitment to clean code<br />& best practices</StatLabel>
-        </StatCard>
+        {STATS.map(({ value, label, accent, icon }) => (
+          <StatCard key={value + label[0]} $accent={accent}>
+            <IconBox $accent={accent}>{icon}</IconBox>
+            <StatInfo>
+              <StatValue>{value}</StatValue>
+              <StatLabel>{label[0]}<br />{label[1]}</StatLabel>
+            </StatInfo>
+          </StatCard>
+        ))}
       </Right>
     </Container>
   </Section>

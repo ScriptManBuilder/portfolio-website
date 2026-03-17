@@ -22,6 +22,16 @@ const fadeUp = keyframes`
   to   { opacity: 1; transform: translateY(0); }
 `;
 
+const blink = keyframes`
+  0%, 49% { opacity: 1; }
+  50%, 100% { opacity: 0; }
+`;
+
+const scrollBounce = keyframes`
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(7px); }
+`;
+
 /* ── Section shell ──────────────────────────────────────────────── */
 
 const Section = styled.section`
@@ -31,6 +41,8 @@ const Section = styled.section`
   padding: 6rem 2rem 4rem;
   position: relative;
   overflow: hidden;
+  background-image: radial-gradient(rgba(0, 240, 255, 0.045) 1px, transparent 1px);
+  background-size: 28px 28px;
 
   &::before {
     content: '';
@@ -39,7 +51,7 @@ const Section = styled.section`
     right: 5%;
     width: 560px;
     height: 560px;
-    background: radial-gradient(circle, rgba(0, 240, 255, 0.06) 0%, transparent 65%);
+    background: radial-gradient(circle, rgba(0, 240, 255, 0.07) 0%, transparent 65%);
     border-radius: 50%;
     pointer-events: none;
   }
@@ -51,7 +63,7 @@ const Section = styled.section`
     left: -5%;
     width: 460px;
     height: 460px;
-    background: radial-gradient(circle, rgba(123, 97, 255, 0.06) 0%, transparent 65%);
+    background: radial-gradient(circle, rgba(123, 97, 255, 0.07) 0%, transparent 65%);
     border-radius: 50%;
     pointer-events: none;
   }
@@ -107,13 +119,14 @@ const StatusBadge = styled.span`
   gap: 0.45rem;
   padding: 0.32rem 0.85rem;
   border-radius: 20px;
-  border: 1px solid rgba(0, 232, 135, 0.35);
-  background: rgba(0, 232, 135, 0.07);
+  border: 1px solid rgba(0, 232, 135, 0.4);
+  background: rgba(0, 232, 135, 0.08);
   font-size: 0.77rem;
   color: ${({ theme }) => theme.colors.accent};
   font-weight: 600;
   font-family: ${({ theme }) => theme.fonts.mono};
   letter-spacing: 0.02em;
+  box-shadow: 0 0 14px rgba(0, 232, 135, 0.18), inset 0 1px 0 rgba(0, 232, 135, 0.1);
 
   &::before {
     content: '';
@@ -305,6 +318,52 @@ const OutlineBtn = styled.a`
 //   }
 // `;
 
+const Cursor = styled.span`
+  display: inline-block;
+  width: 2px;
+  height: 0.85em;
+  background: ${({ theme }) => theme.colors.primary};
+  margin-left: 3px;
+  vertical-align: middle;
+  animation: ${blink} 1.1s step-end infinite;
+`;
+
+const ScrollHint = styled.a`
+  position: absolute;
+  bottom: 2rem;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  color: ${({ theme }) => theme.colors.textMuted};
+  font-size: 0.6rem;
+  font-family: ${({ theme }) => theme.fonts.mono};
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  text-decoration: none;
+  animation: ${fadeUp} 1s ease 1.2s both;
+  transition: color ${({ theme }) => theme.transition};
+
+  &:hover {
+    color: ${({ theme }) => theme.colors.primary};
+  }
+
+  @media (max-width: ${({ theme }) => theme.breakpoints.md}) {
+    display: none;
+  }
+`;
+
+const ScrollArrow = styled.div`
+  width: 18px;
+  height: 18px;
+  border-right: 1.5px solid currentColor;
+  border-bottom: 1.5px solid currentColor;
+  transform: rotate(45deg);
+  animation: ${scrollBounce} 1.6s ease-in-out infinite;
+`;
+
 /* ── Right column ───────────────────────────────────────────────── */
 
 const Right = styled.div`
@@ -437,7 +496,7 @@ const Hero = () => (
           Full-Stack Developer&nbsp;·&nbsp;
           <strong>TypeScript</strong>&nbsp;·&nbsp;
           <strong>React</strong>&nbsp;·&nbsp;
-          <strong>NestJS</strong>
+          <strong>NestJS</strong>&nbsp;<Cursor />
         </Role>
 
         {/* 4. Divider */}
@@ -462,7 +521,6 @@ const Hero = () => (
           <PrimaryBtn href="#projects">View Projects</PrimaryBtn>
           <OutlineBtn href="#contact">Contact Me</OutlineBtn>
           <OutlineBtn href={cvFile} download>↓ CV</OutlineBtn>
-        
         </Actions>
       </Left>
 
@@ -492,6 +550,11 @@ const Hero = () => (
         </StatsRow>
       </Right>
     </Container>
+
+    <ScrollHint href="#about">
+      scroll
+      <ScrollArrow />
+    </ScrollHint>
   </Section>
 );
 
