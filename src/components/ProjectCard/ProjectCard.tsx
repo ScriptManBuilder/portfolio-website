@@ -81,7 +81,8 @@ const TechTag = styled.span`
 
 const Links = styled.div`
   display: flex;
-  gap: 1rem;
+  flex-wrap: wrap;
+  gap: 0.6rem;
   margin-top: 0.5rem;
 `;
 
@@ -94,6 +95,7 @@ const LinkPill = styled.a`
   font-size: 0.78rem;
   font-weight: 500;
   font-family: ${({ theme }) => theme.fonts.mono};
+  white-space: nowrap;
   background: rgba(80, 255, 120, 0.10);
   border: 1px solid rgba(80, 255, 120, 0.35);
   color: #4be38a;
@@ -124,6 +126,7 @@ const GitHubPill = styled.a`
   font-size: 0.78rem;
   font-weight: 500;
   font-family: ${({ theme }) => theme.fonts.mono};
+  white-space: nowrap;
   background: rgba(0, 240, 255, 0.07);
   border: 1px solid rgba(0, 240, 255, 0.25);
   color: ${({ theme }) => theme.colors.primary};
@@ -171,6 +174,7 @@ const UnavailableBtn = styled.span<UnavailableBtnProps>`
       : $variant === 'yellow'
       ? '#ffd43b'
       : '#ff6b6b'};
+  white-space: nowrap;
   cursor: not-allowed;
   transition: all 0.25s ease;
   user-select: none;
