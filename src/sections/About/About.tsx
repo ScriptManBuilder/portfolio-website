@@ -159,12 +159,12 @@ const Tag = styled.span<{ $accent?: string }>`
 const EXPERTISE = [
   { label: '🌍 Remote-first',    accent: '#00f0ff' },
   { label: '🇬🇧 English B2',     accent: '#7b61ff' },
-  { label: '⚡ Fast delivery',   accent: '#00e887' },
+  { label: '🚀 Open to hire',   accent: '#00e887' },
   { label: '🤝 Team player',     accent: '#f7b731' },
   { label: '🎯 Result-oriented', accent: '#00f0ff' },
   { label: '🔒 Security-minded', accent: '#7b61ff' },
   { label: '📐 Clean code',      accent: '#00e887' },
-  { label: '🚀 Open to hire',    accent: '#f7b731' },
+  // { label: '🚀 Open to hire',    accent: '#f7b731' },
 ];
 
 const STATS = [
