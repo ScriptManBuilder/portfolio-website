@@ -9,6 +9,10 @@ const Section = styled.section`
   position: relative;
   background: ${({ theme }) => theme.colors.bg};
 
+  @media (max-width: 480px) {
+    padding: 5rem 1rem;
+  }
+
   &::before {
     content: '';
     position: absolute;
@@ -63,6 +67,11 @@ const SectionTitle = styled.h2`
   line-height: 1.05;
   margin-bottom: 0.8rem;
 
+  @media (max-width: 480px) {
+    font-size: 1.9rem;
+    letter-spacing: -1px;
+  }
+
   span {
     background: ${({ theme }) => theme.colors.gradient};
     -webkit-background-clip: text;
@@ -94,6 +103,12 @@ const ContactCard = styled.a`
   transition: all ${({ theme }) => theme.transition};
   cursor: pointer;
   text-decoration: none;
+  min-width: 0;
+
+  @media (max-width: 420px) {
+    padding: 0.75rem 0.85rem;
+    gap: 0.75rem;
+  }
 
   &:hover {
     border-color: rgba(0, 240, 255, 0.25);
@@ -137,6 +152,12 @@ const CardValue = styled.span`
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+
+  @media (max-width: 420px) {
+    font-size: 0.78rem;
+    white-space: normal;
+    word-break: break-all;
+  }
 `;
 
 const Notice = styled.p`
@@ -148,6 +169,12 @@ const Notice = styled.p`
   border-left: 2px solid ${({ theme }) => theme.colors.accent};
   background: rgba(0, 232, 135, 0.03);
   border-radius: 0 8px 8px 0;
+
+  @media (max-width: 420px) {
+    font-size: 0.7rem;
+    padding: 0.65rem 0.75rem;
+    word-break: break-word;
+  }
 `;
 
 const Contact = () => (

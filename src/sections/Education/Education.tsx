@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import styled, { keyframes } from 'styled-components';
+import diplomaPdf from "../../assets/Bachelor's Diploma-B25159502-09.04.2026, 12_15_27.pdf.pdf";
 
 const EDUCATION = [
   {
@@ -8,6 +9,7 @@ const EDUCATION = [
     period: '2021 — 2025',
     type: 'University',
     color: '#00f0ff',
+    diplomaUrl: diplomaPdf as string,
     highlights: [
       'Developed full-stack applications and system design projects',
       'Focused on algorithms, databases, and scalable architectures',
@@ -55,6 +57,10 @@ const Section = styled.section`
   padding: 7rem 2rem;
   position: relative;
   background: ${({ theme }) => theme.colors.bg};
+
+  @media (max-width: 480px) {
+    padding: 5rem 1rem;
+  }
 
   &::before {
     content: '';
@@ -130,6 +136,11 @@ const Item = styled.div<{ $delay: number }>`
   &:last-child {
     padding-bottom: 0;
   }
+
+  @media (max-width: 480px) {
+    padding-left: 42px;
+    padding-bottom: 2rem;
+  }
 `;
 
 /* Dot on the line */
@@ -152,6 +163,10 @@ const Card = styled.div<{ $color: string }>`
   border: 1px solid ${({ theme }) => theme.colors.border};
   border-radius: 14px;
   padding: 1.4rem 1.6rem;
+
+  @media (max-width: 480px) {
+    padding: 1rem 0.9rem;
+  }
   transition: all ${({ theme }) => theme.transition};
   position: relative;
   overflow: hidden;
@@ -225,7 +240,48 @@ const CardBottom = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 0.75rem;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+
+  @media (max-width: 420px) {
+    row-gap: 0.45rem;
+  }
+`;
+
+const CardBottomRight = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+`;
+
+const DownloadBtn = styled.a<{ $color: string }>`
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  padding: 0.18rem 0.55rem;
+  border-radius: 20px;
+  font-size: 0.65rem;
+  font-family: ${({ theme }) => theme.fonts.mono};
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  cursor: pointer;
+  background: transparent;
+  border: 1px solid ${({ $color }) => $color}30;
+  color: ${({ $color }) => $color};
+  text-decoration: none;
+  transition: all ${({ theme }) => theme.transition};
+  flex-shrink: 0;
+
+  &::before {
+    content: '↓';
+    font-size: 0.7rem;
+  }
+
+  &:hover {
+    background: ${({ $color }) => $color}12;
+    border-color: ${({ $color }) => $color}55;
+  }
 `;
 
 const ToggleBtn = styled.button<{ $color: string; $open: boolean }>`
@@ -333,13 +389,24 @@ const Education = () => {
                   <Institution>{item.institution}</Institution>
                   <CardBottom>
                     <TypeTag $color={item.color}>{item.type}</TypeTag>
-                    <ToggleBtn
-                      $color={item.color}
-                      $open={isOpen}
-                      onClick={() => toggle(i)}
-                    >
-                      {isOpen ? 'Hide' : 'Details'}
-                    </ToggleBtn>
+                    <CardBottomRight>
+                      {'diplomaUrl' in item && (
+                        <DownloadBtn
+                          $color={item.color}
+                          href={(item as typeof item & { diplomaUrl: string }).diplomaUrl}
+                          download
+                        >
+                          Diploma
+                        </DownloadBtn>
+                      )}
+                      <ToggleBtn
+                        $color={item.color}
+                        $open={isOpen}
+                        onClick={() => toggle(i)}
+                      >
+                        {isOpen ? 'Hide' : 'Details'}
+                      </ToggleBtn>
+                    </CardBottomRight>
                   </CardBottom>
 
                   <HighlightsWrapper $open={isOpen}>
