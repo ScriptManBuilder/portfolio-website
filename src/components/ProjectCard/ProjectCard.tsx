@@ -11,7 +11,7 @@ interface ProjectCardProps {
   description: string;
   technologies: string[];
   github: string | GitHubRepo[] | null;
-  demo: string | null;
+  demo?: string | null;
   githubLabel?: string;
   demoLabel?: string;
 }
