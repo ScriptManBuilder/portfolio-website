@@ -1,11 +1,16 @@
 import { useState, useEffect } from 'react';
 import styled from 'styled-components';
 
+interface GitHubRepo {
+  label: string;
+  url: string;
+}
+
 interface ProjectCardProps {
   title: string;
   description: string;
   technologies: string[];
-  github: string | null;
+  github: string | GitHubRepo[] | null;
   demo: string | null;
   githubLabel?: string;
   demoLabel?: string;
@@ -22,6 +27,12 @@ const Card = styled.div`
   position: relative;
   overflow: hidden;
   transition: all ${({ theme }) => theme.transition};
+
+  @media (max-width: 480px) {
+    padding: 1.4rem 1.2rem;
+    gap: 0.8rem;
+    border-radius: 12px;
+  }
 
   &::before {
     content: '';
@@ -53,6 +64,10 @@ const Title = styled.h3`
   font-weight: 600;
   font-family: ${({ theme }) => theme.fonts.heading};
   color: ${({ theme }) => theme.colors.white};
+
+  @media (max-width: 480px) {
+    font-size: 1.05rem;
+  }
 `;
 
 const Description = styled.p`
@@ -60,12 +75,21 @@ const Description = styled.p`
   color: ${({ theme }) => theme.colors.textSecondary};
   line-height: 1.65;
   flex: 1;
+
+  @media (max-width: 480px) {
+    font-size: 0.84rem;
+    line-height: 1.55;
+  }
 `;
 
 const TechList = styled.div`
   display: flex;
   flex-wrap: wrap;
   gap: 0.4rem;
+
+  @media (max-width: 480px) {
+    gap: 0.3rem;
+  }
 `;
 
 const TechTag = styled.span`
@@ -77,20 +101,30 @@ const TechTag = styled.span`
   font-size: 0.73rem;
   font-weight: 500;
   font-family: ${({ theme }) => theme.fonts.mono};
+
+  @media (max-width: 480px) {
+    font-size: 0.67rem;
+    padding: 0.15rem 0.45rem;
+  }
 `;
 
 const Links = styled.div`
   display: flex;
   flex-wrap: wrap;
-  gap: 0.6rem;
+  gap: 0.4rem;
   margin-top: 0.5rem;
+
+  @media (max-width: 480px) {
+    gap: 0.35rem;
+    margin-top: 0.3rem;
+  }
 `;
 
 const LinkPill = styled.a`
   display: inline-flex;
   align-items: center;
   gap: 0.3rem;
-  padding: 0.3rem 0.9rem;
+  padding: 0.3rem 0.7rem;
   border-radius: 9999px;
   font-size: 0.78rem;
   font-weight: 500;
@@ -103,6 +137,11 @@ const LinkPill = styled.a`
   transition: all 0.25s ease;
   user-select: none;
   text-decoration: none;
+
+  @media (max-width: 480px) {
+    font-size: 0.72rem;
+    padding: 0.25rem 0.55rem;
+  }
 
   span {
     display: inline-block;
@@ -121,7 +160,7 @@ const GitHubPill = styled.a`
   display: inline-flex;
   align-items: center;
   gap: 0.3rem;
-  padding: 0.3rem 0.9rem;
+  padding: 0.3rem 0.7rem;
   border-radius: 9999px;
   font-size: 0.78rem;
   font-weight: 500;
@@ -133,6 +172,11 @@ const GitHubPill = styled.a`
   cursor: pointer;
   transition: all 0.25s ease;
   text-decoration: none;
+
+  @media (max-width: 480px) {
+    font-size: 0.72rem;
+    padding: 0.25rem 0.55rem;
+  }
 
   &:hover {
     background: rgba(0, 240, 255, 0.14);
@@ -150,11 +194,13 @@ const UnavailableBtn = styled.span<UnavailableBtnProps>`
   display: inline-flex;
   align-items: center;
   gap: 0.3rem;
-  padding: 0.3rem 0.9rem;
+  padding: 0.3rem 0.7rem;
   border-radius: 9999px;
   font-size: 0.78rem;
   font-weight: 500;
   font-family: ${({ theme }) => theme.fonts.mono};
+  min-width: 5.5rem;
+  justify-content: center;
   background: ${({ $variant }) =>
     $variant === 'green'
       ? 'rgba(80, 255, 120, 0.10)'
@@ -206,6 +252,12 @@ const UnavailableBtn = styled.span<UnavailableBtnProps>`
           ? 'rgba(255, 220, 80, 0.18)'
           : 'rgba(255, 80, 80, 0.2)'};
   }
+
+  @media (max-width: 480px) {
+    font-size: 0.72rem;
+    padding: 0.25rem 0.55rem;
+    min-width: 4.8rem;
+  }
 `;
 
 const getVariant = (label: string) => {
@@ -215,10 +267,10 @@ const getVariant = (label: string) => {
 };
 
 const CYCLING_MAP: Record<string, string[]> = {
-  'Demo Private': ['Demo Private', 'Contact for access'],
+  'Demo Private': ['Demo Private', 'DM for access'],
   '🔒 NDA': ['🔒 NDA', 'Under NDA'],
   '🔒 Confidential': ['🔒 Confidential', 'Private Repos'],
-  'Live Demo': ['Live Demo →', 'Click to open ↗'],
+  'Live Demo': ['Live Demo →', 'Tap to open ↗'],
 };
 
 function useCyclingLabel(label: string, delayMs = 0) {
@@ -266,9 +318,17 @@ const ProjectCard = ({ title, description, technologies, github, demo, githubLab
       </TechList>
       <Links>
         {github ? (
-          <GitHubPill href={github} target="_blank" rel="noopener noreferrer">
-            GitHub →
-          </GitHubPill>
+          Array.isArray(github) ? (
+            github.map((repo) => (
+              <GitHubPill key={repo.url} href={repo.url} target="_blank" rel="noopener noreferrer">
+                {repo.label} →
+              </GitHubPill>
+            ))
+          ) : (
+            <GitHubPill href={github} target="_blank" rel="noopener noreferrer">
+              GitHub →
+            </GitHubPill>
+          )
         ) : (
           <UnavailableBtn $variant={getVariant(githubLabel)}>
             <span style={{ opacity: githubVisible ? 1 : 0 }}>{displayGithubLabel}</span>
