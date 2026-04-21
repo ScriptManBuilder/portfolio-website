@@ -1,5 +1,5 @@
 import styled, { keyframes } from 'styled-components';
-import cvFile from '../../assets/Daniil Hora CV.pdf';
+import cvFile from '../../assets/DaniilHoraCV.pdf';
 import photo from '../../assets/photo_2026-02-12_21-56-05.jpg';
 
 const float = keyframes`

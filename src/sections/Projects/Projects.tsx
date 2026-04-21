@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import styled, { css, keyframes } from 'styled-components';
 import ProjectCard from '../../components/ProjectCard';
 
@@ -73,20 +73,7 @@ const PROJECTS = [
 },
 
  {
-  title: 'Calendar Application',
-  description:
-    'Full-stack calendar application featuring task management, drag-and-drop scheduling, search, and integrated holiday support. ',
-  technologies: ['TypeScript','React', 'Styled-components','Node.js','MongoDB', 'Vercel'],
-  github: [
-  { label: 'Client', url: 'https://github.com/ScriptManBuilder/calendar-app-client' },
-  { label: 'Server', url: 'https://github.com/ScriptManBuilder/calendar-app-server' },
-],
-  demo: 'https://calendar-app-client.vercel.app/',
-
-},
-
- {
-  title: 'Gmail Sender — Email Outreach Platform',
+  title: 'Email Outreach Dashboard Application',
   description:
     'Full-stack email outreach platform with a custom admin panel for managing recipients, templates, and campaigns. Includes secure Gmail API integration, bulk sending with rate limiting, campaign tracking, and delivery logs.',
   technologies: ['TypeScript','React', 'React-Admin','NestJS', 'PostgreSQL','Gmail API'],
@@ -96,19 +83,39 @@ const PROJECTS = [
   githubLabel: '🔒 Confidential',
   
 },
+
  {
-  title: 'Andonito portfolio website',
+  title: 'Calendar Productivity Application',
   description:
-    'A portfolio website for a Ukrainian client, developed using HTML, CSS, and vanilla JavaScript.',
+      'Full-stack calendar application with task management, drag-and-drop scheduling, search, and holiday integration, built to streamline planning and daily workflows.',
+  technologies: ['TypeScript','React', 'Styled-components','Node.js','MongoDB', 'Vercel'],
+  github: [
+  { label: 'Client', url: 'https://github.com/ScriptManBuilder/calendar-app-client' },
+  { label: 'Server', url: 'https://github.com/ScriptManBuilder/calendar-app-server' },
+],
+  demo: 'https://calendar-app-client.vercel.app/',
+
+},
+{
+  title: 'Video Maker Factory Tool',
+  description:
+    'Desktop-only GUI tool for automated video creation using templates, music, and assets. Supports video editing, cutting, and speed control for both video and audio, streamlining content production workflows.',
+  technologies: ['TypeScript','Node.js','HTML','CSS','FFmpeg',],
+  github: 'https://github.com/ScriptManBuilder/video-maker-factory-tool',
+  demo: null, 
+  demoLabel: 'Demo Private',
+},
+
+
+ {
+  title: 'Scientific Portfolio Website',
+  description:
+      'Personal portfolio website for a Ukrainian museum researcher, designed to present scientific work, publications, and professional background in a clear and accessible format.',
   technologies: ['HTML','CSS','JavaScript','Vanilla JS', 'Vercel'],
   github: 'https://github.com/ScriptManBuilder/clientAlex-portfolio-web',
   demo: 'https://client-alex-portfolio-web.vercel.app/',
 
-},
-
-
-
-
+}
 
 
 ];
@@ -170,14 +177,6 @@ const SectionTitle = styled.h2`
 
 const CarouselWrapper = styled.div`
   position: relative;
-
-  @media (max-width: ${({ theme }) => theme.breakpoints.md}) {
-    padding-bottom: 68px;
-  }
-
-  @media (max-width: ${({ theme }) => theme.breakpoints.sm}) {
-    padding-bottom: 58px;
-  }
 `;
 
 const fadeIn = keyframes`
@@ -268,17 +267,55 @@ const ArrowButton = styled.button<{ $disabled?: boolean; $direction: 'left' | 'r
   }
 
   @media (max-width: ${({ theme }) => theme.breakpoints.md}) {
-    ${({ $direction }) => $direction === 'left' ? 'left: auto; right: 52px;' : 'right: 0;'}
-    top: auto;
-    bottom: 14px;
-    transform: none;
+    display: none;
   }
+`;
+
+const NavRow = styled.div`
+  display: none;
+
+  @media (max-width: ${({ theme }) => theme.breakpoints.md}) {
+    display: flex;
+    justify-content: flex-end;
+    gap: 0.5rem;
+    margin-top: 1.25rem;
+  }
+`;
+
+const MobileArrowButton = styled.button<{ $disabled?: boolean }>`
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid ${({ theme }) => theme.colors.border};
+  background: ${({ theme }) => theme.colors.bgCard};
+  color: ${({ theme }) => theme.colors.primary};
+  cursor: pointer;
+  transition: all ${({ theme }) => theme.transition};
+
+  svg {
+    width: 16px;
+    height: 16px;
+  }
+
+  &:hover:not(:disabled) {
+    border-color: rgba(0, 240, 255, 0.4);
+    background: rgba(0, 240, 255, 0.06);
+  }
+
+  ${({ $disabled }) =>
+    $disabled &&
+    css`
+      opacity: 0.25;
+      pointer-events: none;
+      cursor: default;
+    `}
 
   @media (max-width: ${({ theme }) => theme.breakpoints.sm}) {
     width: 36px;
     height: 36px;
-    ${({ $direction }) => $direction === 'left' ? 'left: auto; right: 44px;' : 'right: 0;'}
-    bottom: 11px;
     svg { width: 14px; height: 14px; }
   }
 `;
@@ -329,12 +366,18 @@ const totalPages = Math.ceil(PROJECTS.length / ITEMS_PER_PAGE);
 
 const Projects = () => {
   const [page, setPage] = useState(0);
+  const sectionRef = useRef<HTMLElement>(null);
+
+  const goToPage = (newPage: number) => {
+    setPage(newPage);
+    sectionRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  };
 
   const start = page * ITEMS_PER_PAGE;
   const visible = PROJECTS.slice(start, start + ITEMS_PER_PAGE);
 
   return (
-    <Section id="projects">
+    <Section id="projects" ref={sectionRef}>
       <Container>
         <SectionLabel>// Portfolio</SectionLabel>
         <SectionTitle>
@@ -344,7 +387,7 @@ const Projects = () => {
           <ArrowButton
             $direction="left"
             $disabled={page === 0}
-            onClick={(e) => { (e.currentTarget as HTMLButtonElement).blur(); setPage((p) => Math.max(0, p - 1)); }}
+            onClick={(e) => { (e.currentTarget as HTMLButtonElement).blur(); goToPage(Math.max(0, page - 1)); }}
             aria-label="Previous projects"
           >
             <ChevronLeft />
@@ -361,17 +404,34 @@ const Projects = () => {
           <ArrowButton
             $direction="right"
             $disabled={page === totalPages - 1}
-            onClick={(e) => { (e.currentTarget as HTMLButtonElement).blur(); setPage((p) => Math.min(totalPages - 1, p + 1)); }}
+            onClick={(e) => { (e.currentTarget as HTMLButtonElement).blur(); goToPage(Math.min(totalPages - 1, page + 1)); }}
             aria-label="Next projects"
           >
             <ChevronRight />
           </ArrowButton>
         </CarouselWrapper>
 
+        <NavRow>
+          <MobileArrowButton
+            $disabled={page === 0}
+            onClick={() => goToPage(Math.max(0, page - 1))}
+            aria-label="Previous projects"
+          >
+            <ChevronLeft />
+          </MobileArrowButton>
+          <MobileArrowButton
+            $disabled={page === totalPages - 1}
+            onClick={() => goToPage(Math.min(totalPages - 1, page + 1))}
+            aria-label="Next projects"
+          >
+            <ChevronRight />
+          </MobileArrowButton>
+        </NavRow>
+
         {totalPages > 1 && (
           <PageDots>
             {Array.from({ length: totalPages }, (_, i) => (
-              <Dot key={i} $active={i === page} onClick={() => setPage(i)} aria-label={`Page ${i + 1}`} />
+              <Dot key={i} $active={i === page} onClick={() => goToPage(i)} aria-label={`Page ${i + 1}`} />
             ))}
           </PageDots>
         )}
