@@ -530,7 +530,7 @@ const Hero = () => (
           <PhotoGlow />
           <PhotoRing />
           <PhotoInner />
-          <Photo src={photo} alt="Daniil Hora" />
+          <Photo src={photo} alt="Daniil Hora — Full-Stack Developer" fetchPriority="high" loading="eager" />
         </PhotoWrapper>
 
         {/* Stats */}
