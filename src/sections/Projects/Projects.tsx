@@ -172,11 +172,11 @@ const CarouselWrapper = styled.div`
   position: relative;
 
   @media (max-width: ${({ theme }) => theme.breakpoints.md}) {
-    padding-bottom: 70px;
+    padding-bottom: 68px;
   }
 
   @media (max-width: ${({ theme }) => theme.breakpoints.sm}) {
-    padding-bottom: 62px;
+    padding-bottom: 58px;
   }
 `;
 
@@ -270,7 +270,7 @@ const ArrowButton = styled.button<{ $disabled?: boolean; $direction: 'left' | 'r
   @media (max-width: ${({ theme }) => theme.breakpoints.md}) {
     ${({ $direction }) => $direction === 'left' ? 'left: auto; right: 52px;' : 'right: 0;'}
     top: auto;
-    bottom: -60px;
+    bottom: 14px;
     transform: none;
   }
 
@@ -278,7 +278,7 @@ const ArrowButton = styled.button<{ $disabled?: boolean; $direction: 'left' | 'r
     width: 36px;
     height: 36px;
     ${({ $direction }) => $direction === 'left' ? 'left: auto; right: 44px;' : 'right: 0;'}
-    bottom: -52px;
+    bottom: 11px;
     svg { width: 14px; height: 14px; }
   }
 `;
@@ -344,7 +344,7 @@ const Projects = () => {
           <ArrowButton
             $direction="left"
             $disabled={page === 0}
-            onClick={() => setPage((p) => Math.max(0, p - 1))}
+            onClick={(e) => { (e.currentTarget as HTMLButtonElement).blur(); setPage((p) => Math.max(0, p - 1)); }}
             aria-label="Previous projects"
           >
             <ChevronLeft />
@@ -361,7 +361,7 @@ const Projects = () => {
           <ArrowButton
             $direction="right"
             $disabled={page === totalPages - 1}
-            onClick={() => setPage((p) => Math.min(totalPages - 1, p + 1))}
+            onClick={(e) => { (e.currentTarget as HTMLButtonElement).blur(); setPage((p) => Math.min(totalPages - 1, p + 1)); }}
             aria-label="Next projects"
           >
             <ChevronRight />
