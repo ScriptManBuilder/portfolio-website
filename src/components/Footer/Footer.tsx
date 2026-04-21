@@ -5,7 +5,7 @@ const SOCIAL = [
   { label: 'GitHub',   Icon: FaGithub,       href: 'https://github.com/ScriptManBuilder' },
   { label: 'LinkedIn', Icon: FaLinkedin,      href: 'https://www.linkedin.com/in/daniil-hora/' },
   { label: 'Telegram', Icon: FaTelegramPlane, href: 'https://t.me/wellCoderDmg' },
-  { label: 'Email',    Icon: FaEnvelope,      href: 'mailto:shadowProgrammer@proton.me' },
+  { label: 'Email',    Icon: FaEnvelope,      href: 'mailto:dan.gora2004@gmail.com' },
 ];
 
 const NAV = [
@@ -258,8 +258,8 @@ const Footer = () => {
           <Brand>
             <Name>Daniil <span>Hora</span></Name>
             <Tagline>Full-Stack Developer &middot; Ukraine</Tagline>
-            <EmailLink href="mailto:shadowProgrammer@proton.me">
-              @ shadowProgrammer@proton.me
+            <EmailLink href="mailto:dan.gora2004@gmail.com">
+              @ dan.gora2004@gmail.com
             </EmailLink>
           </Brand>
 

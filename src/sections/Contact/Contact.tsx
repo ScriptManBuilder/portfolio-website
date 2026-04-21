@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import ContactForm from '../../components/ContactForm';
 
-const EMAIL = 'shadowProgrammer@proton.me';
+const EMAIL = 'dan.gora2004@gmail.com';
 const TG    = 'https://t.me/wellCoderDmg';
 
 const Section = styled.section`

@@ -170,6 +170,14 @@ const SectionTitle = styled.h2`
 
 const CarouselWrapper = styled.div`
   position: relative;
+
+  @media (max-width: ${({ theme }) => theme.breakpoints.md}) {
+    padding-bottom: 70px;
+  }
+
+  @media (max-width: ${({ theme }) => theme.breakpoints.sm}) {
+    padding-bottom: 62px;
+  }
 `;
 
 const fadeIn = keyframes`
