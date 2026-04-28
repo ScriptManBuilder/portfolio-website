@@ -92,13 +92,11 @@ const Container = styled.div`
   }
 
   @media (max-width: ${({ theme }) => theme.breakpoints.md}) {
-    grid-template-columns: 1fr;
-    gap: 2.2rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0;
     text-align: center;
-  }
-
-  @media (max-width: ${({ theme }) => theme.breakpoints.sm}) {
-    gap: 1.8rem;
   }
 `;
 
@@ -110,7 +108,7 @@ const Left = styled.div`
   animation: ${fadeUp} 0.65s ease both;
 
   @media (max-width: ${({ theme }) => theme.breakpoints.md}) {
-    align-items: center;
+    display: contents;
   }
 `;
 
@@ -123,7 +121,15 @@ const TopLine = styled.div`
   flex-wrap: wrap;
 
   @media (max-width: ${({ theme }) => theme.breakpoints.md}) {
+    order: 1;
+    width: 100%;
     justify-content: center;
+    margin-bottom: 0.95rem;
+  }
+
+  @media (max-width: ${({ theme }) => theme.breakpoints.sm}) {
+    gap: 0.65rem;
+    margin-bottom: 0.75rem;
   }
 `;
 
@@ -168,6 +174,7 @@ const LocationTag = styled.span`
     padding-left: 0;
     width: 100%;
     justify-content: center;
+    font-size: 0.74rem;
   }
 `;
 
@@ -194,33 +201,80 @@ const Name = styled.h1`
   @media (max-width: ${({ theme }) => theme.breakpoints.sm}) {
     font-size: clamp(2.35rem, 13vw, 3.15rem);
     letter-spacing: -1.6px;
-    margin-bottom: 0.85rem;
+    margin-bottom: 0.6rem;
+  }
+
+  @media (max-width: ${({ theme }) => theme.breakpoints.md}) {
+    order: 2;
+    width: 100%;
+    margin-bottom: 0.55rem;
   }
 `;
 
 /* Row 3: role */
-const Role = styled.p`
+const Role = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  flex-wrap: wrap;
+  margin-bottom: 1.5rem;
+
+  @media (max-width: ${({ theme }) => theme.breakpoints.md}) {
+    order: 3;
+    width: 100%;
+    justify-content: center;
+    margin-bottom: 1rem;
+  }
+
+  @media (max-width: ${({ theme }) => theme.breakpoints.sm}) {
+    flex-direction: column;
+    gap: 0.45rem;
+    margin-bottom: 0.9rem;
+  }
+`;
+
+const RoleLead = styled.span`
   font-size: 0.96rem;
   font-family: ${({ theme }) => theme.fonts.mono};
   color: ${({ theme }) => theme.colors.textSecondary};
-  margin-bottom: 1.5rem;
-  display: flex;
+
+  @media (max-width: ${({ theme }) => theme.breakpoints.sm}) {
+    font-size: 0.84rem;
+  }
+`;
+
+const RoleTechs = styled.div`
+  display: inline-flex;
   align-items: center;
-  gap: 0.4rem;
+  justify-content: center;
+  gap: 0.35rem;
   flex-wrap: wrap;
 
-  strong {
-    color: ${({ theme }) => theme.colors.primary};
-    font-weight: 600;
+  @media (max-width: ${({ theme }) => theme.breakpoints.sm}) {
+    gap: 0.2rem;
+    max-width: 260px;
   }
+`;
 
-  @media (max-width: ${({ theme }) => theme.breakpoints.md}) {
-    justify-content: center;
+const RoleTech = styled.strong`
+  display: inline-flex;
+  align-items: center;
+  color: ${({ theme }) => theme.colors.primary};
+  font-weight: 600;
+  font-size: 0.96rem;
+
+  & + &::before {
+    content: '·';
+    color: ${({ theme }) => theme.colors.textMuted};
+    margin-right: 0.35rem;
   }
 
   @media (max-width: ${({ theme }) => theme.breakpoints.sm}) {
     font-size: 0.84rem;
-    gap: 0.28rem;
+
+    & + &::before {
+      margin-right: 0.2rem;
+    }
   }
 `;
 
@@ -234,6 +288,10 @@ const Rule = styled.div`
     transparent
   );
   margin-bottom: 1.6rem;
+
+  @media (max-width: ${({ theme }) => theme.breakpoints.md}) {
+    display: none;
+  }
 `;
 
 /* Row 5: intro */
@@ -245,14 +303,18 @@ const Intro = styled.p`
   max-width: 500px;
 
   @media (max-width: ${({ theme }) => theme.breakpoints.md}) {
+    order: 5;
+    width: 100%;
     margin-left: auto;
     margin-right: auto;
+    margin-bottom: 1.15rem;
+    max-width: 34ch;
   }
 
   @media (max-width: ${({ theme }) => theme.breakpoints.sm}) {
     font-size: 0.93rem;
     line-height: 1.72;
-    margin-bottom: 1.25rem;
+    margin-bottom: 1rem;
   }
 `;
 
@@ -264,11 +326,16 @@ const WorkModes = styled.div`
   margin-bottom: 2rem;
 
   @media (max-width: ${({ theme }) => theme.breakpoints.md}) {
+    order: 6;
+    width: 100%;
     justify-content: center;
+    margin-bottom: 1.15rem;
   }
 
   @media (max-width: ${({ theme }) => theme.breakpoints.sm}) {
-    margin-bottom: 1.4rem;
+    gap: 0.35rem;
+    max-width: 300px;
+    margin-bottom: 1rem;
   }
 `;
 
@@ -301,13 +368,14 @@ const Actions = styled.div`
   flex-wrap: wrap;
 
   @media (max-width: ${({ theme }) => theme.breakpoints.md}) {
+    order: 7;
+    width: 100%;
     justify-content: center;
   }
 
   @media (max-width: ${({ theme }) => theme.breakpoints.sm}) {
-    width: 100%;
     flex-direction: column;
-    gap: 0.6rem;
+    gap: 0.55rem;
   }
 `;
 
@@ -389,6 +457,10 @@ const Cursor = styled.span`
   margin-left: 3px;
   vertical-align: middle;
   animation: ${blink} 1.1s step-end infinite;
+
+  @media (max-width: ${({ theme }) => theme.breakpoints.md}) {
+    display: none;
+  }
 `;
 
 const ScrollHint = styled.a`
@@ -437,10 +509,16 @@ const Right = styled.div`
   animation: ${float} 7s ease-in-out infinite;
 
   @media (max-width: ${({ theme }) => theme.breakpoints.md}) {
-    order: -1;
+    order: 4;
     animation: none;
     width: 100%;
-    gap: 1rem;
+    gap: 0.85rem;
+    margin: 0.2rem 0 1rem;
+  }
+
+  @media (max-width: ${({ theme }) => theme.breakpoints.sm}) {
+    gap: 0.7rem;
+    margin: 0.15rem 0 0.9rem;
   }
 `;
 
@@ -510,6 +588,7 @@ const StatsRow = styled.div`
 
   @media (max-width: ${({ theme }) => theme.breakpoints.md}) {
     max-width: 320px;
+    width: 100%;
   }
 
   @media (max-width: ${({ theme }) => theme.breakpoints.sm}) {
@@ -601,10 +680,13 @@ const Hero = () => {
           </Name>
 
           <Role>
-            {t.hero.role}&nbsp;·&nbsp;
-            <strong>TypeScript</strong>&nbsp;·&nbsp;
-            <strong>React</strong>&nbsp;·&nbsp;
-            <strong>NestJS</strong>&nbsp;<Cursor />
+            <RoleLead>{t.hero.role}</RoleLead>
+            <RoleTechs>
+              <RoleTech>TypeScript</RoleTech>
+              <RoleTech>React</RoleTech>
+              <RoleTech>NestJS</RoleTech>
+              <Cursor />
+            </RoleTechs>
           </Role>
 
           <Rule />
