@@ -1,21 +1,22 @@
 import styled, { keyframes } from 'styled-components';
 import { FaGithub, FaLinkedin, FaTelegramPlane, FaEnvelope } from 'react-icons/fa';
+import { useLanguage } from '../../i18n/LanguageContext';
 
 const SOCIAL = [
-  { label: 'GitHub',   Icon: FaGithub,       href: 'https://github.com/ScriptManBuilder' },
-  { label: 'LinkedIn', Icon: FaLinkedin,      href: 'https://www.linkedin.com/in/daniil-hora/' },
-  { label: 'Telegram', Icon: FaTelegramPlane, href: 'https://t.me/wellCoderDmg' },
-  { label: 'Email',    Icon: FaEnvelope,      href: 'mailto:dan.gora2004@gmail.com' },
+  { id: 'github', label: 'GitHub', Icon: FaGithub, href: 'https://github.com/ScriptManBuilder' },
+  { id: 'linkedin', label: 'LinkedIn', Icon: FaLinkedin, href: 'https://www.linkedin.com/in/daniil-hora/' },
+  { id: 'telegram', label: 'Telegram', Icon: FaTelegramPlane, href: 'https://t.me/wellCoderDmg' },
+  { id: 'email', label: 'Email', Icon: FaEnvelope, href: 'mailto:dan.gora2004@gmail.com' },
 ];
 
 const NAV = [
-  { label: 'Home',      href: '#home' },
-  { label: 'About',     href: '#about' },
-  { label: 'Skills',    href: '#skills' },
-  { label: 'Projects',  href: '#projects' },
-  { label: 'Education', href: '#education' },
-  { label: 'Contact',   href: '#contact' },
-];
+  { id: 'home', href: '#home' },
+  { id: 'about', href: '#about' },
+  { id: 'skills', href: '#skills' },
+  { id: 'projects', href: '#projects' },
+  { id: 'education', href: '#education' },
+  { id: 'contact', href: '#contact' },
+] as const;
 
 /* ── Shell ── */
 const FooterWrapper = styled.footer`
@@ -248,6 +249,9 @@ const StatusBadge = styled.div`
 /* ── Component ── */
 const Footer = () => {
   const year = new Date().getFullYear();
+  const { t } = useLanguage();
+  const navigation = t.common.navigation;
+  const profile = t.common.profile;
 
   return (
     <FooterWrapper>
@@ -256,8 +260,8 @@ const Footer = () => {
         <TopRow>
           {/* Left: brand */}
           <Brand>
-            <Name>Daniil <span>Hora</span></Name>
-            <Tagline>Full-Stack Developer &middot; Ukraine</Tagline>
+            <Name>{profile.firstName} <span>{profile.lastName}</span></Name>
+            <Tagline>{t.footer.tagline}</Tagline>
             <EmailLink href="mailto:dan.gora2004@gmail.com">
               @ dan.gora2004@gmail.com
             </EmailLink>
@@ -265,23 +269,24 @@ const Footer = () => {
 
           {/* Center: nav */}
           <NavGrid>
-            <NavLabel>Navigation</NavLabel>
+            <NavLabel>{t.footer.navigationLabel}</NavLabel>
             <NavLinks>
-              {NAV.map(({ label, href }) => (
-                <NavLink key={href} href={href}>{label}</NavLink>
+              {NAV.map(({ id, href }) => (
+                <NavLink key={href} href={href}>{navigation[id]}</NavLink>
               ))}
             </NavLinks>
           </NavGrid>
 
           {/* Right: socials */}
           <SocialBlock>
-            <SocialLabel>Find me on</SocialLabel>
+            <SocialLabel>{t.footer.socialLabel}</SocialLabel>
             <SocialRow>
-              {SOCIAL.map(({ label, Icon, href }) => (
+              {SOCIAL.map(({ id, label, Icon, href }) => (
                 <SocialLink
-                  key={label}
+                  key={id}
                   href={href}
                   title={label}
+                  aria-label={label}
                   target={href.startsWith('mailto') ? undefined : '_blank'}
                   rel={href.startsWith('mailto') ? undefined : 'noopener noreferrer'}
                 >
@@ -293,8 +298,8 @@ const Footer = () => {
         </TopRow>
 
         <BottomBar>
-          <Copyright>&copy; {year} Daniil Hora. All rights reserved.</Copyright>
-          <StatusBadge>Open to new opportunities</StatusBadge>
+          <Copyright>&copy; {year} {profile.fullName}. {t.footer.copyrightSuffix}</Copyright>
+          <StatusBadge>{t.footer.status}</StatusBadge>
         </BottomBar>
       </Inner>
     </FooterWrapper>

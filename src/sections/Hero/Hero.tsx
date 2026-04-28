@@ -1,6 +1,7 @@
 import styled, { keyframes } from 'styled-components';
 import cvFile from '../../assets/DaniilHoraCV.pdf';
 import photo from '../../assets/photo_2026-02-12_21-56-05.jpg';
+import { useLanguage } from '../../i18n/LanguageContext';
 
 const float = keyframes`
   0%, 100% { transform: translateY(0px); }
@@ -10,11 +11,6 @@ const float = keyframes`
 const pulse = keyframes`
   0%, 100% { opacity: 0.4; transform: scale(1); }
   50% { opacity: 1; transform: scale(1.2); }
-`;
-
-const rotateBorder = keyframes`
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
 `;
 
 const fadeUp = keyframes`
@@ -67,6 +63,16 @@ const Section = styled.section`
     border-radius: 50%;
     pointer-events: none;
   }
+
+  @media (max-width: ${({ theme }) => theme.breakpoints.md}) {
+    min-height: auto;
+    padding: 5.5rem 1.25rem 3rem;
+  }
+
+  @media (max-width: ${({ theme }) => theme.breakpoints.sm}) {
+    padding: 5rem 0.9rem 2.6rem;
+    background-size: 22px 22px;
+  }
 `;
 
 const Container = styled.div`
@@ -87,8 +93,12 @@ const Container = styled.div`
 
   @media (max-width: ${({ theme }) => theme.breakpoints.md}) {
     grid-template-columns: 1fr;
-    gap: 3rem;
+    gap: 2.2rem;
     text-align: center;
+  }
+
+  @media (max-width: ${({ theme }) => theme.breakpoints.sm}) {
+    gap: 1.8rem;
   }
 `;
 
@@ -98,6 +108,10 @@ const Left = styled.div`
   display: flex;
   flex-direction: column;
   animation: ${fadeUp} 0.65s ease both;
+
+  @media (max-width: ${({ theme }) => theme.breakpoints.md}) {
+    align-items: center;
+  }
 `;
 
 /* Row 1: status badge + location */
@@ -148,23 +162,39 @@ const LocationTag = styled.span`
   font-family: ${({ theme }) => theme.fonts.mono};
   border-left: 1px solid ${({ theme }) => theme.colors.border};
   padding-left: 0.85rem;
+
+  @media (max-width: ${({ theme }) => theme.breakpoints.sm}) {
+    border-left: 0;
+    padding-left: 0;
+    width: 100%;
+    justify-content: center;
+  }
 `;
 
 /* Row 2: name */
 const Name = styled.h1`
   font-size: clamp(2.8rem, 6vw, 4.6rem);
   font-weight: 800;
-  font-family: ${({ theme }) => theme.fonts.heading};
-  line-height: 1;
-  letter-spacing: -2px;
+  font-family: ${({ theme }) => theme.fonts.display};
+  line-height: 0.96;
+  letter-spacing: -2.8px;
   margin-bottom: 0.7rem;
   color: ${({ theme }) => theme.colors.white};
+  text-wrap: balance;
 
   span {
-    background: ${({ theme }) => theme.colors.gradient};
+    background: ${({ theme }) => theme.colors.brandGradientBold};
+    background-size: 100% 100%;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
+    filter: drop-shadow(0 10px 26px rgba(72, 196, 255, 0.16));
+  }
+
+  @media (max-width: ${({ theme }) => theme.breakpoints.sm}) {
+    font-size: clamp(2.35rem, 13vw, 3.15rem);
+    letter-spacing: -1.6px;
+    margin-bottom: 0.85rem;
   }
 `;
 
@@ -186,6 +216,11 @@ const Role = styled.p`
 
   @media (max-width: ${({ theme }) => theme.breakpoints.md}) {
     justify-content: center;
+  }
+
+  @media (max-width: ${({ theme }) => theme.breakpoints.sm}) {
+    font-size: 0.84rem;
+    gap: 0.28rem;
   }
 `;
 
@@ -213,6 +248,12 @@ const Intro = styled.p`
     margin-left: auto;
     margin-right: auto;
   }
+
+  @media (max-width: ${({ theme }) => theme.breakpoints.sm}) {
+    font-size: 0.93rem;
+    line-height: 1.72;
+    margin-bottom: 1.25rem;
+  }
 `;
 
 /* Row 6: work modes */
@@ -224,6 +265,10 @@ const WorkModes = styled.div`
 
   @media (max-width: ${({ theme }) => theme.breakpoints.md}) {
     justify-content: center;
+  }
+
+  @media (max-width: ${({ theme }) => theme.breakpoints.sm}) {
+    margin-bottom: 1.4rem;
   }
 `;
 
@@ -258,6 +303,12 @@ const Actions = styled.div`
   @media (max-width: ${({ theme }) => theme.breakpoints.md}) {
     justify-content: center;
   }
+
+  @media (max-width: ${({ theme }) => theme.breakpoints.sm}) {
+    width: 100%;
+    flex-direction: column;
+    gap: 0.6rem;
+  }
 `;
 
 const PrimaryBtn = styled.a`
@@ -281,6 +332,12 @@ const PrimaryBtn = styled.a`
     box-shadow: 0 8px 32px rgba(0, 240, 255, 0.4), 0 0 60px rgba(0, 240, 255, 0.12);
     transform: translateY(-2px) scale(1.03);
   }
+
+  @media (max-width: ${({ theme }) => theme.breakpoints.sm}) {
+    width: min(100%, 260px);
+    justify-content: center;
+    padding-inline: 1.2rem;
+  }
 `;
 
 const OutlineBtn = styled.a`
@@ -300,6 +357,12 @@ const OutlineBtn = styled.a`
     color: ${({ theme }) => theme.colors.primary};
     background: rgba(0, 240, 255, 0.04);
     transform: translateY(-2px);
+  }
+
+  @media (max-width: ${({ theme }) => theme.breakpoints.sm}) {
+    width: min(100%, 260px);
+    justify-content: center;
+    padding-inline: 1.2rem;
   }
 `;
 
@@ -376,17 +439,26 @@ const Right = styled.div`
   @media (max-width: ${({ theme }) => theme.breakpoints.md}) {
     order: -1;
     animation: none;
+    width: 100%;
+    gap: 1rem;
   }
 `;
 
 const PhotoWrapper = styled.div`
   position: relative;
-  width: 300px;
-  height: 300px;
+  width: min(100%, 300px);
+  aspect-ratio: 1;
 
   @media (max-width: ${({ theme }) => theme.breakpoints.lg}) {
     width: 260px;
-    height: 260px;
+  }
+
+  @media (max-width: ${({ theme }) => theme.breakpoints.md}) {
+    width: min(100%, 250px);
+  }
+
+  @media (max-width: ${({ theme }) => theme.breakpoints.sm}) {
+    width: min(100%, 220px);
   }
 `;
 
@@ -410,7 +482,6 @@ const PhotoRing = styled.div`
     rgba(0, 232, 135, 0.35) 75%,
     transparent 100%
   );
-  animation: ${rotateBorder} 5s linear infinite;
 `;
 
 const PhotoInner = styled.div`
@@ -436,6 +507,14 @@ const StatsRow = styled.div`
   gap: 0.65rem;
   width: 100%;
   justify-content: center;
+
+  @media (max-width: ${({ theme }) => theme.breakpoints.md}) {
+    max-width: 320px;
+  }
+
+  @media (max-width: ${({ theme }) => theme.breakpoints.sm}) {
+    gap: 0.45rem;
+  }
 `;
 
 const StatCard = styled.div`
@@ -445,117 +524,143 @@ const StatCard = styled.div`
   border: 1px solid ${({ theme }) => theme.colors.border};
   background: ${({ theme }) => theme.colors.bgCard};
   text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   transition: border-color ${({ theme }) => theme.transition};
 
   &:hover {
     border-color: rgba(0, 240, 255, 0.2);
   }
+
+  @media (max-width: ${({ theme }) => theme.breakpoints.sm}) {
+    padding: 0.72rem 0.4rem;
+    min-height: 92px;
+  }
+`;
+
+const StatInfo = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.38rem;
+
+  @media (max-width: ${({ theme }) => theme.breakpoints.sm}) {
+    gap: 0.28rem;
+  }
 `;
 
 const StatValue = styled.div`
-  font-size: 1.35rem;
-  font-weight: 700;
-  font-family: ${({ theme }) => theme.fonts.heading};
-  background: ${({ theme }) => theme.colors.gradient};
+  display: block;
+  font-size: 1.95rem;
+  font-weight: 800;
+  font-family: ${({ theme }) => theme.fonts.display};
+  letter-spacing: -0.06em;
+  background: ${({ theme }) => theme.colors.brandGradientBold};
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
-  line-height: 1;
-  margin-bottom: 0.25rem;
+  line-height: 0.92;
+  filter: drop-shadow(0 10px 22px rgba(72, 196, 255, 0.12));
+
+  @media (max-width: ${({ theme }) => theme.breakpoints.sm}) {
+    font-size: clamp(1.58rem, 8vw, 1.82rem);
+  }
 `;
 
 const StatLabel = styled.div`
-  font-size: 0.67rem;
+  display: block;
+  font-size: 0.88rem;
   color: ${({ theme }) => theme.colors.textSecondary};
-  font-family: ${({ theme }) => theme.fonts.mono};
-  text-transform: uppercase;
-  letter-spacing: 0.07em;
+  line-height: 1.4;
+  text-wrap: balance;
+
+  @media (max-width: ${({ theme }) => theme.breakpoints.sm}) {
+    font-size: 0.74rem;
+    line-height: 1.32;
+  }
 `;
 
 /* ── Component ──────────────────────────────────────────────────── */
 
-const WORK_MODES = ['Remote', 'Full-time', 'Part-time', 'Freelance', 'Office'];
+const Hero = () => {
+  const { t } = useLanguage();
+  const profile = t.common.profile;
 
-const Hero = () => (
-  <Section id="home">
-    <Container>
-      <Left>
-        {/* 1. Status + location */}
-        <TopLine>
-          <StatusBadge>Available for work</StatusBadge>
-          <LocationTag>📍 Ukraine · Remote</LocationTag>
-        </TopLine>
+  return (
+    <Section id="home">
+      <Container>
+        <Left>
+          <TopLine>
+            <StatusBadge>{t.hero.status}</StatusBadge>
+            <LocationTag>{t.hero.location}</LocationTag>
+          </TopLine>
 
-        {/* 2. Name */}
-        <Name>
-          Daniil <span>Hora</span>
-        </Name>
+          <Name>
+            {profile.firstName} <span>{profile.lastName}</span>
+          </Name>
 
-        {/* 3. Role */}
-        <Role>
-          Full-Stack Developer&nbsp;·&nbsp;
-          <strong>TypeScript</strong>&nbsp;·&nbsp;
-          <strong>React</strong>&nbsp;·&nbsp;
-          <strong>NestJS</strong>&nbsp;<Cursor />
-        </Role>
+          <Role>
+            {t.hero.role}&nbsp;·&nbsp;
+            <strong>TypeScript</strong>&nbsp;·&nbsp;
+            <strong>React</strong>&nbsp;·&nbsp;
+            <strong>NestJS</strong>&nbsp;<Cursor />
+          </Role>
 
-        {/* 4. Divider */}
-        <Rule />
+          <Rule />
 
-        {/* 5. Bio */}
-        <Intro>
-          2.5+ years delivering production websites, e-commerce platforms and
-          scalable web apps — from UI design to backend architecture and cloud
-          deployment.
-        </Intro>
+          <Intro>{t.hero.intro}</Intro>
 
-        {/* 6. Work modes */}
-        <WorkModes>
-          {WORK_MODES.map(m => (
-            <WorkTag key={m}>{m}</WorkTag>
-          ))}
-        </WorkModes>
+          <WorkModes>
+            {t.hero.workModes.map((mode) => (
+              <WorkTag key={mode}>{mode}</WorkTag>
+            ))}
+          </WorkModes>
 
-        {/* 7. CTA row */}
-        <Actions>
-          <PrimaryBtn href="#projects">View Projects</PrimaryBtn>
-          <OutlineBtn href="#contact">Contact Me</OutlineBtn>
-          <OutlineBtn href={cvFile} download>↓ CV</OutlineBtn>
-        </Actions>
-      </Left>
+          <Actions>
+            <PrimaryBtn href="#projects">{t.hero.primaryCta}</PrimaryBtn>
+            <OutlineBtn href="#contact">{t.hero.secondaryCta}</OutlineBtn>
+            <OutlineBtn href={cvFile} download>{t.hero.cvCta}</OutlineBtn>
+          </Actions>
+        </Left>
 
-      <Right>
-        {/* Photo */}
-        <PhotoWrapper>
-          <PhotoGlow />
-          <PhotoRing />
-          <PhotoInner />
-          <Photo src={photo} alt="Daniil Hora — Full-Stack Developer" fetchPriority="high" loading="eager" />
-        </PhotoWrapper>
+        <Right>
+          <PhotoWrapper>
+            <PhotoGlow />
+            <PhotoRing />
+            <PhotoInner />
+            <Photo src={photo} alt={t.hero.photoAlt} fetchPriority="high" loading="eager" />
+          </PhotoWrapper>
 
-        {/* Stats */}
-        <StatsRow>
-          <StatCard>
-            <StatValue>2.5+</StatValue>
-            <StatLabel>Years exp.</StatLabel>
-          </StatCard>
-          <StatCard>
-            <StatValue>10+</StatValue>
-            <StatLabel>Projects</StatLabel>
-          </StatCard>
-          <StatCard>
-            <StatValue>20+</StatValue>
-            <StatLabel>Technologies</StatLabel>
-          </StatCard>
-        </StatsRow>
-      </Right>
-    </Container>
+          <StatsRow>
+            <StatCard>
+              <StatInfo>
+                <StatValue>2.5+</StatValue>
+                <StatLabel>{t.hero.stats.experience}</StatLabel>
+              </StatInfo>
+            </StatCard>
+            <StatCard>
+              <StatInfo>
+                <StatValue>10+</StatValue>
+                <StatLabel>{t.hero.stats.projects}</StatLabel>
+              </StatInfo>
+            </StatCard>
+            <StatCard>
+              <StatInfo>
+                <StatValue>20+</StatValue>
+                <StatLabel>{t.hero.stats.technologies}</StatLabel>
+              </StatInfo>
+            </StatCard>
+          </StatsRow>
+        </Right>
+      </Container>
 
-    <ScrollHint href="#about">
-      scroll
-      <ScrollArrow />
-    </ScrollHint>
-  </Section>
-);
+      <ScrollHint href="#about">
+        {t.hero.scrollHint}
+        <ScrollArrow />
+      </ScrollHint>
+    </Section>
+  );
+};
 
 export default Hero;

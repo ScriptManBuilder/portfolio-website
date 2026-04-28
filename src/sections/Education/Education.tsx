@@ -1,45 +1,31 @@
 import { useState } from 'react';
 import styled, { keyframes } from 'styled-components';
 import diplomaPdf from "../../assets/Bachelor's Diploma-B25159502-09.04.2026, 12_15_27.pdf.pdf";
+import { useLanguage } from '../../i18n/LanguageContext';
+import type { Translation } from '../../i18n/translations';
+import { sectionLabelStyles, sectionTitleStyles } from '../../styles/sectionHeading';
 
-const EDUCATION = [
+type EducationId = keyof Translation['education']['items'];
+
+interface EducationItem {
+  id: EducationId;
+  color: string;
+  diplomaUrl?: string;
+}
+
+const EDUCATION: EducationItem[] = [
   {
-    degree: "Bachelor's in Computer Science",
-    institution: 'Odesa I.I. Mechnikov National University',
-    period: '2021 — 2025',
-    type: 'University',
+    id: 'bachelor',
     color: '#00f0ff',
     diplomaUrl: diplomaPdf as string,
-    highlights: [
-      'Developed full-stack applications and system design projects',
-      'Focused on algorithms, databases, and scalable architectures',
-      "Bachelor's thesis: building a production-ready web platform",
-      'Team collaboration using Git and modern development workflows',
-    ],
   },
   {
-    degree: 'Secondary Education in Computer Science',
-    institution: 'Kherson Academic Lyceum',
-    period: '2019 — 2021',
-    type: 'Lyceum',
+    id: 'lyceum',
     color: '#7b61ff',
-    highlights: [
-      'Participant in programming olympiads and IT competitions',
-      'Strong foundation in algorithms, logic, and problem-solving',
-      'Early start in software development and coding practices',
-    ],
   },
   {
-    degree: 'Professional Course in Web Development',
-    institution: 'IT STEP Academy',
-    period: '2018 — 2019',
-    type: 'Course',
+    id: 'course',
     color: '#00e887',
-    highlights: [
-      'Built first full-stack web projects',
-      'Learned core web technologies (HTML, CSS, JavaScript)',
-      'Hands-on experience with real-world development basics',
-    ],
   },
 ];
 
@@ -78,29 +64,13 @@ const Container = styled.div`
 
 /* ── Header ── */
 const SectionLabel = styled.p`
-  font-size: 0.75rem;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 3px;
-  color: ${({ theme }) => theme.colors.primary};
-  margin-bottom: 0.6rem;
-  font-family: ${({ theme }) => theme.fonts.mono};
+  ${sectionLabelStyles}
+  margin-bottom: 0.85rem;
 `;
 
 const SectionTitle = styled.h2`
-  font-size: clamp(2rem, 4vw, 2.6rem);
-  font-weight: 800;
-  font-family: ${({ theme }) => theme.fonts.heading};
-  color: ${({ theme }) => theme.colors.white};
-  letter-spacing: -1.5px;
+  ${sectionTitleStyles}
   margin-bottom: 3.5rem;
-
-  span {
-    background: ${({ theme }) => theme.colors.gradient};
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-  }
 `;
 
 /* ── Timeline ── */
@@ -364,39 +334,42 @@ const HighlightItem = styled.li<{ $color: string }>`
 
 const Education = () => {
   const [openIndex, setOpenIndex] = useState<number | null>(0);
+  const { t } = useLanguage();
 
   const toggle = (i: number) => setOpenIndex(prev => (prev === i ? null : i));
 
   return (
     <Section id="education">
       <Container>
-        <SectionLabel>// Education</SectionLabel>
+        <SectionLabel>{`// ${t.education.sectionLabel}`}</SectionLabel>
         <SectionTitle>
-          Academic <span>background</span>
+          {t.education.titleLead}<span>{t.education.titleAccent}</span>
         </SectionTitle>
 
         <Timeline>
           {EDUCATION.map((item, i) => {
             const isOpen = openIndex === i;
+            const content = t.education.items[item.id];
+
             return (
-              <Item key={item.institution} $delay={i * 120}>
+              <Item key={item.id} $delay={i * 120}>
                 <Dot $color={item.color} />
                 <Card $color={item.color}>
                   <CardTop>
-                    <Degree>{item.degree}</Degree>
-                    <Period>{item.period}</Period>
+                    <Degree>{content.degree}</Degree>
+                    <Period>{content.period}</Period>
                   </CardTop>
-                  <Institution>{item.institution}</Institution>
+                  <Institution>{content.institution}</Institution>
                   <CardBottom>
-                    <TypeTag $color={item.color}>{item.type}</TypeTag>
+                    <TypeTag $color={item.color}>{content.type}</TypeTag>
                     <CardBottomRight>
-                      {'diplomaUrl' in item && (
+                      {item.diplomaUrl && (
                         <DownloadBtn
                           $color={item.color}
-                          href={(item as typeof item & { diplomaUrl: string }).diplomaUrl}
+                          href={item.diplomaUrl}
                           download
                         >
-                          Diploma
+                          {t.education.downloadDiploma}
                         </DownloadBtn>
                       )}
                       <ToggleBtn
@@ -404,7 +377,7 @@ const Education = () => {
                         $open={isOpen}
                         onClick={() => toggle(i)}
                       >
-                        {isOpen ? 'Hide' : 'Details'}
+                        {isOpen ? t.education.hide : t.education.details}
                       </ToggleBtn>
                     </CardBottomRight>
                   </CardBottom>
@@ -412,9 +385,9 @@ const Education = () => {
                   <HighlightsWrapper $open={isOpen}>
                     <HighlightsInner>
                       <HighlightsList $color={item.color}>
-                        {item.highlights.map(h => (
-                          <HighlightItem key={h} $color={item.color}>
-                            {h}
+                        {content.highlights.map((highlight) => (
+                          <HighlightItem key={highlight} $color={item.color}>
+                            {highlight}
                           </HighlightItem>
                         ))}
                       </HighlightsList>

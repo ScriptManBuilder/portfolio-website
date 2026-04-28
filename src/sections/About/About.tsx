@@ -1,10 +1,7 @@
-import styled, { keyframes } from 'styled-components';
+import styled from 'styled-components';
 import { FaBriefcase, FaRocket, FaCode, FaStar } from 'react-icons/fa';
-
-const shimmer = keyframes`
-  0% { background-position: -200% center; }
-  100% { background-position: 200% center; }
-`;
+import { useLanguage } from '../../i18n/LanguageContext';
+import { sectionLabelStyles, sectionTitleStyles } from '../../styles/sectionHeading';
 
 const Section = styled.section`
   padding: 7rem 2rem;
@@ -39,30 +36,13 @@ const Container = styled.div`
 const Left = styled.div``;
 
 const SectionLabel = styled.p`
-  font-size: 0.8rem;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 3px;
-  color: ${({ theme }) => theme.colors.primary};
-  margin-bottom: 0.8rem;
-  font-family: ${({ theme }) => theme.fonts.mono};
+  ${sectionLabelStyles}
 `;
 
 const SectionTitle = styled.h2`
-  font-size: clamp(2rem, 4vw, 2.8rem);
-  font-weight: 800;
-  font-family: ${({ theme }) => theme.fonts.heading};
-  color: ${({ theme }) => theme.colors.white};
-  margin-bottom: 1.5rem;
-  letter-spacing: -1.5px;
-  line-height: 1.1;
-
-  span {
-    background: ${({ theme }) => theme.colors.gradient};
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-  }
+  ${sectionTitleStyles}
+  margin-bottom: 1.65rem;
+  max-width: 13ch;
 `;
 
 const Text = styled.p`
@@ -116,22 +96,32 @@ const IconBox = styled.div<{ $accent: string }>`
 
 const StatInfo = styled.div`
   flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.38rem;
+
+  @media (max-width: ${({ theme }) => theme.breakpoints.sm}) {
+    gap: 0.28rem;
+  }
 `;
 
 const StatValue = styled.span`
-  font-size: 1.8rem;
-  font-weight: 700;
-  font-family: ${({ theme }) => theme.fonts.heading};
-  background: ${({ theme }) => theme.colors.gradient};
-  background-size: 200% auto;
-  animation: ${shimmer} 3s linear infinite;
+  display: block;
+  font-size: 1.95rem;
+  font-weight: 800;
+  font-family: ${({ theme }) => theme.fonts.display};
+  letter-spacing: -0.06em;
+  background: ${({ theme }) => theme.colors.brandGradientBold};
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
   min-width: 60px;
+  line-height: 0.92;
+  filter: drop-shadow(0 10px 22px rgba(72, 196, 255, 0.12));
 `;
 
 const StatLabel = styled.span`
+  display: block;
   font-size: 0.88rem;
   color: ${({ theme }) => theme.colors.textSecondary};
   line-height: 1.4;
@@ -156,68 +146,53 @@ const Tag = styled.span<{ $accent?: string }>`
   cursor: default;
 `;
 
-const EXPERTISE = [
-  { label: '🌍 Remote-first',    accent: '#00f0ff' },
-  { label: '🇬🇧 English B2',     accent: '#7b61ff' },
-  { label: '🚀 Open to hire',   accent: '#00e887' },
-  { label: '🤝 Team player',     accent: '#f7b731' },
-  { label: '🎯 Result-oriented', accent: '#00f0ff' },
-  { label: '🔒 Security-minded', accent: '#7b61ff' },
-  { label: '📐 Clean code',      accent: '#00e887' },
-  // { label: '🚀 Open to hire',    accent: '#f7b731' },
-];
+const EXPERTISE_ACCENTS = ['#00f0ff', '#7b61ff', '#00e887', '#f7b731', '#00f0ff', '#7b61ff', '#00e887'] as const;
 
 const STATS = [
-  { value: '2.5+', label: ['Years of professional', 'development experience'], accent: '#00f0ff', icon: <FaBriefcase /> },
-  { value: '10+', label: ['Production projects', 'delivered to clients'], accent: '#7b61ff', icon: <FaRocket /> },
-  { value: '20+', label: ['Technologies', 'in active use'], accent: '#00e887', icon: <FaCode /> },
-  { value: '∞', label: ['Commitment to clean code', '& best practices'], accent: '#f7b731', icon: <FaStar /> },
+  { value: '2.5+', accent: '#00f0ff', icon: <FaBriefcase /> },
+  { value: '10+', accent: '#7b61ff', icon: <FaRocket /> },
+  { value: '20+', accent: '#00e887', icon: <FaCode /> },
+  { value: '∞', accent: '#f7b731', icon: <FaStar /> },
 ];
 
-const About = () => (
-  <Section id="about">
-    <Container>
-      <Left>
-        <SectionLabel>// About</SectionLabel>
-        <SectionTitle>
-          Building <span>digital products</span> that matter
-        </SectionTitle>
-        <Text>
-          I’m a Full-Stack Developer with 2.5+ years of professional experience,
-          working both freelance and as part of development teams. I specialize in
-          building production-ready websites and web applications, focusing on
-          clean architecture, performance, and real business use cases.
-        </Text>
-        <Text>
-          My core expertise is full-cycle web development — from UI/UX and frontend
-          implementation to backend services, databases, deployment, and maintenance.
-          I primarily use TypeScript, React for responsive interfaces,
-          and NestJS for robust, scalable backend systems.
-        </Text>
-        <Text>
-          I place strong emphasis on scalability, maintainability, security, and
-          performance — ensuring solutions are ready for real-world production
-          environments.
-        </Text>
-        <ExpertiseRow>
-          {EXPERTISE.map(({ label, accent }) => (
-            <Tag key={label} $accent={accent}>{label}</Tag>
+const About = () => {
+  const { t } = useLanguage();
+
+  return (
+    <Section id="about">
+      <Container>
+        <Left>
+          <SectionLabel>{`// ${t.about.sectionLabel}`}</SectionLabel>
+          <SectionTitle>
+            {t.about.titleLead}<span>{t.about.titleAccent}</span>{t.about.titleTail}
+          </SectionTitle>
+          {t.about.paragraphs.map((paragraph) => (
+            <Text key={paragraph}>{paragraph}</Text>
           ))}
-        </ExpertiseRow>
-      </Left>
-      <Right>
-        {STATS.map(({ value, label, accent, icon }) => (
-          <StatCard key={value + label[0]} $accent={accent}>
-            <IconBox $accent={accent}>{icon}</IconBox>
-            <StatInfo>
-              <StatValue>{value}</StatValue>
-              <StatLabel>{label[0]}<br />{label[1]}</StatLabel>
-            </StatInfo>
-          </StatCard>
-        ))}
-      </Right>
-    </Container>
-  </Section>
-);
+          <ExpertiseRow>
+            {t.about.expertise.map((label, index) => (
+              <Tag key={label} $accent={EXPERTISE_ACCENTS[index]}>{label}</Tag>
+            ))}
+          </ExpertiseRow>
+        </Left>
+        <Right>
+          {STATS.map(({ value, accent, icon }, index) => {
+            const label = t.about.stats[index];
+
+            return (
+              <StatCard key={value + label[0]} $accent={accent}>
+                <IconBox $accent={accent}>{icon}</IconBox>
+                <StatInfo>
+                  <StatValue>{value}</StatValue>
+                  <StatLabel>{label[0]}<br />{label[1]}</StatLabel>
+                </StatInfo>
+              </StatCard>
+            );
+          })}
+        </Right>
+      </Container>
+    </Section>
+  );
+};
 
 export default About;

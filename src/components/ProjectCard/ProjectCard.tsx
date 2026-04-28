@@ -1,10 +1,14 @@
 import { useState, useEffect } from 'react';
 import styled from 'styled-components';
+import { useLanguage } from '../../i18n/LanguageContext';
 
-interface GitHubRepo {
-  label: string;
+export interface GitHubRepo {
+  label?: string;
+  labelKey?: 'client' | 'server';
   url: string;
 }
+
+export type ProjectAvailabilityState = 'unavailable' | 'private' | 'nda' | 'confidential';
 
 interface ProjectCardProps {
   title: string;
@@ -12,8 +16,8 @@ interface ProjectCardProps {
   technologies: string[];
   github: string | GitHubRepo[] | null;
   demo?: string | null;
-  githubLabel?: string;
-  demoLabel?: string;
+  githubState?: ProjectAvailabilityState;
+  demoState?: ProjectAvailabilityState;
 }
 
 const Card = styled.div`
@@ -260,52 +264,57 @@ const UnavailableBtn = styled.span<UnavailableBtnProps>`
   }
 `;
 
-const getVariant = (label: string) => {
-  if (/private/i.test(label)) return 'green';
-  if (/nda|confidential/i.test(label)) return 'yellow';
+const getVariant = (state: ProjectAvailabilityState) => {
+  if (state === 'private') return 'green';
+  if (state === 'nda' || state === 'confidential') return 'yellow';
   return 'red';
 };
 
-const CYCLING_MAP: Record<string, string[]> = {
-  'Demo Private': ['Demo Private', 'DM for access'],
-  '🔒 NDA': ['🔒 NDA', 'Under NDA'],
-  '🔒 Confidential': ['🔒 Confidential', 'Private Repos'],
-  'Live Demo': ['Live Demo →', 'Tap to open ↗'],
-};
-
-function useCyclingLabel(label: string, delayMs = 0) {
-  const options = CYCLING_MAP[label];
+function useCyclingLabel(options: readonly string[], delayMs = 0) {
   const [index, setIndex] = useState(0);
   const [visible, setVisible] = useState(true);
 
   useEffect(() => {
-    if (!options) return;
-    let interval: ReturnType<typeof setInterval>;
+    if (options.length < 2) {
+      setIndex(0);
+      setVisible(true);
+      return;
+    }
+
+    let interval: ReturnType<typeof setInterval> | undefined;
+    let fadeTimeout: ReturnType<typeof setTimeout> | undefined;
     const timeout = setTimeout(() => {
       interval = setInterval(() => {
         setVisible(false);
-        setTimeout(() => {
+        fadeTimeout = setTimeout(() => {
           setIndex((i) => (i + 1) % options.length);
           setVisible(true);
         }, 500);
       }, 3000);
     }, delayMs);
+
     return () => {
       clearTimeout(timeout);
-      clearInterval(interval);
+      if (interval) {
+        clearInterval(interval);
+      }
+      if (fadeTimeout) {
+        clearTimeout(fadeTimeout);
+      }
     };
-  }, [label, delayMs]);
+  }, [delayMs, options]);
 
   return {
-    displayLabel: options ? options[index] : label,
-    visible: options ? visible : true,
+    displayLabel: options[index] ?? options[0],
+    visible,
   };
 }
 
-const ProjectCard = ({ title, description, technologies, github, demo, githubLabel = '⛔ Unavailable', demoLabel = '⛔ Unavailable' }: ProjectCardProps) => {
-  const { displayLabel: displayGithubLabel, visible: githubVisible } = useCyclingLabel(githubLabel, 0);
-  const { displayLabel: displayDemoLabel, visible: demoVisible } = useCyclingLabel(demoLabel, 1000);
-  const { displayLabel: displayDemoLinkLabel, visible: demoLinkVisible } = useCyclingLabel('Live Demo', 500);
+const ProjectCard = ({ title, description, technologies, github, demo, githubState = 'unavailable', demoState = 'unavailable' }: ProjectCardProps) => {
+  const { t } = useLanguage();
+  const { displayLabel: displayGithubLabel, visible: githubVisible } = useCyclingLabel(t.projectCard.states[githubState], 0);
+  const { displayLabel: displayDemoLabel, visible: demoVisible } = useCyclingLabel(t.projectCard.states[demoState], 1000);
+  const { displayLabel: displayDemoLinkLabel, visible: demoLinkVisible } = useCyclingLabel(t.projectCard.liveDemoLabels, 500);
 
   return (
     <Card>
@@ -321,16 +330,16 @@ const ProjectCard = ({ title, description, technologies, github, demo, githubLab
           Array.isArray(github) ? (
             github.map((repo) => (
               <GitHubPill key={repo.url} href={repo.url} target="_blank" rel="noopener noreferrer">
-                {repo.label} →
+                {(repo.labelKey ? t.projectCard.repoLabels[repo.labelKey] : repo.label) || repo.label} →
               </GitHubPill>
             ))
           ) : (
             <GitHubPill href={github} target="_blank" rel="noopener noreferrer">
-              GitHub →
+              {t.projectCard.githubLabel}
             </GitHubPill>
           )
         ) : (
-          <UnavailableBtn $variant={getVariant(githubLabel)}>
+          <UnavailableBtn $variant={getVariant(githubState)}>
             <span style={{ opacity: githubVisible ? 1 : 0 }}>{displayGithubLabel}</span>
           </UnavailableBtn>
         )}
@@ -341,7 +350,7 @@ const ProjectCard = ({ title, description, technologies, github, demo, githubLab
             </span>
           </LinkPill>
         ) : (
-          <UnavailableBtn $variant={getVariant(demoLabel)}>
+          <UnavailableBtn $variant={getVariant(demoState)}>
             <span style={{ opacity: demoVisible ? 1 : 0 }}>{displayDemoLabel}</span>
           </UnavailableBtn>
         )}

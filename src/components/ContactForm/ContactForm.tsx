@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import type { FormEvent } from 'react';
 import styled, { keyframes, css } from 'styled-components';
+import { useLanguage } from '../../i18n/LanguageContext';
 
 const BOT_TOKEN = import.meta.env.VITE_TELEGRAM_BOT_TOKEN;
 const CHAT_ID   = import.meta.env.VITE_TELEGRAM_CHAT_ID;
@@ -234,14 +235,24 @@ const ContactForm = () => {
   const [message, setMessage] = useState('');
   const [errors,  setErrors]  = useState<FormErrors>({});
   const [status,  setStatus]  = useState<SubmitState>('idle');
+  const { t } = useLanguage();
+  const formText = t.contactForm;
 
   const validate = (): boolean => {
     const e: FormErrors = {};
-    if (!name.trim())    e.name    = 'Name is required';
-    if (!email.trim())   e.email   = 'Email is required';
-    else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) e.email = 'Invalid email';
-    if (!message.trim()) e.message = 'Message is required';
-    else if (message.length > MAX_MSG) e.message = `Max ${MAX_MSG} characters`;
+    if (!name.trim()) {
+      e.name = formText.validation.nameRequired;
+    }
+    if (!email.trim()) {
+      e.email = formText.validation.emailRequired;
+    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      e.email = formText.validation.invalidEmail;
+    }
+    if (!message.trim()) {
+      e.message = formText.validation.messageRequired;
+    } else if (message.length > MAX_MSG) {
+      e.message = formText.validation.maxCharacters(MAX_MSG);
+    }
     setErrors(e);
     return Object.keys(e).length === 0;
   };
@@ -266,37 +277,37 @@ const ContactForm = () => {
         <SuccessBox style={{ marginBottom: '1.1rem' }}>
           <SuccessIcon>&#10003;</SuccessIcon>
           <SuccessText>
-            <SuccessTitle>Message sent!</SuccessTitle>
-            <SuccessBody>Thanks for reaching out. I'll get back to you soon.</SuccessBody>
+            <SuccessTitle>{formText.successTitle}</SuccessTitle>
+            <SuccessBody>{formText.successBody}</SuccessBody>
           </SuccessText>
         </SuccessBox>
       )}
 
       {status === 'error' && (
         <ErrorBox style={{ marginBottom: '1.1rem' }}>
-          &#9888; Failed to send. Try emailing me directly instead.
+          &#9888; {formText.errorBody}
         </ErrorBox>
       )}
 
       <Form onSubmit={handleSubmit} noValidate>
         <Row>
           <Group>
-            <Label htmlFor="cf-name">Name</Label>
+            <Label htmlFor="cf-name">{formText.labels.name}</Label>
             <Input
               id="cf-name"
               type="text"
-              placeholder="Your name"
+              placeholder={formText.placeholders.name}
               value={name}
               onChange={(e) => setName(e.target.value)}
             />
             {errors.name && <ErrorText>{errors.name}</ErrorText>}
           </Group>
           <Group>
-            <Label htmlFor="cf-email">Email</Label>
+            <Label htmlFor="cf-email">{formText.labels.email}</Label>
             <Input
               id="cf-email"
               type="email"
-              placeholder="your@email.com"
+              placeholder={formText.placeholders.email}
               value={email}
               onChange={(e) => setEmail(e.target.value)}
             />
@@ -305,10 +316,10 @@ const ContactForm = () => {
         </Row>
 
         <Group>
-          <Label htmlFor="cf-message">Message</Label>
+          <Label htmlFor="cf-message">{formText.labels.message}</Label>
           <TextArea
             id="cf-message"
-            placeholder="What can I help you with?"
+            placeholder={formText.placeholders.message}
             value={message}
             maxLength={MAX_MSG}
             onChange={(e) => setMessage(e.target.value)}
@@ -323,9 +334,9 @@ const ContactForm = () => {
 
         <SubmitBtn type="submit" $loading={status === 'loading'} disabled={status === 'loading'}>
           {status === 'loading' ? (
-            <><Spinner /> Sending...</>
+            <><Spinner /> {formText.sending}</>
           ) : (
-            'Send Message'
+            formText.send
           )}
         </SubmitBtn>
       </Form>

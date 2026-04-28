@@ -1,5 +1,7 @@
 import styled from 'styled-components';
 import ContactForm from '../../components/ContactForm';
+import { useLanguage } from '../../i18n/LanguageContext';
+import { sectionLabelStyles, sectionTitleStyles } from '../../styles/sectionHeading';
 
 const EMAIL = 'dan.gora2004@gmail.com';
 const TG    = 'https://t.me/wellCoderDmg';
@@ -49,34 +51,16 @@ const InfoPanel = styled.div`
 `;
 
 const SectionLabel = styled.p`
-  font-size: 0.75rem;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 3px;
-  color: ${({ theme }) => theme.colors.accent};
-  margin-bottom: 0.6rem;
-  font-family: ${({ theme }) => theme.fonts.mono};
+  ${sectionLabelStyles}
+  margin-bottom: 0.85rem;
 `;
 
 const SectionTitle = styled.h2`
-  font-size: clamp(2rem, 4vw, 2.8rem);
-  font-weight: 800;
-  font-family: ${({ theme }) => theme.fonts.heading};
-  color: ${({ theme }) => theme.colors.white};
-  letter-spacing: -1.5px;
-  line-height: 1.05;
+  ${sectionTitleStyles}
   margin-bottom: 0.8rem;
 
   @media (max-width: 480px) {
     font-size: 1.9rem;
-    letter-spacing: -1px;
-  }
-
-  span {
-    background: ${({ theme }) => theme.colors.gradient};
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
   }
 `;
 
@@ -177,48 +161,46 @@ const Notice = styled.p`
   }
 `;
 
-const Contact = () => (
-  <Section id="contact">
-    <Container>
-      <InfoPanel>
-        <div>
-          <SectionLabel>// Contact</SectionLabel>
-          <SectionTitle>
-            Let's <span>work together</span>
-          </SectionTitle>
-          <Subtitle>
-            Have a project, an opportunity, or just want to chat?
-            I'm available for freelance, part-time, and full-time roles.
-          </Subtitle>
-        </div>
+const Contact = () => {
+  const { t } = useLanguage();
 
-        <ContactCards>
-          <ContactCard href={`mailto:${EMAIL}`}>
-            <CardIcon $color="#00f0ff">@</CardIcon>
-            <CardText>
-              <CardLabel>Email</CardLabel>
-              <CardValue>{EMAIL}</CardValue>
-            </CardText>
-          </ContactCard>
+  return (
+    <Section id="contact">
+      <Container>
+        <InfoPanel>
+          <div>
+            <SectionLabel>{`// ${t.contact.sectionLabel}`}</SectionLabel>
+            <SectionTitle>
+              {t.contact.titleLead}<span>{t.contact.titleAccent}</span>
+            </SectionTitle>
+            <Subtitle>{t.contact.subtitle}</Subtitle>
+          </div>
 
-          <ContactCard href={TG} target="_blank" rel="noopener noreferrer">
-            <CardIcon $color="#7b61ff">&#9992;</CardIcon>
-            <CardText>
-              <CardLabel>Telegram</CardLabel>
-              <CardValue>@wellCoderDmg</CardValue>
-            </CardText>
-          </ContactCard>
-        </ContactCards>
+          <ContactCards>
+            <ContactCard href={`mailto:${EMAIL}`}>
+              <CardIcon $color="#00f0ff">@</CardIcon>
+              <CardText>
+                <CardLabel>{t.contact.emailLabel}</CardLabel>
+                <CardValue>{EMAIL}</CardValue>
+              </CardText>
+            </ContactCard>
 
-        <Notice>
-          Prefer fast replies? Telegram is the quickest way to reach me.
-          I usually respond within a few hours.
-        </Notice>
-      </InfoPanel>
+            <ContactCard href={TG} target="_blank" rel="noopener noreferrer">
+              <CardIcon $color="#7b61ff">&#9992;</CardIcon>
+              <CardText>
+                <CardLabel>{t.contact.telegramLabel}</CardLabel>
+                <CardValue>@wellCoderDmg</CardValue>
+              </CardText>
+            </ContactCard>
+          </ContactCards>
 
-      <ContactForm />
-    </Container>
-  </Section>
-);
+          <Notice>{t.contact.notice}</Notice>
+        </InfoPanel>
+
+        <ContactForm />
+      </Container>
+    </Section>
+  );
+};
 
 export default Contact;

@@ -1,9 +1,10 @@
 import styled, { keyframes } from 'styled-components';
+import { useLanguage } from '../../i18n/LanguageContext';
+import { sectionLabelStyles, sectionTitleStyles } from '../../styles/sectionHeading';
 
 interface SkillCategory {
   id: string;
   num: string;
-  title: string;
   color: string;
   skills: string[];
 }
@@ -12,28 +13,24 @@ const SKILL_DATA: SkillCategory[] = [
   {
     id: 'frontend',
     num: '01',
-    title: 'Frontend',
     color: '#00f0ff',
     skills: ['React', 'TypeScript', 'JavaScript', 'HTML5', 'CSS3', 'Tailwind CSS', 'Styled Components', 'Bootstrap'],
   },
   {
     id: 'backend',
     num: '02',
-    title: 'Backend',
     color: '#7b61ff',
     skills: ['Node.js', 'NestJS', 'C#', 'REST API'],
   },
   {
     id: 'databases',
     num: '03',
-    title: 'Databases',
     color: '#00e887',
     skills: ['PostgreSQL', 'MongoDB', 'MS SQL', 'Prisma'],
   },
   {
     id: 'devops',
     num: '04',
-    title: 'DevOps & Tools',
     color: '#f59e0b',
     skills: ['Git', 'Postman', 'Swagger', 'CI/CD', 'Docker', 'VPS','Vercel', 'Render', 'Railway'],
   },
@@ -76,29 +73,12 @@ const Header = styled.div`
 const HeaderLeft = styled.div``;
 
 const SectionLabel = styled.p`
-  font-size: 0.75rem;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 3px;
-  color: ${({ theme }) => theme.colors.secondary};
-  margin-bottom: 0.6rem;
-  font-family: ${({ theme }) => theme.fonts.mono};
+  ${sectionLabelStyles}
+  margin-bottom: 0.75rem;
 `;
 
 const SectionTitle = styled.h2`
-  font-size: clamp(2rem, 4vw, 2.6rem);
-  font-weight: 800;
-  font-family: ${({ theme }) => theme.fonts.heading};
-  color: ${({ theme }) => theme.colors.white};
-  letter-spacing: -1.5px;
-  line-height: 1;
-
-  span {
-    background: ${({ theme }) => theme.colors.gradient};
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-  }
+  ${sectionTitleStyles}
 `;
 
 const TotalBadge = styled.div`
@@ -275,45 +255,49 @@ const ShimmerText = styled.span`
 
 const TOTAL_SKILLS = SKILL_DATA.reduce((acc, c) => acc + c.skills.length, 0);
 
-const Skills = () => (
-  <Section id="skills">
-    <Container>
-      <Header>
-        <HeaderLeft>
-          <SectionLabel>// Tech Stack</SectionLabel>
-          <SectionTitle>
-            Built with <span>purpose</span>
-          </SectionTitle>
-        </HeaderLeft>
-        <TotalBadge>
-          <strong>{TOTAL_SKILLS}</strong> technologies
-        </TotalBadge>
-      </Header>
+const Skills = () => {
+  const { t } = useLanguage();
 
-      <Grid>
-        {SKILL_DATA.map((cat) => (
-          <Card key={cat.id} $color={cat.color} data-num={cat.num}>
-            <CardTop>
-              <CardTitleGroup>
-                <CardNum>{cat.num} /</CardNum>
-                <CardTitle>{cat.title}</CardTitle>
-              </CardTitleGroup>
-              <SkillCount $color={cat.color}>{cat.skills.length} skills</SkillCount>
-            </CardTop>
-            <TagList>
-              {cat.skills.map((skill) => (
-                <Tag key={skill} $color={cat.color}>{skill}</Tag>
-              ))}
-            </TagList>
-          </Card>
-        ))}
-      </Grid>
+  return (
+    <Section id="skills">
+      <Container>
+        <Header>
+          <HeaderLeft>
+            <SectionLabel>{`// ${t.skills.sectionLabel}`}</SectionLabel>
+            <SectionTitle>
+              {t.skills.titleLead}<span>{t.skills.titleAccent}</span>
+            </SectionTitle>
+          </HeaderLeft>
+          <TotalBadge>
+            <strong>{TOTAL_SKILLS}</strong> {t.skills.totalLabel}
+          </TotalBadge>
+        </Header>
 
-      <ShimmerStrip>
-        <ShimmerText>always learning &middot; always shipping</ShimmerText>
-      </ShimmerStrip>
-    </Container>
-  </Section>
-);
+        <Grid>
+          {SKILL_DATA.map((cat) => (
+            <Card key={cat.id} $color={cat.color} data-num={cat.num}>
+              <CardTop>
+                <CardTitleGroup>
+                  <CardNum>{cat.num} /</CardNum>
+                  <CardTitle>{t.skills.categories[cat.id as keyof typeof t.skills.categories]}</CardTitle>
+                </CardTitleGroup>
+                <SkillCount $color={cat.color}>{cat.skills.length} {t.skills.skillCountLabel}</SkillCount>
+              </CardTop>
+              <TagList>
+                {cat.skills.map((skill) => (
+                  <Tag key={skill} $color={cat.color}>{skill}</Tag>
+                ))}
+              </TagList>
+            </Card>
+          ))}
+        </Grid>
+
+        <ShimmerStrip>
+          <ShimmerText>{t.skills.shimmerText}</ShimmerText>
+        </ShimmerStrip>
+      </Container>
+    </Section>
+  );
+};
 
 export default Skills;

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { FaTelegramPlane } from 'react-icons/fa';
+import { useLanguage } from '../../i18n/LanguageContext';
 
 const ButtonContainer = styled.div<{ $showBadge: boolean }>`
   position: fixed;
@@ -59,6 +60,7 @@ const ButtonContainer = styled.div<{ $showBadge: boolean }>`
 
 const TelegramButton: React.FC = () => {
   const [showBadge, setShowBadge] = useState(false);
+  const { t } = useLanguage();
 
   useEffect(() => {
     const showTimer = setTimeout(() => setShowBadge(true), 3000);
@@ -73,7 +75,7 @@ const TelegramButton: React.FC = () => {
     <ButtonContainer
       $showBadge={showBadge}
       onClick={() => window.open('https://t.me/wellCoderDmg', '_blank', 'noopener,noreferrer')}
-      aria-label="Contact me on Telegram"
+      aria-label={t.telegramButton.ariaLabel}
       role="link"
     >
       <FaTelegramPlane />

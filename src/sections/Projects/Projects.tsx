@@ -1,34 +1,42 @@
 import { useState, useRef } from 'react';
 import styled, { css, keyframes } from 'styled-components';
-import ProjectCard from '../../components/ProjectCard';
+import ProjectCard, { type GitHubRepo, type ProjectAvailabilityState } from '../../components/ProjectCard';
+import { useLanguage } from '../../i18n/LanguageContext';
+import type { Translation } from '../../i18n/translations';
+import { sectionLabelStyles, sectionTitleStyles } from '../../styles/sectionHeading';
 
 const ITEMS_PER_PAGE = 6;
 
-const PROJECTS = [
+type ProjectId = keyof Translation['projects']['items'];
+
+interface ProjectData {
+  id: ProjectId;
+  technologies: string[];
+  github: string | GitHubRepo[] | null;
+  demo?: string | null;
+  githubState?: ProjectAvailabilityState;
+  demoState?: ProjectAvailabilityState;
+}
+
+const PROJECTS: ProjectData[] = [
   {
-    title: 'Digital Shop & E-Commerce Platform',
-    description:
-      'Production-ready digital store with user authentication, personal profiles, product catalog, shopping cart, order tracking, and a full-featured admin dashboard with analytics (users, orders, revenue,order status).',
+    id: 'digitalShop',
     technologies: ['TypeScript', 'React', 'NestJS', 'PostgreSQL', 'Prisma', 'Docker'],
     github: [
-  { label: 'Client', url: 'https://github.com/ScriptManBuilder/DigitalOnlineStoreClient' },
-  { label: 'Server', url: 'https://github.com/ScriptManBuilder/DigitalOnlineStoreServer' },
-],
+      { labelKey: 'client', label: 'Client', url: 'https://github.com/ScriptManBuilder/DigitalOnlineStoreClient' },
+      { labelKey: 'server', label: 'Server', url: 'https://github.com/ScriptManBuilder/DigitalOnlineStoreServer' },
+    ],
     demo: null,
-    demoLabel: 'Demo Private',
+    demoState: 'private',
   },
   {
-    title: 'Cryptocurrency Exchange Platform',
-    description:
-      'Web platform for a crypto exchange with JWT authentication, personal user profiles, admin panel for content and system management. Deployed with Docker ensuring performance, security, and scalability.',
+    id: 'cryptoExchange',
     technologies: ['TypeScript', 'React','Styled Components', 'NestJS', 'PostgreSQL','Prisma', 'Docker'],
     github: 'https://github.com/ScriptManBuilder/CryptoMonytorWebsitePulseChain',
     demo: 'https://crypto-monytor-website-pulse-chain.vercel.app/',
   },
   {
-    title: 'Twin Medical Website',
-    description:
-      'Web platform for medical devices and healthcare products, providing structured product catalogs, category navigation, and an administrative interface for managing medical equipment listings and content.',
+    id: 'twinMedical',
     technologies: [
       'React','TypeScript','Tailwind CSS','NestJS','PostgreSQL','Vercel','Render'
     ],
@@ -36,88 +44,58 @@ const PROJECTS = [
     demo: 'https://www.twinmedicals.com',
   },
   {
-    title: 'FinTech & Banking Websites',
-    description:
-      'FinTech and banking-oriented websites for international clients with compliance-ready structures, secure authentication, admin panels, and scalable frontend architectures suitable for enterprise use.',
+    id: 'fintechWebsites',
     technologies: ['TypeScript', 'React', 'NestJS', 'PostgreSQL','Prisma', 'Docker'],
     github: null,
     demo: null,
-    demoLabel: '🔒 NDA',
+    demoState: 'nda',
   },
     
   {
-  title: 'TopRange — Corporate Landing',
-  description:
-    'High-converting corporate landing page for an international business partner network. Features a modern, polished UI with smooth animations, strategic call-to-action sections, and a responsive layout crafted to reflect brand authority and drive engagement.',
-  technologies: [
-    'TypeScript',
-    'React',
-    'Styled Components',
-    'Vercel',
-    
-    'Telegram API',
-    
-  ],
-  github: 'https://github.com/ScriptManBuilder/TopRangeMainLanding',
-  demo: 'https://www.toprangepartners.com/',
-},
+    id: 'topRange',
+    technologies: ['TypeScript', 'React', 'Styled Components', 'Vercel', 'Telegram API'],
+    github: 'https://github.com/ScriptManBuilder/TopRangeMainLanding',
+    demo: 'https://www.toprangepartners.com/',
+  },
   {
-  title: 'Various Commercial Projects (NDA)',
-  description:
-    'Contributed to multiple commercial projects under NDA across fintech, e-commerce, healthcare, and marketing platforms. Responsibilities included full-stack feature development, API integrations, admin dashboards, and scalable web applications for production environments.',
-  technologies: ['TypeScript', 'React', 'NestJS', '.NET', 'PostgreSQL', 'MongoDB', 'Railway', 'Other'],
-  github: null,
-  demo: null,
-  githubLabel: '🔒 Confidential',
-  demoLabel: '🔒 NDA',
-},
+    id: 'ndaProjects',
+    technologies: ['TypeScript', 'React', 'NestJS', '.NET', 'PostgreSQL', 'MongoDB', 'Railway', 'Other'],
+    github: null,
+    demo: null,
+    githubState: 'confidential',
+    demoState: 'nda',
+  },
 
- {
-  title: 'Email Outreach Dashboard Application',
-  description:
-    'Full-stack email outreach platform with a custom admin panel for managing recipients, templates, and campaigns. Includes secure Gmail API integration, bulk sending with rate limiting, campaign tracking, and delivery logs.',
-  technologies: ['TypeScript','React', 'React-Admin','NestJS', 'PostgreSQL','Gmail API'],
-  github: null,
-  
-  demoLabel: 'Demo Private',
-  githubLabel: '🔒 Confidential',
-  
-},
+  {
+    id: 'emailOutreach',
+    technologies: ['TypeScript','React', 'React-Admin','NestJS', 'PostgreSQL','Gmail API'],
+    github: null,
+    demoState: 'private',
+    githubState: 'confidential',
+  },
 
- {
-  title: 'Calendar Productivity Application',
-  description:
-      'Full-stack calendar application with task management, drag-and-drop scheduling, search, and holiday integration, built to streamline planning and daily workflows.',
-  technologies: ['TypeScript','React', 'Styled-components','Node.js','MongoDB', 'Vercel'],
-  github: [
-  { label: 'Client', url: 'https://github.com/ScriptManBuilder/calendar-app-client' },
-  { label: 'Server', url: 'https://github.com/ScriptManBuilder/calendar-app-server' },
-],
-  demo: 'https://calendar-app-client.vercel.app/',
-
-},
-{
-  title: 'Video Maker Factory Tool',
-  description:
-    'Desktop-only GUI tool for automated video creation using templates, music, and assets. Supports video editing, cutting, and speed control for both video and audio, streamlining content production workflows.',
-  technologies: ['TypeScript','Node.js','HTML','CSS','FFmpeg',],
-  github: 'https://github.com/ScriptManBuilder/video-maker-factory-tool',
-  demo: null, 
-  demoLabel: 'Demo Private',
-},
-
-
- {
-  title: 'Scientific Portfolio Website',
-  description:
-      'Personal portfolio website for a Ukrainian museum researcher, designed to present scientific work, publications, and professional background in a clear and accessible format.',
-  technologies: ['HTML','CSS','JavaScript','Vanilla JS', 'Vercel'],
-  github: 'https://github.com/ScriptManBuilder/clientAlex-portfolio-web',
-  demo: 'https://client-alex-portfolio-web.vercel.app/',
-
-}
-
-
+  {
+    id: 'calendarApp',
+    technologies: ['TypeScript','React', 'Styled-components','Node.js','MongoDB', 'Vercel'],
+    github: [
+      { labelKey: 'client', label: 'Client', url: 'https://github.com/ScriptManBuilder/calendar-app-client' },
+      { labelKey: 'server', label: 'Server', url: 'https://github.com/ScriptManBuilder/calendar-app-server' },
+    ],
+    demo: 'https://calendar-app-client.vercel.app/',
+  },
+  {
+    id: 'videoMaker',
+    technologies: ['TypeScript','Node.js','HTML','CSS','FFmpeg'],
+    github: 'https://github.com/ScriptManBuilder/video-maker-factory-tool',
+    demo: null,
+    demoState: 'private',
+  },
+  {
+    id: 'scientificPortfolio',
+    technologies: ['HTML','CSS','JavaScript','Vanilla JS', 'Vercel'],
+    github: 'https://github.com/ScriptManBuilder/clientAlex-portfolio-web',
+    demo: 'https://client-alex-portfolio-web.vercel.app/',
+  },
 ];
 
 const Section = styled.section`
@@ -145,33 +123,16 @@ const Container = styled.div`
 `;
 
 const SectionLabel = styled.p`
-  font-size: 0.8rem;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 3px;
-  color: ${({ theme }) => theme.colors.primary};
-  margin-bottom: 0.8rem;
-  font-family: ${({ theme }) => theme.fonts.mono};
+  ${sectionLabelStyles}
 `;
 
 const SectionTitle = styled.h2`
-  font-size: 2.4rem;
-  font-weight: 700;
-  font-family: ${({ theme }) => theme.fonts.heading};
-  color: ${({ theme }) => theme.colors.white};
+  ${sectionTitleStyles}
   margin-bottom: 3rem;
-  letter-spacing: -1px;
 
   @media (max-width: 480px) {
     font-size: 1.8rem;
     margin-bottom: 2rem;
-  }
-
-  span {
-    background: ${({ theme }) => theme.colors.gradient};
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
   }
 `;
 
@@ -367,6 +328,7 @@ const totalPages = Math.ceil(PROJECTS.length / ITEMS_PER_PAGE);
 const Projects = () => {
   const [page, setPage] = useState(0);
   const sectionRef = useRef<HTMLElement>(null);
+  const { t } = useLanguage();
 
   const goToPage = (newPage: number) => {
     setPage(newPage);
@@ -379,25 +341,38 @@ const Projects = () => {
   return (
     <Section id="projects" ref={sectionRef}>
       <Container>
-        <SectionLabel>// Portfolio</SectionLabel>
+        <SectionLabel>{`// ${t.projects.sectionLabel}`}</SectionLabel>
         <SectionTitle>
-          Featured <span>projects</span>
+          {t.projects.titleLead}<span>{t.projects.titleAccent}</span>
         </SectionTitle>
         <CarouselWrapper>
           <ArrowButton
             $direction="left"
             $disabled={page === 0}
             onClick={(e) => { (e.currentTarget as HTMLButtonElement).blur(); goToPage(Math.max(0, page - 1)); }}
-            aria-label="Previous projects"
+            aria-label={t.projects.previousAria}
           >
             <ChevronLeft />
           </ArrowButton>
 
           <GridOuter>
             <Grid key={page}>
-              {visible.map((project) => (
-                <ProjectCard key={project.title} {...project} />
-              ))}
+              {visible.map((project) => {
+                const content = t.projects.items[project.id];
+
+                return (
+                  <ProjectCard
+                    key={project.id}
+                    title={content.title}
+                    description={content.description}
+                    technologies={project.technologies}
+                    github={project.github}
+                    demo={project.demo}
+                    githubState={project.githubState}
+                    demoState={project.demoState}
+                  />
+                );
+              })}
             </Grid>
           </GridOuter>
 
@@ -405,7 +380,7 @@ const Projects = () => {
             $direction="right"
             $disabled={page === totalPages - 1}
             onClick={(e) => { (e.currentTarget as HTMLButtonElement).blur(); goToPage(Math.min(totalPages - 1, page + 1)); }}
-            aria-label="Next projects"
+            aria-label={t.projects.nextAria}
           >
             <ChevronRight />
           </ArrowButton>
@@ -415,14 +390,14 @@ const Projects = () => {
           <MobileArrowButton
             $disabled={page === 0}
             onClick={() => goToPage(Math.max(0, page - 1))}
-            aria-label="Previous projects"
+            aria-label={t.projects.previousAria}
           >
             <ChevronLeft />
           </MobileArrowButton>
           <MobileArrowButton
             $disabled={page === totalPages - 1}
             onClick={() => goToPage(Math.min(totalPages - 1, page + 1))}
-            aria-label="Next projects"
+            aria-label={t.projects.nextAria}
           >
             <ChevronRight />
           </MobileArrowButton>
@@ -431,7 +406,7 @@ const Projects = () => {
         {totalPages > 1 && (
           <PageDots>
             {Array.from({ length: totalPages }, (_, i) => (
-              <Dot key={i} $active={i === page} onClick={() => goToPage(i)} aria-label={`Page ${i + 1}`} />
+              <Dot key={i} $active={i === page} onClick={() => goToPage(i)} aria-label={`${t.projects.pageAria} ${i + 1}`} />
             ))}
           </PageDots>
         )}

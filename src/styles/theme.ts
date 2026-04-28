@@ -8,6 +8,9 @@ export const theme = {
     secondary: '#7b61ff',
     accent: '#00e887',
     gradient: 'linear-gradient(135deg, #00f0ff 0%, #7b61ff 50%, #00e887 100%)',
+    brandGradient: 'linear-gradient(135deg, #6ff7f2 0%, #38bdf8 46%, #7c86ff 100%)',
+    brandGradientBold: 'linear-gradient(140deg, #7cf7ff 0%, #48c4ff 38%, #7aa2ff 72%, #a7ffd6 100%)',
+    labelGradient: 'linear-gradient(90deg, #69f7ff 0%, #53b7ff 52%, #88ffe0 100%)',
     gradientSubtle: 'linear-gradient(135deg, rgba(0,240,255,0.08) 0%, rgba(123,97,255,0.08) 100%)',
     glow: 'rgba(0, 240, 255, 0.15)',
     glowStrong: 'rgba(0, 240, 255, 0.35)',
@@ -21,7 +24,8 @@ export const theme = {
   fonts: {
     body: "'Space Grotesk', 'Inter', -apple-system, BlinkMacSystemFont, sans-serif",
     mono: "'JetBrains Mono', 'Fira Code', monospace",
-    heading: "'Space Grotesk', sans-serif",
+    heading: "'Sora', 'Space Grotesk', sans-serif",
+    display: "'Sora', 'Space Grotesk', sans-serif",
   },
   breakpoints: {
     sm: '480px',
