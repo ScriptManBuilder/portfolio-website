@@ -685,6 +685,7 @@ const Hero = () => {
               <RoleTech>TypeScript</RoleTech>
               <RoleTech>React</RoleTech>
               <RoleTech>NestJS</RoleTech>
+              <RoleTech>C#</RoleTech>
               <Cursor />
             </RoleTechs>
           </Role>

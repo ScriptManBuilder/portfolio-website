@@ -20,7 +20,7 @@ const SKILL_DATA: SkillCategory[] = [
     id: 'backend',
     num: '02',
     color: '#7b61ff',
-    skills: ['Node.js', 'NestJS', 'C#', 'REST API'],
+    skills: ['Node.js', 'NestJS', 'C#','.NET','ASP.NET Core Web API', 'REST API'],
   },
   {
     id: 'databases',

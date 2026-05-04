@@ -29,12 +29,20 @@ const PROJECTS: ProjectData[] = [
     demo: null,
     demoState: 'private',
   },
+  
+
   {
-    id: 'cryptoExchange',
-    technologies: ['TypeScript', 'React','Styled Components', 'NestJS', 'PostgreSQL','Prisma', 'Docker'],
-    github: 'https://github.com/ScriptManBuilder/CryptoMonytorWebsitePulseChain',
-    demo: 'https://crypto-monytor-website-pulse-chain.vercel.app/',
+    id: 'auctionPlatform',
+    technologies: ['TypeScript', 'React','Tailwind CSS', 'C#', '.NET', 'ASP.NET Core Web API', 'PostgreSQL'],
+     github: [
+      { labelKey: 'client', label: 'Client', url: 'https://github.com/ScriptManBuilder/client-auction-platform' },
+      { labelKey: 'server', label: 'Server', url: 'https://github.com/ScriptManBuilder/dotnet-auction-platform-webapi' },
+    ],
+    demo: null,
+     demoState: 'private',
   },
+
+
   {
     id: 'twinMedical',
     technologies: [
@@ -43,37 +51,7 @@ const PROJECTS: ProjectData[] = [
     github: 'https://github.com/ScriptManBuilder/TwinMedicalClient',
     demo: 'https://www.twinmedicals.com',
   },
-  {
-    id: 'fintechWebsites',
-    technologies: ['TypeScript', 'React', 'NestJS', 'PostgreSQL','Prisma', 'Docker'],
-    github: null,
-    demo: null,
-    demoState: 'nda',
-  },
-    
-  {
-    id: 'topRange',
-    technologies: ['TypeScript', 'React', 'Styled Components', 'Vercel', 'Telegram API'],
-    github: 'https://github.com/ScriptManBuilder/TopRangeMainLanding',
-    demo: 'https://www.toprangepartners.com/',
-  },
-  {
-    id: 'ndaProjects',
-    technologies: ['TypeScript', 'React', 'NestJS', '.NET', 'PostgreSQL', 'MongoDB', 'Railway', 'Other'],
-    github: null,
-    demo: null,
-    githubState: 'confidential',
-    demoState: 'nda',
-  },
-
-  {
-    id: 'emailOutreach',
-    technologies: ['TypeScript','React', 'React-Admin','NestJS', 'PostgreSQL','Gmail API'],
-    github: null,
-    demoState: 'private',
-    githubState: 'confidential',
-  },
-
+ 
   {
     id: 'calendarApp',
     technologies: ['TypeScript','React', 'Styled-components','Node.js','MongoDB', 'Vercel'],
@@ -83,6 +61,55 @@ const PROJECTS: ProjectData[] = [
     ],
     demo: 'https://calendar-app-client.vercel.app/',
   },
+    
+  {
+    id: 'topRange',
+    technologies: ['TypeScript', 'React', 'Styled Components', 'Vercel', 'Telegram API'],
+    github: 'https://github.com/ScriptManBuilder/TopRangeMainLanding',
+    demo: 'https://www.toprangepartners.com/',
+  },
+
+  {
+    id: 'fintechWebsites',
+    technologies: ['TypeScript', 'React', 'NestJS', 'PostgreSQL','Prisma', 'Docker'],
+    github: null,
+    demo: null,
+    demoState: 'nda',
+  },
+ 
+
+  {
+    id: 'ndaProjects',
+    technologies: ['TypeScript', 'React', 'NestJS', '.NET', 'PostgreSQL', 'MongoDB', 'Railway', 'Other'],
+    github: null,
+    demo: null,
+    githubState: 'confidential',
+    demoState: 'nda',
+  },
+
+   {
+    id: 'scientificPortfolio',
+    technologies: ['HTML','CSS','JavaScript','Vanilla JS', 'Vercel'],
+    github: 'https://github.com/ScriptManBuilder/clientAlex-portfolio-web',
+    demo: 'https://www.koralex.site/',
+  },
+
+  
+  {
+    id: 'cryptoExchange',
+    technologies: ['TypeScript', 'React','Styled Components', 'NestJS', 'PostgreSQL','Prisma', 'Docker'],
+    github: 'https://github.com/ScriptManBuilder/CryptoMonytorWebsitePulseChain',
+    demo: 'https://crypto-monytor-website-pulse-chain.vercel.app/',
+  },
+  {
+    id: 'emailOutreach',
+    technologies: ['TypeScript','React', 'React-Admin','NestJS', 'PostgreSQL','Gmail API'],
+    github: null,
+    demoState: 'private',
+    githubState: 'confidential',
+  }, 
+  
+
   {
     id: 'videoMaker',
     technologies: ['TypeScript','Node.js','HTML','CSS','FFmpeg'],
@@ -90,12 +117,8 @@ const PROJECTS: ProjectData[] = [
     demo: null,
     demoState: 'private',
   },
-  {
-    id: 'scientificPortfolio',
-    technologies: ['HTML','CSS','JavaScript','Vanilla JS', 'Vercel'],
-    github: 'https://github.com/ScriptManBuilder/clientAlex-portfolio-web',
-    demo: 'https://client-alex-portfolio-web.vercel.app/',
-  },
+   
+  
 ];
 
 const Section = styled.section`

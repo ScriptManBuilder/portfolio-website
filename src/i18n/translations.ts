@@ -64,7 +64,7 @@ export const translations = {
       titleTail: ' that matter',
       paragraphs: [
         'I am a Full-Stack Developer with 2.5+ years of commercial experience across freelance work and product teams. I build production-ready websites and web apps with a focus on clean architecture, speed and real business value.',
-        'My core strength is full-cycle web development: UI/UX, frontend implementation, backend services, databases, deployment and support. I mainly work with TypeScript, React and NestJS.',
+        'My core strength is full-cycle web development: UI/UX, frontend implementation, backend services, databases, deployment and support. I mainly work with TypeScript, React, C# and NestJS.',
         'I care about scalability, maintainability, security and performance so the final product is ready for real production use.',
       ],
       expertise: [
@@ -106,14 +106,19 @@ export const translations = {
       pageAria: 'Page',
       items: {
         digitalShop: {
-          title: 'Digital Shop & E-Commerce Platform',
+          title: 'Digital Shop & E-Commerce',
           description:
             'Production-ready digital store with authentication, profiles, catalog, cart, order tracking and an admin dashboard with analytics.',
         },
         cryptoExchange: {
-          title: 'Cryptocurrency Exchange Platform',
+          title: 'Cryptocurrency Exchange Site',
           description:
             'Web platform for a crypto exchange with JWT auth, user profiles and an admin panel. Docker deployment keeps it secure, fast and scalable.',
+        },
+        auctionPlatform: {
+          title: 'Auction Management System',
+          description:
+            'Modern online auction platform featuring user accounts, dynamic auction management, real-time bidding interactions, and an administrative panel for moderation and full control over auction workflows.',
         },
         twinMedical: {
           title: 'Twin Medical Website',
@@ -131,17 +136,17 @@ export const translations = {
             'High-converting landing page for an international partner network with polished UI, smooth motion, strategic CTA blocks and a responsive layout.',
         },
         ndaProjects: {
-          title: 'Various Commercial Projects (NDA)',
+          title: 'Commercial Projects (NDA)',
           description:
             'Contributed to NDA projects across fintech, e-commerce, healthcare and marketing, shipping features, integrations, dashboards and scalable web apps.',
         },
         emailOutreach: {
-          title: 'Email Outreach Dashboard Application',
+          title: 'Email Outreach Dashboard App',
           description:
             'Full-stack outreach platform with an admin panel for recipients, templates and campaigns, plus Gmail API, bulk sending, tracking and delivery logs.',
         },
         calendarApp: {
-          title: 'Calendar Productivity Application',
+          title: 'Calendar Productivity App',
           description:
             'Full-stack calendar app with task management, drag-and-drop scheduling, search and holiday integration for smoother daily planning.',
         },
@@ -322,7 +327,7 @@ export const translations = {
       titleTail: ' з сенсом',
       paragraphs: [
         'Я фулстек-розробник з 2.5+ роками комерційного досвіду у фрилансі та командах. Роблю готові до продакшну сайти й вебзастосунки з фокусом на архітектуру, швидкість і бізнес-цінність.',
-        'Моя сильна сторона — повний цикл веброзробки: UI/UX, фронтенд, бекенд-сервіси, бази даних, деплой і підтримка. Основний стек: TypeScript, React і NestJS.',
+        'Моя сильна сторона — повний цикл веброзробки: UI/UX, фронтенд, бекенд-сервіси, бази даних, деплой і підтримка. Основний стек: TypeScript, React, C# і NestJS.',
         'Фокусуюся на масштабованості, підтримуваності, безпеці та продуктивності, щоб продукт був готовий до реального продакшну.',
       ],
       expertise: [
@@ -364,27 +369,37 @@ export const translations = {
       pageAria: 'Сторінка',
       items: {
         digitalShop: {
-          title: 'Digital Shop та E-Commerce платформа',
+          title: 'Digital Shop та E-Commerce',
           description:
             'Готовий e-commerce магазин з авторизацією, профілями, каталогом, кошиком, трекінгом замовлень і адмінкою з аналітикою.',
-        },
+        },        
         cryptoExchange: {
-          title: 'Crypto exchange платформа',
+          title: 'Крипто обмін сайт',
           description:
-            'Платформа для crypto exchange з JWT-авторизацією, профілями користувачів і адмінпанеллю. Docker-деплой дає швидкість, безпеку та масштаб.',
+            'Платформа для крипто обміну з JWT-авторизацією, профілями користувачів і адмінпанеллю. Docker-деплой дає швидкість, безпеку та масштаб.',
         },
+
+        
+        auctionPlatform: {
+          title: 'Система управління аукціонами',
+          description:
+            'Сучасна онлайн-аукціонна платформа з обліковими записами користувачів, керуванням аукціонами, взаємодією в реальному часі під час ставок та адміністративною панеллю для модерації й повного контролю аукціону.',
+        },
+
+
+
         twinMedical: {
           title: 'Сайт Twin Medical',
           description:
             'Платформа для медтехніки й медичних продуктів з каталогом, категоріями та адмінкою для керування контентом і позиціями.',
         },
         fintechWebsites: {
-          title: 'FinTech та банківські сайти',
+          title: 'Фінтех та банківські сайти',
           description:
             'FinTech та банківські сайти для міжнародних клієнтів: безпечна авторизація, адмінпанелі й масштабований фронтенд для enterprise-сегменту.',
         },
         topRange: {
-          title: 'TopRange — корпоративний лендінг',
+          title: 'TopRange корпоративний лендінг',
           description:
             'Корпоративний лендінг для міжнародної партнерської мережі: сучасний інтерфейс, плавні анімації, сильні CTA та адаптивна верстка.',
         },
@@ -411,7 +426,7 @@ export const translations = {
         scientificPortfolio: {
           title: 'Науковий сайт-портфоліо',
           description:
-            'Персональний сайт-портфоліо для української музейної дослідниці з науковими роботами, публікаціями та професійним профілем.',
+            'Персональний сайт-портфоліо для українського музейного дослідника з науковими роботами, публікаціями та професійним профілем.',
         },
       },
     },
