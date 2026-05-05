@@ -20,19 +20,19 @@ const SKILL_DATA: SkillCategory[] = [
     id: 'backend',
     num: '02',
     color: '#7b61ff',
-    skills: ['Node.js', 'NestJS', 'C#','.NET','ASP.NET Core Web API', 'REST API'],
+    skills: ['Node.js', 'NestJS', 'Prisma', 'C#','.NET','ASP.NET Core Web API',   'Entity Framework Core', 'REST API'],
   },
   {
     id: 'databases',
     num: '03',
     color: '#00e887',
-    skills: ['PostgreSQL', 'MongoDB', 'MS SQL', 'Prisma'],
+    skills: ['PostgreSQL', 'MongoDB', 'MS SQL'],
   },
   {
     id: 'devops',
     num: '04',
     color: '#f59e0b',
-    skills: ['Git', 'Postman', 'Swagger', 'CI/CD', 'Docker', 'VPS','Vercel', 'Render', 'Railway'],
+    skills: ['Git', 'Postman', 'Swagger', 'CI/CD', 'Docker', 'VPS','Vercel', 'Render', 'Railway', 'Cloudflare'],
   },
 ];
 

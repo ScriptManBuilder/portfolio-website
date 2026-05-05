@@ -264,6 +264,77 @@ const UnavailableBtn = styled.span<UnavailableBtnProps>`
   }
 `;
 
+const UnavailableLink = styled.a<UnavailableBtnProps>`
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  padding: 0.3rem 0.7rem;
+  border-radius: 9999px;
+  font-size: 0.78rem;
+  font-weight: 500;
+  font-family: ${({ theme }) => theme.fonts.mono};
+  min-width: 5.5rem;
+  justify-content: center;
+  background: ${({ $variant }) =>
+    $variant === 'green'
+      ? 'rgba(80, 255, 120, 0.10)'
+      : $variant === 'yellow'
+      ? 'rgba(255, 220, 80, 0.10)'
+      : 'rgba(255, 80, 80, 0.08)'};
+  border: 1px solid
+    ${({ $variant }) =>
+      $variant === 'green'
+        ? 'rgba(80, 255, 120, 0.35)'
+        : $variant === 'yellow'
+        ? 'rgba(255, 220, 80, 0.35)'
+        : 'rgba(255, 80, 80, 0.35)'};
+  color: ${({ $variant }) =>
+    $variant === 'green'
+      ? '#4be38a'
+      : $variant === 'yellow'
+      ? '#ffd43b'
+      : '#ff6b6b'};
+  white-space: nowrap;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  user-select: none;
+  text-decoration: none;
+  position: relative;
+
+  span {
+    display: inline-block;
+    transition: opacity 0.4s ease;
+  }
+
+  &:hover {
+    background: ${({ $variant }) =>
+      $variant === 'green'
+        ? 'rgba(80, 255, 120, 0.18)'
+        : $variant === 'yellow'
+        ? 'rgba(255, 220, 80, 0.18)'
+        : 'rgba(255, 80, 80, 0.14)'};
+    border-color: ${({ $variant }) =>
+      $variant === 'green'
+        ? 'rgba(80, 255, 120, 0.6)'
+        : $variant === 'yellow'
+        ? 'rgba(255, 220, 80, 0.6)'
+        : 'rgba(255, 80, 80, 0.6)'};
+    box-shadow: 0 0 10px
+      ${({ $variant }) =>
+        $variant === 'green'
+          ? 'rgba(80, 255, 120, 0.18)'
+          : $variant === 'yellow'
+          ? 'rgba(255, 220, 80, 0.18)'
+          : 'rgba(255, 80, 80, 0.2)'};
+  }
+
+  @media (max-width: 480px) {
+    font-size: 0.72rem;
+    padding: 0.25rem 0.55rem;
+    min-width: 4.8rem;
+  }
+`;
+
 const getVariant = (state: ProjectAvailabilityState) => {
   if (state === 'private') return 'green';
   if (state === 'nda' || state === 'confidential') return 'yellow';
@@ -349,6 +420,10 @@ const ProjectCard = ({ title, description, technologies, github, demo, githubSta
               {displayDemoLinkLabel}
             </span>
           </LinkPill>
+        ) : demoState === 'private' ? (
+          <UnavailableLink href="#contact" $variant={getVariant(demoState)}>
+            <span style={{ opacity: demoVisible ? 1 : 0 }}>{displayDemoLabel}</span>
+          </UnavailableLink>
         ) : (
           <UnavailableBtn $variant={getVariant(demoState)}>
             <span style={{ opacity: demoVisible ? 1 : 0 }}>{displayDemoLabel}</span>
