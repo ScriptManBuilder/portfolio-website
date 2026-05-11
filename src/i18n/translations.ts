@@ -398,6 +398,8 @@ Stack
       detailsBadgeAria: 'Open full project description',
       detailsModalLabel: 'Project overview',
       closeDetailsAria: 'Close project description',
+      detailsContactQuote: 'Have an idea in mind? Let us discuss your project.',
+      detailsContactCta: 'Contact me →',
       githubLabel: 'GitHub →',
       repoLabels: {
         client: 'Client',
@@ -901,6 +903,8 @@ Stack
       detailsBadgeAria: 'Відкрити повний опис проєкту',
       detailsModalLabel: 'Огляд проєкту',
       closeDetailsAria: 'Закрити опис проєкту',
+      detailsContactQuote: 'Є ідея чи проєкт? Напишіть мені, обговоримо.',
+      detailsContactCta: 'Звʼязатися →',
       githubLabel: 'GitHub →',
       repoLabels: {
         client: 'Клієнт',

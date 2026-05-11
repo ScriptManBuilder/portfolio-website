@@ -272,6 +272,55 @@ const ModalText = styled.p`
   }
 `;
 
+const ModalCtaPanel = styled.div`
+  margin-top: 1rem;
+  padding-top: 0.9rem;
+  border-top: 1px solid rgba(0, 240, 255, 0.12);
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.7rem;
+
+  @media (max-width: 480px) {
+    margin-top: 0.85rem;
+    padding-top: 0.75rem;
+    gap: 0.55rem;
+  }
+`;
+
+const ModalCtaQuote = styled.p`
+  margin: 0;
+  color: ${({ theme }) => theme.colors.textSecondary};
+  font-size: 0.83rem;
+  line-height: 1.45;
+  font-style: italic;
+`;
+
+const ModalCtaButton = styled.button`
+  border: 1px solid rgba(0, 240, 255, 0.42);
+  background: rgba(0, 240, 255, 0.08);
+  color: ${({ theme }) => theme.colors.primary};
+  border-radius: 999px;
+  padding: 0.34rem 0.72rem;
+  font-size: 0.72rem;
+  font-weight: 600;
+  font-family: ${({ theme }) => theme.fonts.mono};
+  cursor: pointer;
+  transition: all ${({ theme }) => theme.transition};
+
+  &:hover {
+    background: rgba(0, 240, 255, 0.14);
+    border-color: rgba(0, 240, 255, 0.68);
+    box-shadow: 0 0 12px rgba(0, 240, 255, 0.2);
+  }
+
+  @media (max-width: 480px) {
+    padding: 0.3rem 0.62rem;
+    font-size: 0.68rem;
+  }
+`;
+
 const Title = styled.h3`
   font-size: 1.15rem;
   font-weight: 600;
@@ -626,6 +675,13 @@ const ProjectCard = ({ title, description, fullDescription, detailsBadgeVariant 
     };
   }, [isDetailsOpen]);
 
+  const handleContactCtaClick = () => {
+    setIsDetailsOpen(false);
+    window.setTimeout(() => {
+      document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }, 80);
+  };
+
   return (
     <>
       <Card>
@@ -692,6 +748,12 @@ const ProjectCard = ({ title, description, fullDescription, detailsBadgeVariant 
             <ModalLabel>{t.projectCard.detailsModalLabel}</ModalLabel>
             <ModalTitle>{title}</ModalTitle>
             <ModalText>{fullDescription || description}</ModalText>
+            <ModalCtaPanel>
+              <ModalCtaQuote>{t.projectCard.detailsContactQuote}</ModalCtaQuote>
+              <ModalCtaButton type="button" onClick={handleContactCtaClick}>
+                {t.projectCard.detailsContactCta}
+              </ModalCtaButton>
+            </ModalCtaPanel>
           </ModalCard>
         </ModalBackdrop>
       )}
