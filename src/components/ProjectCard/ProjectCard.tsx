@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import styled from 'styled-components';
+import styled, { css, keyframes } from 'styled-components';
 import { useLanguage } from '../../i18n/LanguageContext';
 
 export interface GitHubRepo {
@@ -9,10 +9,13 @@ export interface GitHubRepo {
 }
 
 export type ProjectAvailabilityState = 'unavailable' | 'private' | 'nda' | 'confidential';
+export type ProjectDetailsBadgeVariant = 'default' | 'fire' | 'pin';
 
 interface ProjectCardProps {
   title: string;
   description: string;
+  fullDescription?: string;
+  detailsBadgeVariant?: ProjectDetailsBadgeVariant;
   technologies: string[];
   github: string | GitHubRepo[] | null;
   demo?: string | null;
@@ -63,14 +66,227 @@ const Card = styled.div`
   }
 `;
 
+const badgePulse = keyframes`
+  0%, 100% { transform: scale(1); opacity: 0.85; }
+  50% { transform: scale(1.25); opacity: 1; }
+`;
+
+const badgeShimmer = keyframes`
+  0% { transform: translateX(-120%); }
+  100% { transform: translateX(140%); }
+`;
+
+const DetailsBadge = styled.button<{ $isOpen: boolean; $variant: ProjectDetailsBadgeVariant }>`
+  position: absolute;
+  top: 0.75rem;
+  right: 0.75rem;
+  border: 1px solid rgba(0, 240, 255, 0.5);
+  background: linear-gradient(135deg, rgba(0, 240, 255, 0.18), rgba(62, 182, 255, 0.1));
+  color: ${({ theme }) => theme.colors.primary};
+  border-radius: 999px 999px 10px 999px;
+  padding: 0.24rem 0.6rem 0.24rem 0.5rem;
+  font-size: 0.6rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  font-family: ${({ theme }) => theme.fonts.mono};
+  cursor: pointer;
+  transition: all ${({ theme }) => theme.transition};
+  z-index: 2;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.32rem;
+  overflow: hidden;
+  max-width: min(48%, 8.3rem);
+  white-space: nowrap;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    width: 42%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.32), transparent);
+    animation: ${badgeShimmer} 2.2s ease-in-out infinite;
+    pointer-events: none;
+  }
+
+  &:focus-visible {
+    outline: 2px solid rgba(0, 240, 255, 0.65);
+    outline-offset: 2px;
+  }
+
+  &:hover {
+    transform: translateY(-1px) scale(1.02);
+    background: linear-gradient(135deg, rgba(0, 240, 255, 0.24), rgba(62, 182, 255, 0.16));
+    border-color: rgba(0, 240, 255, 0.8);
+    box-shadow:
+      0 0 16px rgba(0, 240, 255, 0.32),
+      0 6px 18px rgba(0, 0, 0, 0.25);
+  }
+
+  ${({ $isOpen }) =>
+    $isOpen &&
+    css`
+      border-color: rgba(0, 240, 255, 0.85);
+      background: linear-gradient(135deg, rgba(0, 240, 255, 0.27), rgba(62, 182, 255, 0.2));
+    `}
+
+  @media (prefers-reduced-motion: reduce) {
+    &::before {
+      animation: none;
+    }
+
+    &:hover {
+      transform: none;
+    }
+  }
+
+  @media (max-width: 480px) {
+    top: 0.58rem;
+    right: 0.58rem;
+    font-size: 0.53rem;
+    padding: 0.2rem 0.5rem 0.2rem 0.43rem;
+    gap: 0.25rem;
+    max-width: min(52%, 7rem);
+  }
+
+  @media (max-width: 380px) {
+    top: 0.5rem;
+    right: 0.5rem;
+    font-size: 0.5rem;
+    padding: 0.18rem 0.42rem 0.18rem 0.36rem;
+    max-width: min(54%, 6.3rem);
+  }
+`;
+
+const BadgePulseDot = styled.span`
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: #71fff5;
+  box-shadow: 0 0 10px rgba(113, 255, 245, 0.65);
+  flex-shrink: 0;
+  animation: ${badgePulse} 1.7s ease-in-out infinite;
+
+  @media (max-width: 480px) {
+    width: 4px;
+    height: 4px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    animation: none;
+  }
+`;
+
+const ModalBackdrop = styled.div`
+  position: fixed;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(4, 6, 17, 0.72);
+  backdrop-filter: blur(4px);
+  z-index: 1200;
+  padding: 1.2rem;
+`;
+
+const ModalCard = styled.article`
+  width: min(640px, 100%);
+  border-radius: 18px;
+  border: 1px solid rgba(0, 240, 255, 0.2);
+  background: linear-gradient(160deg, rgba(17, 17, 40, 0.98) 0%, rgba(11, 11, 30, 0.98) 100%);
+  box-shadow:
+    0 24px 50px rgba(0, 0, 0, 0.5),
+    0 0 40px rgba(0, 240, 255, 0.08);
+  padding: 1.3rem 1.35rem 1.2rem;
+  position: relative;
+
+  @media (max-width: 480px) {
+    border-radius: 14px;
+    padding: 1rem 0.95rem;
+  }
+`;
+
+const ModalClose = styled.button`
+  position: absolute;
+  top: 0.65rem;
+  right: 0.7rem;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: 1px solid ${({ theme }) => theme.colors.border};
+  background: transparent;
+  color: ${({ theme }) => theme.colors.textSecondary};
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.1rem;
+  line-height: 1;
+  cursor: pointer;
+  transition: all ${({ theme }) => theme.transition};
+
+  &:hover {
+    color: ${({ theme }) => theme.colors.white};
+    border-color: rgba(0, 240, 255, 0.35);
+    background: rgba(0, 240, 255, 0.08);
+  }
+`;
+
+const ModalLabel = styled.p`
+  margin: 0;
+  font-size: 0.72rem;
+  font-family: ${({ theme }) => theme.fonts.mono};
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: ${({ theme }) => theme.colors.primary};
+`;
+
+const ModalTitle = styled.h4`
+  margin: 0.35rem 0 0.7rem;
+  font-size: 1.18rem;
+  color: ${({ theme }) => theme.colors.white};
+  font-family: ${({ theme }) => theme.fonts.heading};
+
+  @media (max-width: 480px) {
+    font-size: 1.06rem;
+    margin-right: 1.8rem;
+  }
+`;
+
+const ModalText = styled.p`
+  margin: 0;
+  color: ${({ theme }) => theme.colors.textSecondary};
+  line-height: 1.72;
+  font-size: 0.95rem;
+  white-space: pre-line;
+  max-height: min(62vh, 620px);
+  overflow: auto;
+  padding-right: 0.25rem;
+
+  @media (max-width: 480px) {
+    font-size: 0.88rem;
+    line-height: 1.64;
+    max-height: 58vh;
+  }
+`;
+
 const Title = styled.h3`
   font-size: 1.15rem;
   font-weight: 600;
   font-family: ${({ theme }) => theme.fonts.heading};
   color: ${({ theme }) => theme.colors.white};
+  padding-right: 3.9rem;
+  line-height: 1.34;
 
   @media (max-width: 480px) {
     font-size: 1.05rem;
+    padding-right: 3.3rem;
+  }
+
+  @media (max-width: 380px) {
+    padding-right: 2.9rem;
   }
 `;
 
@@ -341,14 +557,12 @@ const getVariant = (state: ProjectAvailabilityState) => {
   return 'red';
 };
 
-function useCyclingLabel(options: readonly string[], delayMs = 0) {
+function useCyclingLabel(options: readonly string[], delayMs = 0, cycleMs = 3000) {
   const [index, setIndex] = useState(0);
   const [visible, setVisible] = useState(true);
 
   useEffect(() => {
     if (options.length < 2) {
-      setIndex(0);
-      setVisible(true);
       return;
     }
 
@@ -361,7 +575,7 @@ function useCyclingLabel(options: readonly string[], delayMs = 0) {
           setIndex((i) => (i + 1) % options.length);
           setVisible(true);
         }, 500);
-      }, 3000);
+      }, cycleMs);
     }, delayMs);
 
     return () => {
@@ -373,64 +587,115 @@ function useCyclingLabel(options: readonly string[], delayMs = 0) {
         clearTimeout(fadeTimeout);
       }
     };
-  }, [delayMs, options]);
+  }, [cycleMs, delayMs, options]);
+
+  const isSingleOption = options.length < 2;
 
   return {
     displayLabel: options[index] ?? options[0],
-    visible,
+    visible: isSingleOption ? true : visible,
   };
 }
 
-const ProjectCard = ({ title, description, technologies, github, demo, githubState = 'unavailable', demoState = 'unavailable' }: ProjectCardProps) => {
+const ProjectCard = ({ title, description, fullDescription, detailsBadgeVariant = 'default', technologies, github, demo, githubState = 'unavailable', demoState = 'unavailable' }: ProjectCardProps) => {
   const { t } = useLanguage();
+  const [isDetailsOpen, setIsDetailsOpen] = useState(false);
+  const detailsBadgeLabels = t.projectCard.detailsBadgeLabels ?? [t.projectCard.detailsBadge];
+  const { displayLabel: displayDetailsBadgeLabel, visible: detailsBadgeVisible } = useCyclingLabel(detailsBadgeLabels, 350, 5000);
   const { displayLabel: displayGithubLabel, visible: githubVisible } = useCyclingLabel(t.projectCard.states[githubState], 0);
   const { displayLabel: displayDemoLabel, visible: demoVisible } = useCyclingLabel(t.projectCard.states[demoState], 1000);
   const { displayLabel: displayDemoLinkLabel, visible: demoLinkVisible } = useCyclingLabel(t.projectCard.liveDemoLabels, 500);
 
+  useEffect(() => {
+    if (!isDetailsOpen) {
+      return;
+    }
+
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') {
+        setIsDetailsOpen(false);
+      }
+    };
+
+    document.body.style.overflow = 'hidden';
+    window.addEventListener('keydown', onKeyDown);
+
+    return () => {
+      document.body.style.overflow = '';
+      window.removeEventListener('keydown', onKeyDown);
+    };
+  }, [isDetailsOpen]);
+
   return (
-    <Card>
-      <Title>{title}</Title>
-      <Description>{description}</Description>
-      <TechList>
-        {technologies.map((tech) => (
-          <TechTag key={tech}>{tech}</TechTag>
-        ))}
-      </TechList>
-      <Links>
-        {github ? (
-          Array.isArray(github) ? (
-            github.map((repo) => (
-              <GitHubPill key={repo.url} href={repo.url} target="_blank" rel="noopener noreferrer">
-                {(repo.labelKey ? t.projectCard.repoLabels[repo.labelKey] : repo.label) || repo.label} →
+    <>
+      <Card>
+        <DetailsBadge
+          type="button"
+          $isOpen={isDetailsOpen}
+          $variant={detailsBadgeVariant}
+          onClick={() => setIsDetailsOpen(true)}
+          aria-label={t.projectCard.detailsBadgeAria}
+          title={t.projectCard.detailsBadgeAria}
+        >
+          <BadgePulseDot aria-hidden="true" />
+          <span style={{ opacity: detailsBadgeVisible ? 1 : 0 }}>{displayDetailsBadgeLabel}</span>
+        </DetailsBadge>
+        <Title>{title}</Title>
+        <Description>{description}</Description>
+        <TechList>
+          {technologies.map((tech) => (
+            <TechTag key={tech}>{tech}</TechTag>
+          ))}
+        </TechList>
+        <Links>
+          {github ? (
+            Array.isArray(github) ? (
+              github.map((repo) => (
+                <GitHubPill key={repo.url} href={repo.url} target="_blank" rel="noopener noreferrer">
+                  {(repo.labelKey ? t.projectCard.repoLabels[repo.labelKey] : repo.label) || repo.label} →
+                </GitHubPill>
+              ))
+            ) : (
+              <GitHubPill href={github} target="_blank" rel="noopener noreferrer">
+                {t.projectCard.githubLabel}
               </GitHubPill>
-            ))
+            )
           ) : (
-            <GitHubPill href={github} target="_blank" rel="noopener noreferrer">
-              {t.projectCard.githubLabel}
-            </GitHubPill>
-          )
-        ) : (
-          <UnavailableBtn $variant={getVariant(githubState)}>
-            <span style={{ opacity: githubVisible ? 1 : 0 }}>{displayGithubLabel}</span>
-          </UnavailableBtn>
-        )}
-        {demo ? (
-          <LinkPill href={demo} target="_blank" rel="noopener noreferrer">
-            <span style={{ opacity: demoLinkVisible ? 1 : 0 }}>
-              {displayDemoLinkLabel}
-            </span>
-          </LinkPill>
-        ) : demoState === 'private' ? (
-          <UnavailableLink href="#contact" $variant={getVariant(demoState)}>
-            <span style={{ opacity: demoVisible ? 1 : 0 }}>{displayDemoLabel}</span>
-          </UnavailableLink>
-        ) : (
-          <UnavailableBtn $variant={getVariant(demoState)}>
-            <span style={{ opacity: demoVisible ? 1 : 0 }}>{displayDemoLabel}</span>
-          </UnavailableBtn>
-        )}
-      </Links>
-    </Card>
+            <UnavailableBtn $variant={getVariant(githubState)}>
+              <span style={{ opacity: githubVisible ? 1 : 0 }}>{displayGithubLabel}</span>
+            </UnavailableBtn>
+          )}
+          {demo ? (
+            <LinkPill href={demo} target="_blank" rel="noopener noreferrer">
+              <span style={{ opacity: demoLinkVisible ? 1 : 0 }}>
+                {displayDemoLinkLabel}
+              </span>
+            </LinkPill>
+          ) : demoState === 'private' ? (
+            <UnavailableLink href="#contact" $variant={getVariant(demoState)}>
+              <span style={{ opacity: demoVisible ? 1 : 0 }}>{displayDemoLabel}</span>
+            </UnavailableLink>
+          ) : (
+            <UnavailableBtn $variant={getVariant(demoState)}>
+              <span style={{ opacity: demoVisible ? 1 : 0 }}>{displayDemoLabel}</span>
+            </UnavailableBtn>
+          )}
+        </Links>
+      </Card>
+
+      {isDetailsOpen && (
+        <ModalBackdrop onClick={() => setIsDetailsOpen(false)}>
+          <ModalCard onClick={(event) => event.stopPropagation()} role="dialog" aria-modal="true" aria-label={title}>
+            <ModalClose type="button" onClick={() => setIsDetailsOpen(false)} aria-label={t.projectCard.closeDetailsAria}>
+              ×
+            </ModalClose>
+            <ModalLabel>{t.projectCard.detailsModalLabel}</ModalLabel>
+            <ModalTitle>{title}</ModalTitle>
+            <ModalText>{fullDescription || description}</ModalText>
+          </ModalCard>
+        </ModalBackdrop>
+      )}
+    </>
   );
 };
 

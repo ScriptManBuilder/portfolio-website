@@ -1,6 +1,6 @@
 import { useState, useRef } from 'react';
 import styled, { css, keyframes } from 'styled-components';
-import ProjectCard, { type GitHubRepo, type ProjectAvailabilityState } from '../../components/ProjectCard';
+import ProjectCard, { type GitHubRepo, type ProjectAvailabilityState, type ProjectDetailsBadgeVariant } from '../../components/ProjectCard';
 import { useLanguage } from '../../i18n/LanguageContext';
 import type { Translation } from '../../i18n/translations';
 import { sectionLabelStyles, sectionTitleStyles } from '../../styles/sectionHeading';
@@ -16,6 +16,7 @@ interface ProjectData {
   demo?: string | null;
   githubState?: ProjectAvailabilityState;
   demoState?: ProjectAvailabilityState;
+  detailsBadgeVariant?: ProjectDetailsBadgeVariant;
 }
 
 const PROJECTS: ProjectData[] = [
@@ -391,12 +392,15 @@ const Projects = () => {
             <Grid key={page}>
               {visible.map((project) => {
                 const content = t.projects.items[project.id];
+                const fullDescription = 'details' in content ? content.details : undefined;
 
                 return (
                   <ProjectCard
                     key={project.id}
                     title={content.title}
                     description={content.description}
+                    fullDescription={fullDescription}
+                    detailsBadgeVariant={project.detailsBadgeVariant}
                     technologies={project.technologies}
                     github={project.github}
                     demo={project.demo}
