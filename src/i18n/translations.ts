@@ -160,6 +160,11 @@ export const translations = {
           description:
             'Personal portfolio site for a Ukrainian museum researcher, presenting publications, scientific work and professional background in a clear format.',
         },
+        algorithmicTradingBot: {
+          title: 'Algorithmic Trading Bot',
+          description:
+            'Automated trading bot for cryptocurrency markets, featuring real-time data analysis, strategy execution, and integration with Binance Futures API.',
+        },
       },
     },
     projectCard: {
@@ -427,6 +432,11 @@ export const translations = {
           title: 'Науковий сайт-портфоліо',
           description:
             'Персональний сайт-портфоліо для українського музейного дослідника з науковими роботами, публікаціями та професійним профілем.',
+        },
+        algorithmicTradingBot: {
+          title: 'Алгоритмічний торговий бот',
+          description:
+            'Автоматизований торговий бот для криптовалютних ринків, з аналізом даних у реальному часі, виконанням стратегій та інтеграцією з Binance Futures API.',
         },
       },
     },

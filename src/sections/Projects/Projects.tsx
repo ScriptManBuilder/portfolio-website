@@ -117,6 +117,15 @@ const PROJECTS: ProjectData[] = [
     demo: null,
     demoState: 'private',
   },
+
+    {
+    id: 'algorithmicTradingBot',
+    technologies: ['Python','Tkinter','SQLite','WebSocket','Binance Futures API','Binance API'],
+    github: null,
+    demo: null,
+    demoState: 'private',
+     githubState: 'confidential',
+  },
    
   
 ];
