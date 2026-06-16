@@ -381,8 +381,9 @@ const NAV_ITEMS = [
   { id: 'home', icon: '⌂' },
   { id: 'about', icon: '◈' },
   { id: 'skills', icon: '◉' },
-  { id: 'projects', icon: '▦' },
   { id: 'education', icon: '◎' },
+  { id: 'experience', icon: '◌' },
+  { id: 'projects', icon: '▦' },
   { id: 'contact', icon: '✉' },
 ] as const;
 

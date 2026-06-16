@@ -14,8 +14,9 @@ export const translations = {
         home: 'Home',
         about: 'About',
         skills: 'Skills',
-        projects: 'Projects',
         education: 'Education',
+        experience: 'Experience',
+        projects: 'Projects',
         contact: 'Contact',
       },
     },
@@ -40,7 +41,7 @@ export const translations = {
       language: 'English',
     },
     hero: {
-      status: 'Open to work',
+      status: 'Currently working',
       location: '📍 Ukraine · Remote',
       role: 'Full-Stack Developer',
       intro:
@@ -457,6 +458,50 @@ Stack
         },
       },
     },
+    workExperience: {
+      sectionLabel: 'Experience',
+      titleLead: 'Work ',
+      titleAccent: 'experience',
+      current: {
+        label: 'Current workplace',
+        period: 'Since Jun 2026',
+        note: 'Active full-stack work on production web products.',
+      },
+      items: {
+        moun: {
+          role: 'Full-stack Developer',
+          company: 'Digital Agency Moun',
+          period: 'Sep 2025 – May 2026',
+          location: 'Kyiv, Ukraine · Remote',
+          type: 'Full-time',
+          summary:
+            'Built custom websites and scalable web platforms for clients across Europe, the USA, and Ukraine.',
+          highlights: [
+            'Handled the full cycle: discovery, client communication, UI/UX, development, deployment, and maintenance',
+            'Built responsive React interfaces with a strong focus on quality, accessibility, and performance',
+            'Developed APIs with Node.js, NestJS, PostgreSQL, NoSQL databases, auth flows, and CI/CD pipelines',
+          ],
+          stack: ['JavaScript', 'TypeScript', 'React', 'Node.js', 'NestJS', 'PostgreSQL', 'Docker'],
+          sourceLabel: 'Company website',
+          sourceUrl: 'https://mounweb.com/',
+        },
+        fireGroup: {
+          role: 'Full Stack Developer',
+          company: 'Fire-Group',
+          period: 'Apr 2025 – Sep 2025',
+          location: 'Odessa, Ukraine · On-site',
+          type: 'Full-time',
+          summary:
+            'Built and maintained a cryptocurrency exchange website using TypeScript across the stack.',
+          highlights: [
+            'Created the admin panel, blog system, CRUD flows, and user profile pages',
+            'Worked with React, Styled Components, Bootstrap, NestJS, PostgreSQL, MongoDB, and JWT auth',
+            'Focused on responsive UI, API optimization, and product stability under load',
+          ],
+          stack: ['TypeScript', 'React', 'NestJS', 'PostgreSQL', 'MongoDB', 'JWT'],
+        },
+      },
+    },
     contact: {
       sectionLabel: 'Contact',
       titleLead: "Let's ",
@@ -497,7 +542,7 @@ Stack
       navigationLabel: 'Navigation',
       socialLabel: 'Find me on',
       copyrightSuffix: 'All rights reserved.',
-      status: 'Open to new opportunities',
+      status: 'Closed',
     },
     telegramButton: {
       ariaLabel: 'Contact me on Telegram',
@@ -514,8 +559,9 @@ Stack
         home: 'Старт',
         about: 'Про',
         skills: 'Стек',
-        projects: 'Проєкти',
         education: 'Освіта',
+        experience: 'Досвід',
+        projects: 'Проєкти',
         contact: "Зв'язок",
       },
     },
@@ -540,7 +586,7 @@ Stack
       language: 'Ukrainian',
     },
     hero: {
-      status: 'Готовий до роботи',
+      status: 'Працюю',
       location: '📍 Україна · віддалено',
       role: 'Фулстек-розробник',
       intro:
@@ -962,6 +1008,50 @@ Stack
         },
       },
     },
+    workExperience: {
+      sectionLabel: 'Досвід',
+      titleLead: 'Досвід ',
+      titleAccent: 'роботи',
+      current: {
+        label: 'Поточне місце роботи',
+        period: 'З червня 2026',
+        note: 'Актуальна фулстек-робота над продакшн вебпродуктами.',
+      },
+      items: {
+        moun: {
+          role: 'Фулстек-розробник',
+          company: 'Digital Agency Moun',
+          period: 'вер. 2025 р. – трав. 2026 р.',
+          location: 'Київ, Україна · Віддалено',
+          type: 'Повний день',
+          summary:
+            'Створював кастомні сайти та масштабовані вебплатформи для клієнтів із Європи, США та України.',
+          highlights: [
+            'Вів повний цикл: від discovery та комунікації з клієнтом до UI/UX, розробки, деплою і підтримки',
+            'Будував адаптивні React-інтерфейси з фокусом на якість, доступність і продуктивність',
+            'Робив API на Node.js і NestJS, працював з PostgreSQL, NoSQL, auth flows і CI/CD',
+          ],
+          stack: ['JavaScript', 'TypeScript', 'React', 'Node.js', 'NestJS', 'PostgreSQL', 'Docker'],
+          sourceLabel: 'Сайт компанії',
+          sourceUrl: 'https://mounweb.com/',
+        },
+        fireGroup: {
+          role: 'Full Stack Developer',
+          company: 'Fire-Group',
+          period: 'кві. 2025 р. – вер. 2025 р.',
+          location: 'Одеса, Україна · Офіс',
+          type: 'Повний день',
+          summary:
+            'Розробляв і підтримував сайт криптовалютної біржі на TypeScript по всьому стеку.',
+          highlights: [
+            'Зробив адмін-панель, блог, CRUD-операції та профілі користувачів',
+            'Працював з React, Styled Components, Bootstrap, NestJS, PostgreSQL, MongoDB та JWT-аутентифікацією',
+            'Зосереджувався на адаптивному UI, оптимізації API та стабільності під навантаженням',
+          ],
+          stack: ['TypeScript', 'React', 'NestJS', 'PostgreSQL', 'MongoDB', 'JWT'],
+        },
+      },
+    },
     contact: {
       sectionLabel: "Зв'язок",
       titleLead: 'Працюймо ',
@@ -1001,7 +1091,7 @@ Stack
       navigationLabel: 'Навігація',
       socialLabel: 'Я тут',
       copyrightSuffix: 'Усі права захищено.',
-      status: 'Відкритий до нових проєктів',
+      status: 'Закрито',
     },
     telegramButton: {
       ariaLabel: 'Написати в Telegram',

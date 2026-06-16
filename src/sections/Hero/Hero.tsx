@@ -139,21 +139,21 @@ const StatusBadge = styled.span`
   gap: 0.45rem;
   padding: 0.32rem 0.85rem;
   border-radius: 20px;
-  border: 1px solid rgba(0, 232, 135, 0.4);
-  background: rgba(0, 232, 135, 0.08);
+  border: 1px solid rgba(255, 84, 84, 0.45);
+  background: rgba(255, 84, 84, 0.1);
   font-size: 0.77rem;
-  color: ${({ theme }) => theme.colors.accent};
+  color: #ff7b7b;
   font-weight: 600;
   font-family: ${({ theme }) => theme.fonts.mono};
   letter-spacing: 0.02em;
-  box-shadow: 0 0 14px rgba(0, 232, 135, 0.18), inset 0 1px 0 rgba(0, 232, 135, 0.1);
+  box-shadow: 0 0 14px rgba(255, 84, 84, 0.18), inset 0 1px 0 rgba(255, 84, 84, 0.1);
 
   &::before {
     content: '';
     width: 6px;
     height: 6px;
     border-radius: 50%;
-    background: ${({ theme }) => theme.colors.accent};
+    background: #ff6b6b;
     flex-shrink: 0;
     animation: ${pulse} 2s ease-in-out infinite;
   }

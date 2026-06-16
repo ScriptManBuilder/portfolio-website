@@ -4,8 +4,9 @@ import TelegramButton from './components/TelegramButton';
 import Hero from './sections/Hero';
 import About from './sections/About';
 import Skills from './sections/Skills';
-import Projects from './sections/Projects';
 import Education from './sections/Education';
+import WorkExperience from './sections/workExperience';
+import Projects from './sections/Projects';
 import Contact from './sections/Contact';
 
 const App = () => (
@@ -16,7 +17,8 @@ const App = () => (
       <About />
       <Skills />
       <Projects />
-      <Education />
+      <Education />    
+      <WorkExperience />
       <Contact />
     </main>
     <Footer />
