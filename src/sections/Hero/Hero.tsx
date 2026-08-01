@@ -128,8 +128,13 @@ const TopLine = styled.div`
   }
 
   @media (max-width: ${({ theme }) => theme.breakpoints.sm}) {
-    gap: 0.65rem;
-    margin-bottom: 0.75rem;
+    gap: 0.5rem;
+    margin-bottom: 0.55rem;
+    flex-wrap: nowrap;
+  }
+
+  @media (max-width: 380px) {
+    gap: 0.4rem;
   }
 `;
 
@@ -142,10 +147,22 @@ const StatusBadge = styled.span`
   border: 1px solid rgba(123, 97, 255, 0.35);
   background: rgba(123, 97, 255, 0.1);
   font-size: 0.77rem;
+  white-space: nowrap;
   color: #b3a4ff;
   font-weight: 600;
   font-family: ${({ theme }) => theme.fonts.mono};
   letter-spacing: 0.02em;
+
+  @media (max-width: ${({ theme }) => theme.breakpoints.sm}) {
+    font-size: 0.68rem;
+    padding: 0.28rem 0.65rem;
+  }
+
+  @media (max-width: 380px) {
+    font-size: 0.58rem;
+    gap: 0.32rem;
+    padding: 0.24rem 0.5rem;
+  }
 
   &::before {
     content: '';
@@ -167,13 +184,19 @@ const LocationTag = styled.span`
   border: 1px solid rgba(255, 255, 255, 0.14);
   background: rgba(255, 255, 255, 0.03);
   font-size: 0.77rem;
+  white-space: nowrap;
   color: ${({ theme }) => theme.colors.textSecondary};
   font-family: ${({ theme }) => theme.fonts.mono};
 
   @media (max-width: ${({ theme }) => theme.breakpoints.sm}) {
-    width: 100%;
-    justify-content: center;
-    font-size: 0.74rem;
+    font-size: 0.68rem;
+    padding: 0.28rem 0.65rem;
+  }
+
+  @media (max-width: 380px) {
+    font-size: 0.58rem;
+    gap: 0.3rem;
+    padding: 0.24rem 0.5rem;
   }
 `;
 
@@ -197,15 +220,43 @@ const Name = styled.h1`
   }
 
   @media (max-width: ${({ theme }) => theme.breakpoints.sm}) {
-    font-size: clamp(2.2rem, 12vw, 2.9rem);
-    letter-spacing: -1.3px;
-    margin-bottom: 0.6rem;
+    display: flex;
+    align-items: baseline;
+    flex-wrap: wrap;
+    justify-content: center;
+    column-gap: 0.45rem;
+    row-gap: 0.1rem;
+    font-size: clamp(1.05rem, 5.5vw, 1.25rem);
+    letter-spacing: -0.3px;
+    margin-bottom: 0.3rem;
+  }
+
+  @media (max-width: 380px) {
+    font-size: clamp(0.95rem, 5.5vw, 1.1rem);
+    margin-bottom: 0.25rem;
   }
 
   @media (max-width: ${({ theme }) => theme.breakpoints.md}) {
     order: 2;
     width: 100%;
     margin-bottom: 0.55rem;
+  }
+`;
+
+const RoleLeadMobile = styled.span`
+  display: none;
+
+  @media (max-width: ${({ theme }) => theme.breakpoints.sm}) {
+    display: inline-flex;
+    font-size: 0.8rem;
+    font-family: ${({ theme }) => theme.fonts.mono};
+    font-weight: 500;
+    letter-spacing: 0;
+    color: ${({ theme }) => theme.colors.textSecondary};
+  }
+
+  @media (max-width: 380px) {
+    font-size: 0.72rem;
   }
 `;
 
@@ -226,8 +277,12 @@ const Role = styled.div`
 
   @media (max-width: ${({ theme }) => theme.breakpoints.sm}) {
     flex-direction: column;
-    gap: 0.45rem;
-    margin-bottom: 0.9rem;
+    gap: 0.3rem;
+    margin-bottom: 0.7rem;
+  }
+
+  @media (max-width: 380px) {
+    margin-bottom: 0.55rem;
   }
 `;
 
@@ -237,7 +292,7 @@ const RoleLead = styled.span`
   color: ${({ theme }) => theme.colors.textSecondary};
 
   @media (max-width: ${({ theme }) => theme.breakpoints.sm}) {
-    font-size: 0.84rem;
+    display: none;
   }
 `;
 
@@ -249,7 +304,7 @@ const RoleTechs = styled.div`
   flex-wrap: wrap;
 
   @media (max-width: ${({ theme }) => theme.breakpoints.sm}) {
-    gap: 0.2rem;
+    gap: 0.18rem;
     max-width: 260px;
   }
 `;
@@ -268,11 +323,15 @@ const RoleTech = styled.strong`
   }
 
   @media (max-width: ${({ theme }) => theme.breakpoints.sm}) {
-    font-size: 0.84rem;
+    font-size: 0.78rem;
 
     & + &::before {
-      margin-right: 0.2rem;
+      margin-right: 0.18rem;
     }
+  }
+
+  @media (max-width: 380px) {
+    font-size: 0.7rem;
   }
 `;
 
@@ -371,8 +430,8 @@ const Actions = styled.div`
   }
 
   @media (max-width: ${({ theme }) => theme.breakpoints.sm}) {
-    flex-direction: column;
-    gap: 0.55rem;
+    flex-wrap: wrap;
+    gap: 0.5rem;
   }
 `;
 
@@ -380,6 +439,7 @@ const Actions = styled.div`
 const PrimaryBtn = styled.a`
   display: inline-flex;
   align-items: center;
+  justify-content: center;
   gap: 0.4rem;
   padding: 0.8rem 1.8rem;
   border-radius: 50px;
@@ -398,9 +458,10 @@ const PrimaryBtn = styled.a`
   }
 
   @media (max-width: ${({ theme }) => theme.breakpoints.sm}) {
-    width: min(100%, 260px);
-    justify-content: center;
-    padding-inline: 1.2rem;
+    flex: 1 1 0;
+    min-width: 0;
+    padding: 0.65rem 0.8rem;
+    font-size: 0.82rem;
   }
 `;
 
@@ -408,6 +469,7 @@ const PrimaryBtn = styled.a`
 const OutlineBtn = styled.a`
   display: inline-flex;
   align-items: center;
+  justify-content: center;
   gap: 0.4rem;
   padding: 0.73rem 1.3rem;
   border-radius: 50px;
@@ -426,9 +488,10 @@ const OutlineBtn = styled.a`
   }
 
   @media (max-width: ${({ theme }) => theme.breakpoints.sm}) {
-    width: min(100%, 260px);
-    justify-content: center;
-    padding-inline: 1.2rem;
+    flex: 1 1 0;
+    min-width: 0;
+    padding: 0.63rem 0.8rem;
+    font-size: 0.82rem;
   }
 `;
 
@@ -449,6 +512,12 @@ const TextLink = styled.a`
   &:hover {
     color: ${({ theme }) => theme.colors.primary};
     text-decoration-color: ${({ theme }) => theme.colors.primary};
+  }
+
+  @media (max-width: ${({ theme }) => theme.breakpoints.sm}) {
+    flex-basis: 100%;
+    justify-content: center;
+    padding-top: 0.15rem;
   }
 `;
 
@@ -696,6 +765,7 @@ const Hero = () => {
 
           <Name>
             {profile.firstName} <span>{profile.lastName}</span>
+            <RoleLeadMobile>{t.hero.role}</RoleLeadMobile>
           </Name>
 
           <Role>
