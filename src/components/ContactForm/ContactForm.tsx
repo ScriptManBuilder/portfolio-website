@@ -122,13 +122,13 @@ const MsgFooter = styled.div`
 const CharCount = styled.span<{ $over: boolean }>`
   font-size: 0.68rem;
   font-family: ${({ theme }) => theme.fonts.mono};
-  color: ${({ $over }) => ($over ? '#f87171' : ({ theme }: any) => theme.colors.textSecondary)};
+  color: ${({ $over, theme }) => ($over ? theme.colors.error : theme.colors.textSecondary)};
   transition: color 0.2s;
 `;
 
 const ErrorText = styled.span`
   font-size: 0.73rem;
-  color: #f87171;
+  color: ${({ theme }) => theme.colors.error};
   font-family: ${({ theme }) => theme.fonts.mono};
   animation: ${fadeIn} 0.2s ease;
 `;
@@ -215,7 +215,7 @@ const ErrorBox = styled.div`
   background: rgba(248, 113, 113, 0.05);
   border: 1px solid rgba(248, 113, 113, 0.2);
   font-size: 0.83rem;
-  color: #f87171;
+  color: ${({ theme }) => theme.colors.error};
   font-family: ${({ theme }) => theme.fonts.mono};
   animation: ${fadeIn} 0.2s ease;
 `;

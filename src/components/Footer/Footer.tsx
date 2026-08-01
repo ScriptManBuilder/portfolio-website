@@ -2,9 +2,12 @@ import styled, { keyframes } from 'styled-components';
 import { FaGithub, FaLinkedin, FaTelegramPlane, FaEnvelope } from 'react-icons/fa';
 import { useLanguage } from '../../i18n/LanguageContext';
 
+const DouIcon = () => <DouMark>DOU</DouMark>;
+
 const SOCIAL = [
   { id: 'github', label: 'GitHub', Icon: FaGithub, href: 'https://github.com/ScriptManBuilder' },
   { id: 'linkedin', label: 'LinkedIn', Icon: FaLinkedin, href: 'https://www.linkedin.com/in/daniil-hora/' },
+  { id: 'dou', label: 'DOU', Icon: DouIcon, href: 'https://dou.ua/users/dan-gora/' },
   { id: 'telegram', label: 'Telegram', Icon: FaTelegramPlane, href: 'https://t.me/wellCoderDmg' },
   { id: 'email', label: 'Email', Icon: FaEnvelope, href: 'mailto:dan.gora2004@gmail.com' },
 ];
@@ -121,29 +124,55 @@ const NavLinks = styled.div`
 `;
 
 const NavLink = styled.a`
+  position: relative;
+  display: inline-flex;
+  align-items: center;
   font-size: 0.82rem;
   font-weight: 500;
   color: ${({ theme }) => theme.colors.textSecondary};
-  position: relative;
-  transition: color ${({ theme }) => theme.transition};
+  padding: 0.3rem 0.55rem;
+  border-radius: 4px;
+  transition: color 0.3s ease;
 
-  &::after {
-    content: '';
+  .trace {
     position: absolute;
-    bottom: -2px;
-    left: 0; right: 0;
+    background: ${({ theme }) => theme.colors.primary};
+    transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+      height 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .trace-top,
+  .trace-bottom {
+    left: 0;
+    width: 0;
     height: 1px;
-    background: ${({ theme }) => theme.colors.gradient};
-    transform: scaleX(0);
-    transition: transform 0.25s ease;
   }
+  .trace-top { top: 0; transition-delay: 0s; }
+  .trace-bottom { bottom: 0; right: 0; left: auto; transition-delay: 0.24s; }
 
-  &:hover {
-    color: ${({ theme }) => theme.colors.text};
+  .trace-right,
+  .trace-left {
+    top: 0;
+    width: 1px;
+    height: 0;
   }
+  .trace-right { right: 0; transition-delay: 0.12s; }
+  .trace-left { left: 0; top: auto; bottom: 0; transition-delay: 0.36s; }
 
-  &:hover::after {
-    transform: scaleX(1);
+  @media (hover: hover) and (pointer: fine) {
+    &:hover {
+      color: ${({ theme }) => theme.colors.primary};
+    }
+
+    &:hover .trace-top,
+    &:hover .trace-bottom {
+      width: 100%;
+    }
+
+    &:hover .trace-right,
+    &:hover .trace-left {
+      height: 100%;
+    }
   }
 `;
 
@@ -192,6 +221,13 @@ const SocialLink = styled.a`
     box-shadow: 0 0 20px rgba(0, 240, 255, 0.15);
     transform: translateY(-3px);
   }
+`;
+
+const DouMark = styled.span`
+  font-size: 0.62rem;
+  font-weight: 800;
+  font-family: ${({ theme }) => theme.fonts.mono};
+  letter-spacing: 0.03em;
 `;
 
 /* ── Bottom bar ── */
@@ -272,7 +308,13 @@ const Footer = () => {
             <NavLabel>{t.footer.navigationLabel}</NavLabel>
             <NavLinks>
               {NAV.map(({ id, href }) => (
-                <NavLink key={href} href={href}>{navigation[id]}</NavLink>
+                <NavLink key={href} href={href}>
+                  {navigation[id]}
+                  <span className="trace trace-top" />
+                  <span className="trace trace-right" />
+                  <span className="trace trace-bottom" />
+                  <span className="trace trace-left" />
+                </NavLink>
               ))}
             </NavLinks>
           </NavGrid>
@@ -299,7 +341,7 @@ const Footer = () => {
 
         <BottomBar>
           <Copyright>&copy; {year} {profile.fullName}. {t.footer.copyrightSuffix}</Copyright>
-          <StatusBadge>{t.footer.status}</StatusBadge>
+          <StatusBadge>{t.hero.status}</StatusBadge>
         </BottomBar>
       </Inner>
     </FooterWrapper>

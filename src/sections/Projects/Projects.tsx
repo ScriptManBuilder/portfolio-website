@@ -54,14 +54,14 @@ const PROJECTS: ProjectData[] = [
   },
  
   {
-    id: 'calendarApp',
-    technologies: ['TypeScript','React', 'Styled-components','Node.js','MongoDB', 'Vercel'],
-    github: [
-      { labelKey: 'client', label: 'Client', url: 'https://github.com/ScriptManBuilder/calendar-app-client' },
-      { labelKey: 'server', label: 'Server', url: 'https://github.com/ScriptManBuilder/calendar-app-server' },
-    ],
-    demo: 'https://calendar-app-client.vercel.app/',
+    id: 'cryptoLanding',
+    technologies: ['TypeScript', 'React','Three.js','Styled Components', 'Vite'],
+    github: null,
+    githubState: 'confidential',
+    demo: 'https://crypto-landing-presentation.vercel.app/',
   },
+
+  
     
   {
     id: 'topRange',
@@ -110,15 +110,16 @@ const PROJECTS: ProjectData[] = [
     githubState: 'confidential',
   }, 
   
-
-  {
-    id: 'videoMaker',
-    technologies: ['TypeScript','Node.js','HTML','CSS','FFmpeg'],
-    github: 'https://github.com/ScriptManBuilder/video-maker-factory-tool',
-    demo: null,
-    demoState: 'private',
+{
+    id: 'calendarApp',
+    technologies: ['TypeScript','React', 'Styled-components','Node.js','MongoDB', 'Vercel'],
+    github: [
+      { labelKey: 'client', label: 'Client', url: 'https://github.com/ScriptManBuilder/calendar-app-client' },
+      { labelKey: 'server', label: 'Server', url: 'https://github.com/ScriptManBuilder/calendar-app-server' },
+    ],
+    demo: 'https://calendar-app-client.vercel.app/',
   },
-
+  
     {
     id: 'algorithmicTradingBot',
     technologies: ['Python','Tkinter','SQLite','WebSocket','Binance Futures API','Binance API'],
@@ -127,8 +128,14 @@ const PROJECTS: ProjectData[] = [
     demoState: 'private',
      githubState: 'confidential',
   },
-   
-  
+
+  {
+    id: 'videoMaker',
+    technologies: ['TypeScript','Node.js','HTML','CSS','FFmpeg'],
+    github: 'https://github.com/ScriptManBuilder/video-maker-factory-tool',
+    demo: null,
+    demoState: 'private',
+  },
 ];
 
 const Section = styled.section`

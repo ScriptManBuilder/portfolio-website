@@ -14,7 +14,7 @@ const SKILL_DATA: SkillCategory[] = [
     id: 'frontend',
     num: '01',
     color: '#00f0ff',
-    skills: ['React', 'TypeScript', 'JavaScript', 'HTML5', 'CSS3', 'Tailwind CSS', 'Styled Components', 'Bootstrap'],
+    skills: ['React', 'TypeScript', 'JavaScript', 'Next.js', 'HTML5', 'CSS3', 'Tailwind CSS', 'Styled Components', 'Bootstrap'],
   },
   {
     id: 'backend',
@@ -32,7 +32,7 @@ const SKILL_DATA: SkillCategory[] = [
     id: 'devops',
     num: '04',
     color: '#f59e0b',
-    skills: ['Git', 'Postman', 'Swagger', 'CI/CD', 'Docker', 'VPS','Vercel', 'Render', 'Railway', 'Cloudflare'],
+    skills: ['Git', 'Postman', 'Swagger', 'CI/CD', 'Docker', 'VPS','AWS','Vercel', 'Render', 'Railway', 'Cloudflare'],
   },
 ];
 

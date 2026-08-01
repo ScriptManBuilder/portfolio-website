@@ -60,6 +60,7 @@ export const LanguageProvider = ({ children }: PropsWithChildren) => {
   );
 };
 
+// eslint-disable-next-line react-refresh/only-export-components -- hook lives alongside its provider; splitting would touch every consumer's import path
 export const useLanguage = () => {
   const context = useContext(LanguageContext);
 

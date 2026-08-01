@@ -29,28 +29,28 @@ export const translations = {
       switchToUkrainian: 'Switch to Ukrainian',
     },
     seo: {
-      title: 'Daniil Hora | Full-Stack Developer',
-      metaTitle: 'Full-Stack Developer | Daniil Hora',
+      title: 'Daniil Hora | Full-Stack Engineer',
+      metaTitle: 'Full-Stack Engineer | Daniil Hora',
       description:
-        'Daniil Hora is a Full-Stack Developer building fast, scalable and modern web applications. Open to freelance, contract and remote roles.',
+        'Daniil Hora is a Full-Stack Engineer building fast, scalable and modern web applications. Open to freelance, contract and remote roles.',
       ogDescription:
-        'Full-Stack Developer building scalable web applications. Open for freelance and remote opportunities.',
+        'Full-Stack Engineer building scalable web applications. Open for freelance and remote opportunities.',
       twitterDescription:
-        'Full-Stack Developer available for remote work, freelance and contract projects.',
+        'Full-Stack Engineer available for remote work, freelance and contract projects.',
       locale: 'en_US',
       language: 'English',
     },
     hero: {
       status: 'Currently working',
       location: '📍 Ukraine · Remote',
-      role: 'Full-Stack Developer',
+      role: 'Full-Stack Engineer',
       intro:
         '2.5+ years delivering production sites, e-commerce products and scalable web apps — from UI to backend and cloud deploys.',
       workModes: ['Remote', 'Full-time', 'Part-time', 'Freelance', 'Office'],
       primaryCta: 'Projects',
       secondaryCta: 'Contact',
       cvCta: '↓ CV',
-      photoAlt: 'Daniil Hora — Full-Stack Developer',
+      photoAlt: 'Daniil Hora — Full-Stack Engineer',
       stats: {
         experience: 'Years exp.',
         projects: 'Projects',
@@ -64,7 +64,7 @@ export const translations = {
       titleAccent: 'digital products',
       titleTail: ' that matter',
       paragraphs: [
-        'I am a Full-Stack Developer with 2.5+ years of commercial experience across freelance work and product teams. I build production-ready websites and web apps with a focus on clean architecture, speed and real business value.',
+        'I am a Full-Stack Engineer with 2.5+ years of commercial experience across freelance work and product teams. I build production-ready websites and web apps with a focus on clean architecture, speed and real business value.',
         'My core strength is full-cycle web development: UI/UX, frontend implementation, backend services, databases, deployment and support. I mainly work with TypeScript, React, C# and NestJS.',
         'I care about scalability, maintainability, security and performance so the final product is ready for real production use.',
       ],
@@ -319,6 +319,24 @@ Stack and tooling
 - ESLint + typescript-eslint
 - Vercel (frontend)`,
         },
+        cryptoLanding: {
+          title: 'Crypto Product Landing Page',
+          description:
+            'High-converting crypto product landing page built as a design and frontend showcase, with premium visual presentation and smooth responsive UX.',
+          details: `This project was created as a technical and design showcase, demonstrating the ability to build modern, high-converting product websites with premium visual presentation, responsive UX, scalable frontend architecture, and production-quality implementation.
+
+Portfolio notice: this is a non-commercial, educational project built purely for training and demonstration purposes, styled to look like an official product presentation. The website is intended for portfolio and demonstration purposes only and does not represent an actively marketed commercial business. All data on the site is test data — the contact/lead forms are not functional.
+
+What I implemented
+- Premium landing page layout with strong visual hierarchy
+- Responsive, mobile-first UX across all breakpoints
+- Scalable, reusable component architecture
+- Smooth scroll-based animations and interactions
+
+Stack
+- React, TypeScript, Three.js, Vite
+- Styled Components`,
+        },
         videoMaker: {
           title: 'Video Maker Factory Tool',
           description:
@@ -462,12 +480,21 @@ Stack
       sectionLabel: 'Experience',
       titleLead: 'Work ',
       titleAccent: 'experience',
-      current: {
-        label: 'Current workplace',
-        period: 'Since Jun 2026',
-        note: 'Active full-stack work on production web products.',
-      },
+      details: 'Details',
+      hide: 'Hide',
       items: {
+        current: {
+          role: 'Full-Stack Developer',
+          company: 'LuckyWare Pro',
+          period: 'Since Jun 2026',
+          location: 'Ukraine · Remote',
+          type: 'Full-time',
+          summary: 'Full-stack development on NDA projects.',
+          highlights: [],
+          stack: ['JavaScript', 'TypeScript', 'React', 'Next.js', 'Tailwind CSS', 'Docker', 'AWS'],
+          sourceLabel: 'Company website',
+          sourceUrl: 'https://www.luckywarepro.com/',
+        },
         moun: {
           role: 'Full-stack Developer',
           company: 'Digital Agency Moun',
@@ -488,7 +515,7 @@ Stack
         fireGroup: {
           role: 'Full Stack Developer',
           company: 'Fire-Group',
-          period: 'Apr 2025 – Sep 2025',
+          period: 'Mar 2025 – Sep 2025',
           location: 'Odessa, Ukraine · On-site',
           type: 'Full-time',
           summary:
@@ -499,6 +526,22 @@ Stack
             'Focused on responsive UI, API optimization, and product stability under load',
           ],
           stack: ['TypeScript', 'React', 'NestJS', 'PostgreSQL', 'MongoDB', 'JWT'],
+        },
+        freelance: {
+          role: 'Freelance Full-Stack Developer',
+          company: 'Freelance · International Clients',
+          period: 'Sep 2023 – Feb 2025',
+          location: 'Remote',
+          type: 'Freelance',
+          summary:
+            'Delivered full-stack web applications and marketing sites for small and mid-sized businesses worldwide.',
+          highlights: [
+            'Built e-commerce systems with secure authentication, cart functionality, order management, and admin dashboards',
+            'Created responsive marketing websites with modern UI/UX, increasing user interaction by 35%',
+            'Managed production deployments using Docker, VPS, Vercel, Render, and CI/CD',
+          ],
+                   stack: ['JavaScript', 'Node.js','React', 'HTML&CSS', 'PostgreSQL', 'Docker', 'Vercel'],
+
         },
       },
     },
@@ -538,11 +581,10 @@ Stack
       },
     },
     footer: {
-      tagline: 'Full-Stack Developer · Ukraine',
+      tagline: 'Full-Stack Engineer · Ukraine',
       navigationLabel: 'Navigation',
       socialLabel: 'Find me on',
       copyrightSuffix: 'All rights reserved.',
-      status: 'Closed',
     },
     telegramButton: {
       ariaLabel: 'Contact me on Telegram',
@@ -574,28 +616,28 @@ Stack
       switchToUkrainian: 'Перемкнути на українську',
     },
     seo: {
-      title: 'Данііл Гора | Фулстек-розробник',
-      metaTitle: 'Фулстек-розробник | Данііл Гора',
+      title: 'Данііл Гора | Фулстек-інженер',
+      metaTitle: 'Фулстек-інженер | Данііл Гора',
       description:
-        'Данііл Гора — фулстек-розробник. Створюю швидкі, масштабовані й сучасні вебзастосунки. Відкритий до фрилансу, контракту й віддаленої роботи.',
+        'Данііл Гора — фулстек-інженер. Створюю швидкі, масштабовані й сучасні вебзастосунки. Відкритий до фрилансу, контракту й віддаленої роботи.',
       ogDescription:
-        'Фулстек-розробник, що створює масштабовані вебзастосунки. Відкритий до фрилансу та віддаленої співпраці.',
+        'Фулстек-інженер, що створює масштабовані вебзастосунки. Відкритий до фрилансу та віддаленої співпраці.',
       twitterDescription:
-        'Фулстек-розробник для фрилансу, контрактів і віддалених проєктів.',
+        'Фулстек-інженер для фрилансу, контрактів і віддалених проєктів.',
       locale: 'uk_UA',
       language: 'Ukrainian',
     },
     hero: {
       status: 'Працюю',
       location: '📍 Україна · віддалено',
-      role: 'Фулстек-розробник',
+      role: 'Фулстек-інженер',
       intro:
         '2.5+ роки створюю продакшн-сайти, електронну комерцію та вебзастосунки — від UI до бекенду й деплою.',
       workModes: ['Віддалено', 'Фултайм', 'Парттайм', 'Фриланс', 'Офіс'],
       primaryCta: 'Проєкти',
       secondaryCta: 'Контакт',
       cvCta: '↓ CV',
-      photoAlt: 'Данііл Гора — фулстек-розробник',
+      photoAlt: 'Данііл Гора — фулстек-інженер',
       stats: {
         experience: 'Досвід',
         projects: 'Проєкти',
@@ -609,7 +651,7 @@ Stack
       titleAccent: 'цифрові продукти',
       titleTail: ' з сенсом',
       paragraphs: [
-        'Я фулстек-розробник з 2.5+ роками комерційного досвіду у фрилансі та командах. Роблю готові до продакшну сайти й вебзастосунки з фокусом на архітектуру, швидкість і бізнес-цінність.',
+        'Я фулстек-інженер з 2.5+ роками комерційного досвіду у фрилансі та командах. Роблю готові до продакшну сайти й вебзастосунки з фокусом на архітектуру, швидкість і бізнес-цінність.',
         'Моя сильна сторона — повний цикл веброзробки: UI/UX, фронтенд, бекенд-сервіси, бази даних, деплой і підтримка. Основний стек: TypeScript, React, C# і NestJS.',
         'Фокусуюся на масштабованості, підтримуваності, безпеці та продуктивності, щоб продукт був готовий до реального продакшну.',
       ],
@@ -869,6 +911,24 @@ Stack
 - ESLint + typescript-eslint
 - Vercel (frontend)`,
         },
+        cryptoLanding: {
+          title: 'Лендинг крипто-продукту',
+          description:
+            'Конверсійний лендинг для крипто-продукту, зроблений як демонстрація дизайну та фронтенд-навичок — преміальна візуальна подача та плавний адаптивний UX.',
+          details: `Цей проєкт створений як технічна та дизайнерська демонстрація, яка показує вміння робити сучасні, конверсійні сайти-продукти з преміальною візуальною подачею, адаптивним UX, масштабованою фронтенд-архітектурою та якістю реалізації на рівні продакшну.
+
+Важливе застереження: це некомерційний, навчальний проєкт, зроблений виключно з метою тренування та демонстрації, оформлений як офіційна презентація продукту. Сайт призначений лише для портфоліо й демонстрації та не представляє реально діючий комерційний бізнес. Усі дані на сайті тестові — форми зв'язку/заявок не працюють.
+
+Що реалізовано
+- Преміальна структура лендингу з чіткою візуальною ієрархією
+- Адаптивний, mobile-first UX на всіх роздільностях
+- Масштабована, перевикористовувана компонентна архітектура
+- Плавні анімації та взаємодії на основі скролу
+
+Стек
+- React, TypeScript, Three.js, Vite
+- Styled Components`,
+        },
         videoMaker: {
           title: 'Інструмент Video Maker Factory',
           description:
@@ -1012,12 +1072,21 @@ Stack
       sectionLabel: 'Досвід',
       titleLead: 'Досвід ',
       titleAccent: 'роботи',
-      current: {
-        label: 'Поточне місце роботи',
-        period: 'З червня 2026',
-        note: 'Актуальна фулстек-робота над продакшн вебпродуктами.',
-      },
+      details: 'Деталі',
+      hide: 'Сховати',
       items: {
+        current: {
+          role: 'Фулстек-розробник',
+          company: 'LuckyWare Pro',
+          period: 'З червня 2026',
+          location: 'Україна · Віддалено',
+          type: 'Повний день',
+          summary: 'Фулстек-розробка NDA-проєктів.',
+          highlights: [],
+          stack: ['JavaScript', 'TypeScript', 'React', 'Next.js', 'Tailwind CSS', 'Docker', 'AWS'],
+          sourceLabel: 'Сайт компанії',
+          sourceUrl: 'https://www.luckywarepro.com/',
+        },
         moun: {
           role: 'Фулстек-розробник',
           company: 'Digital Agency Moun',
@@ -1038,7 +1107,7 @@ Stack
         fireGroup: {
           role: 'Full Stack Developer',
           company: 'Fire-Group',
-          period: 'кві. 2025 р. – вер. 2025 р.',
+          period: 'бер. 2025 р. – вер. 2025 р.',
           location: 'Одеса, Україна · Офіс',
           type: 'Повний день',
           summary:
@@ -1049,6 +1118,21 @@ Stack
             'Зосереджувався на адаптивному UI, оптимізації API та стабільності під навантаженням',
           ],
           stack: ['TypeScript', 'React', 'NestJS', 'PostgreSQL', 'MongoDB', 'JWT'],
+        },
+        freelance: {
+          role: 'Фриланс Full-Stack розробник',
+          company: 'Фриланс · Міжнародні клієнти',
+          period: 'вер. 2023 р. – лют. 2025 р.',
+          location: 'Віддалено',
+          type: 'Фриланс',
+          summary:
+            'Розробляв фулстек вебзастосунки та маркетингові сайти для малого й середнього бізнесу по всьому світу.',
+          highlights: [
+            'Будував e-commerce системи з безпечною автентифікацією, кошиком, керуванням замовленнями та адмінпанеллю',
+            'Створював адаптивні маркетингові сайти з сучасним UI/UX, що підвищило залученість користувачів на 35%',
+            'Керував продакшн-деплоями через Docker, VPS, Vercel, Render та CI/CD',
+          ],
+          stack: ['JavaScript', 'Node.js','React', 'HTML&CSS', 'PostgreSQL', 'Docker', 'Vercel'],
         },
       },
     },
@@ -1087,11 +1171,10 @@ Stack
       },
     },
     footer: {
-      tagline: 'Фулстек-розробник · Україна',
+      tagline: 'Фулстек-інженер · Україна',
       navigationLabel: 'Навігація',
       socialLabel: 'Я тут',
       copyrightSuffix: 'Усі права захищено.',
-      status: 'Закрито',
     },
     telegramButton: {
       ariaLabel: 'Написати в Telegram',

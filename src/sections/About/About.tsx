@@ -111,13 +111,13 @@ const StatValue = styled.span`
   font-weight: 800;
   font-family: ${({ theme }) => theme.fonts.display};
   letter-spacing: -0.06em;
-  background: ${({ theme }) => theme.colors.brandGradientBold};
+  background: ${({ theme }) => theme.colors.brandGradient};
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
   min-width: 60px;
   line-height: 0.92;
-  filter: drop-shadow(0 10px 22px rgba(72, 196, 255, 0.12));
+  filter: drop-shadow(0 8px 20px rgba(0, 240, 255, 0.12));
 `;
 
 const StatLabel = styled.span`

@@ -117,7 +117,7 @@ const TopLine = styled.div`
   display: flex;
   align-items: center;
   gap: 0.85rem;
-  margin-bottom: 1.75rem;
+  margin-bottom: 1.5rem;
   flex-wrap: wrap;
 
   @media (max-width: ${({ theme }) => theme.breakpoints.md}) {
@@ -139,21 +139,20 @@ const StatusBadge = styled.span`
   gap: 0.45rem;
   padding: 0.32rem 0.85rem;
   border-radius: 20px;
-  border: 1px solid rgba(255, 84, 84, 0.45);
-  background: rgba(255, 84, 84, 0.1);
+  border: 1px solid rgba(123, 97, 255, 0.35);
+  background: rgba(123, 97, 255, 0.1);
   font-size: 0.77rem;
-  color: #ff7b7b;
+  color: #b3a4ff;
   font-weight: 600;
   font-family: ${({ theme }) => theme.fonts.mono};
   letter-spacing: 0.02em;
-  box-shadow: 0 0 14px rgba(255, 84, 84, 0.18), inset 0 1px 0 rgba(255, 84, 84, 0.1);
 
   &::before {
     content: '';
     width: 6px;
     height: 6px;
     border-radius: 50%;
-    background: #ff6b6b;
+    background: #9d8bff;
     flex-shrink: 0;
     animation: ${pulse} 2s ease-in-out infinite;
   }
@@ -162,16 +161,16 @@ const StatusBadge = styled.span`
 const LocationTag = styled.span`
   display: inline-flex;
   align-items: center;
-  gap: 0.3rem;
+  gap: 0.4rem;
+  padding: 0.32rem 0.85rem;
+  border-radius: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  background: rgba(255, 255, 255, 0.03);
   font-size: 0.77rem;
   color: ${({ theme }) => theme.colors.textSecondary};
   font-family: ${({ theme }) => theme.fonts.mono};
-  border-left: 1px solid ${({ theme }) => theme.colors.border};
-  padding-left: 0.85rem;
 
   @media (max-width: ${({ theme }) => theme.breakpoints.sm}) {
-    border-left: 0;
-    padding-left: 0;
     width: 100%;
     justify-content: center;
     font-size: 0.74rem;
@@ -180,27 +179,26 @@ const LocationTag = styled.span`
 
 /* Row 2: name */
 const Name = styled.h1`
-  font-size: clamp(2.8rem, 6vw, 4.6rem);
-  font-weight: 800;
+  font-size: clamp(2.5rem, 5.2vw, 4rem);
+  font-weight: 700;
   font-family: ${({ theme }) => theme.fonts.display};
-  line-height: 0.96;
-  letter-spacing: -2.8px;
+  line-height: 0.98;
+  letter-spacing: -2.2px;
   margin-bottom: 0.7rem;
   color: ${({ theme }) => theme.colors.white};
   text-wrap: balance;
 
   span {
-    background: ${({ theme }) => theme.colors.brandGradientBold};
-    background-size: 100% 100%;
+    background: ${({ theme }) => theme.colors.brandGradient};
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
-    filter: drop-shadow(0 10px 26px rgba(72, 196, 255, 0.16));
+    filter: drop-shadow(0 8px 22px rgba(0, 240, 255, 0.14));
   }
 
   @media (max-width: ${({ theme }) => theme.breakpoints.sm}) {
-    font-size: clamp(2.35rem, 13vw, 3.15rem);
-    letter-spacing: -1.6px;
+    font-size: clamp(2.2rem, 12vw, 2.9rem);
+    letter-spacing: -1.3px;
     margin-bottom: 0.6rem;
   }
 
@@ -217,7 +215,7 @@ const Role = styled.div`
   align-items: center;
   gap: 0.6rem;
   flex-wrap: wrap;
-  margin-bottom: 1.5rem;
+  margin-bottom: 1.3rem;
 
   @media (max-width: ${({ theme }) => theme.breakpoints.md}) {
     order: 3;
@@ -278,15 +276,10 @@ const RoleTech = styled.strong`
   }
 `;
 
-/* Gradient divider */
+/* Divider */
 const Rule = styled.div`
   height: 1px;
-  background: linear-gradient(
-    to right,
-    rgba(0, 240, 255, 0.3),
-    rgba(123, 97, 255, 0.2),
-    transparent
-  );
+  background: rgba(255, 255, 255, 0.12);
   margin-bottom: 1.6rem;
 
   @media (max-width: ${({ theme }) => theme.breakpoints.md}) {
@@ -298,8 +291,8 @@ const Rule = styled.div`
 const Intro = styled.p`
   font-size: 1rem;
   color: ${({ theme }) => theme.colors.textSecondary};
-  line-height: 1.8;
-  margin-bottom: 1.5rem;
+  line-height: 1.75;
+  margin-bottom: 1.35rem;
   max-width: 500px;
 
   @media (max-width: ${({ theme }) => theme.breakpoints.md}) {
@@ -318,45 +311,49 @@ const Intro = styled.p`
   }
 `;
 
-/* Row 6: work modes */
+/* Row 6: work modes — compact individual tags, no container panel */
 const WorkModes = styled.div`
   display: flex;
   flex-wrap: wrap;
-  gap: 0.4rem;
-  margin-bottom: 2rem;
+  gap: 0.45rem;
+  margin-bottom: 1.75rem;
 
   @media (max-width: ${({ theme }) => theme.breakpoints.md}) {
     order: 6;
-    width: 100%;
     justify-content: center;
-    margin-bottom: 1.15rem;
+    margin-bottom: 1.1rem;
   }
 
   @media (max-width: ${({ theme }) => theme.breakpoints.sm}) {
-    gap: 0.35rem;
-    max-width: 300px;
-    margin-bottom: 1rem;
+    gap: 0.4rem;
+    margin-bottom: 0.9rem;
   }
 `;
 
 const WorkTag = styled.span`
-  padding: 0.22rem 0.65rem;
-  border-radius: 4px;
+  display: inline-flex;
+  align-items: center;
+  padding: 0.32rem 0.7rem;
+  border-radius: 6px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: rgba(255, 255, 255, 0.02);
+  color: ${({ theme }) => theme.colors.textSecondary};
+  font-family: ${({ theme }) => theme.fonts.mono};
   font-size: 0.7rem;
   font-weight: 500;
-  font-family: ${({ theme }) => theme.fonts.mono};
-  border: 1px solid rgba(0, 240, 255, 0.1);
-  background: rgba(0, 240, 255, 0.03);
-  color: ${({ theme }) => theme.colors.textSecondary};
-  cursor: default;
+  letter-spacing: 0.04em;
   text-transform: uppercase;
-  letter-spacing: 0.05em;
+  white-space: nowrap;
   transition: all ${({ theme }) => theme.transition};
 
   &:hover {
-    background: rgba(0, 240, 255, 0.08);
-    border-color: rgba(0, 240, 255, 0.25);
-    color: ${({ theme }) => theme.colors.primary};
+    border-color: rgba(255, 255, 255, 0.24);
+    color: ${({ theme }) => theme.colors.text};
+  }
+
+  @media (max-width: ${({ theme }) => theme.breakpoints.sm}) {
+    font-size: 0.64rem;
+    padding: 0.28rem 0.6rem;
   }
 `;
 
@@ -379,51 +376,24 @@ const Actions = styled.div`
   }
 `;
 
+/* Primary action — solid fill, clearly the main CTA */
 const PrimaryBtn = styled.a`
   display: inline-flex;
   align-items: center;
   gap: 0.4rem;
   padding: 0.8rem 1.8rem;
   border-radius: 50px;
-  background: #0f0f24;
-  border: 1.5px solid rgba(0, 240, 255, 0.15);
-  color: ${({ theme }) => theme.colors.primary};
+  background: ${({ theme }) => theme.colors.primary};
+  border: 1.5px solid transparent;
+  color: #06101a;
   font-weight: 700;
   font-size: 0.88rem;
-  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-  box-shadow: 0 0 20px rgba(0, 240, 255, 0.05), inset 0 1px 0 rgba(0, 240, 255, 0.06);
+  transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 8px 26px rgba(0, 240, 255, 0.22);
 
   &:hover {
-    background: linear-gradient(135deg, #00f0ff 0%, #5ef5d2 50%, #00e887 100%);
-    color: #060611;
-    border-color: transparent;
-    box-shadow: 0 8px 32px rgba(0, 240, 255, 0.4), 0 0 60px rgba(0, 240, 255, 0.12);
-    transform: translateY(-2px) scale(1.03);
-  }
-
-  @media (max-width: ${({ theme }) => theme.breakpoints.sm}) {
-    width: min(100%, 260px);
-    justify-content: center;
-    padding-inline: 1.2rem;
-  }
-`;
-
-const OutlineBtn = styled.a`
-  display: inline-flex;
-  align-items: center;
-  gap: 0.4rem;
-  padding: 0.73rem 1.3rem;
-  border-radius: 8px;
-  border: 1px solid ${({ theme }) => theme.colors.border};
-  color: ${({ theme }) => theme.colors.text};
-  font-weight: 500;
-  font-size: 0.88rem;
-  transition: all ${({ theme }) => theme.transition};
-
-  &:hover {
-    border-color: rgba(0, 240, 255, 0.4);
-    color: ${({ theme }) => theme.colors.primary};
-    background: rgba(0, 240, 255, 0.04);
+    background: #5ef5d2;
+    box-shadow: 0 10px 34px rgba(0, 240, 255, 0.32);
     transform: translateY(-2px);
   }
 
@@ -434,20 +404,53 @@ const OutlineBtn = styled.a`
   }
 `;
 
-// const TextLink = styled.a`
-//   display: inline-flex;
-//   align-items: center;
-//   gap: 0.35rem;
-//   font-size: 0.84rem;
-//   color: ${({ theme }) => theme.colors.textSecondary};
-//   font-weight: 500;
-//   padding: 0.73rem 0.4rem;
-//   transition: color ${({ theme }) => theme.transition};
+/* Secondary action — outline */
+const OutlineBtn = styled.a`
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.73rem 1.3rem;
+  border-radius: 50px;
+  border: 1.5px solid rgba(255, 255, 255, 0.22);
+  background: rgba(255, 255, 255, 0.03);
+  color: ${({ theme }) => theme.colors.text};
+  font-weight: 600;
+  font-size: 0.88rem;
+  transition: all ${({ theme }) => theme.transition};
 
-//   &:hover {
-//     color: ${({ theme }) => theme.colors.primary};
-//   }
-// `;
+  &:hover {
+    border-color: rgba(0, 240, 255, 0.5);
+    color: ${({ theme }) => theme.colors.primary};
+    background: rgba(0, 240, 255, 0.06);
+    transform: translateY(-2px);
+  }
+
+  @media (max-width: ${({ theme }) => theme.breakpoints.sm}) {
+    width: min(100%, 260px);
+    justify-content: center;
+    padding-inline: 1.2rem;
+  }
+`;
+
+/* Tertiary action — quiet text link, no border/fill, underline signals it's clickable */
+const TextLink = styled.a`
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: 0.86rem;
+  color: ${({ theme }) => theme.colors.text};
+  font-weight: 600;
+  padding: 0.73rem 0.6rem;
+  text-decoration: underline;
+  text-decoration-color: rgba(255, 255, 255, 0.28);
+  text-underline-offset: 3px;
+  transition: color ${({ theme }) => theme.transition}, text-decoration-color ${({ theme }) => theme.transition};
+
+  &:hover {
+    color: ${({ theme }) => theme.colors.primary};
+    text-decoration-color: ${({ theme }) => theme.colors.primary};
+  }
+`;
 
 const Cursor = styled.span`
   display: inline-block;
@@ -542,121 +545,137 @@ const PhotoWrapper = styled.div`
 
 const PhotoGlow = styled.div`
   position: absolute;
-  inset: -24px;
-  border-radius: 50%;
-  background: radial-gradient(circle, rgba(0, 240, 255, 0.09) 0%, transparent 65%);
+  inset: -20px;
+  border-radius: 36px;
+  background: radial-gradient(circle, rgba(0, 240, 255, 0.1) 0%, transparent 68%);
   pointer-events: none;
 `;
 
-const PhotoRing = styled.div`
-  position: absolute;
-  inset: -10px;
-  border-radius: 50%;
-  background: conic-gradient(
-    from 0deg,
-    transparent 0%,
-    rgba(0, 240, 255, 0.6) 25%,
-    rgba(123, 97, 255, 0.6) 55%,
-    rgba(0, 232, 135, 0.35) 75%,
-    transparent 100%
-  );
-`;
-
-const PhotoInner = styled.div`
-  position: absolute;
-  inset: -8px;
-  border-radius: 50%;
-  background: ${({ theme }) => theme.colors.bg};
-`;
-
-const Photo = styled.img`
+const PhotoFrame = styled.div`
   position: relative;
   z-index: 1;
   width: 100%;
   height: 100%;
+  padding: 3px;
+  border-radius: 30px;
+  background: ${({ theme }) => theme.colors.brandGradientBold};
+  box-shadow: 0 24px 60px rgba(2, 6, 23, 0.55), 0 0 0 1px rgba(255, 255, 255, 0.04);
+`;
+
+const PhotoInner = styled.div`
+  position: relative;
+  width: 100%;
+  height: 100%;
+  border-radius: 27px;
+  overflow: hidden;
+  background: ${({ theme }) => theme.colors.bg};
+`;
+
+const Photo = styled.img`
+  display: block;
+  width: 100%;
+  height: 100%;
   object-fit: cover;
   object-position: center top;
-  border-radius: 50%;
+  filter: saturate(1.04) contrast(1.03);
 `;
 
-/* Stat cards below photo */
-const StatsRow = styled.div`
+const PhotoCorner = styled.span<{ $pos: 'tl' | 'br' }>`
+  position: absolute;
+  z-index: 2;
+  width: 22px;
+  height: 22px;
+  pointer-events: none;
+
+  ${({ $pos, theme }) => ($pos === 'tl'
+    ? `
+      top: -9px;
+      left: -9px;
+      border-top: 2px solid ${theme.colors.primary};
+      border-left: 2px solid ${theme.colors.primary};
+      border-radius: 8px 0 0 0;
+    `
+    : `
+      bottom: -9px;
+      right: -9px;
+      border-bottom: 2px solid ${theme.colors.primary};
+      border-right: 2px solid ${theme.colors.primary};
+      border-radius: 0 0 8px 0;
+    `)}
+`;
+
+/* Stat panel below photo — one grouped card, divided into columns */
+const StatsPanel = styled.div`
   display: flex;
-  gap: 0.65rem;
   width: 100%;
-  justify-content: center;
-
-  @media (max-width: ${({ theme }) => theme.breakpoints.md}) {
-    max-width: 320px;
-    width: 100%;
-  }
-
-  @media (max-width: ${({ theme }) => theme.breakpoints.sm}) {
-    gap: 0.45rem;
-  }
-`;
-
-const StatCard = styled.div`
-  flex: 1;
-  padding: 0.8rem 0.6rem;
-  border-radius: 10px;
+  border-radius: 14px;
   border: 1px solid ${({ theme }) => theme.colors.border};
   background: ${({ theme }) => theme.colors.bgCard};
-  text-align: center;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  overflow: hidden;
   transition: border-color ${({ theme }) => theme.transition};
 
   &:hover {
-    border-color: rgba(0, 240, 255, 0.2);
+    border-color: rgba(0, 240, 255, 0.22);
   }
 
-  @media (max-width: ${({ theme }) => theme.breakpoints.sm}) {
-    padding: 0.72rem 0.4rem;
-    min-height: 92px;
+  @media (max-width: ${({ theme }) => theme.breakpoints.md}) {
+    max-width: 320px;
   }
 `;
 
-const StatInfo = styled.div`
+const StatItem = styled.div`
+  position: relative;
+  flex: 1;
+  padding: 1rem 0.5rem;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 0.38rem;
+  justify-content: center;
+  gap: 0.3rem;
+  text-align: center;
+
+  & + &::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 22%;
+    bottom: 22%;
+    width: 1px;
+    background: ${({ theme }) => theme.colors.border};
+  }
 
   @media (max-width: ${({ theme }) => theme.breakpoints.sm}) {
-    gap: 0.28rem;
+    padding: 0.85rem 0.35rem;
   }
 `;
 
 const StatValue = styled.div`
   display: block;
-  font-size: 1.95rem;
+  font-size: 1.7rem;
   font-weight: 800;
   font-family: ${({ theme }) => theme.fonts.display};
-  letter-spacing: -0.06em;
-  background: ${({ theme }) => theme.colors.brandGradientBold};
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  line-height: 0.92;
-  filter: drop-shadow(0 10px 22px rgba(72, 196, 255, 0.12));
+  letter-spacing: -0.04em;
+  color: ${({ theme }) => theme.colors.primary};
+  line-height: 1;
 
   @media (max-width: ${({ theme }) => theme.breakpoints.sm}) {
-    font-size: clamp(1.58rem, 8vw, 1.82rem);
+    font-size: clamp(1.3rem, 6vw, 1.5rem);
   }
 `;
 
 const StatLabel = styled.div`
   display: block;
-  font-size: 0.88rem;
+  font-size: 0.68rem;
+  font-family: ${({ theme }) => theme.fonts.mono};
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
   color: ${({ theme }) => theme.colors.textSecondary};
-  line-height: 1.4;
+  line-height: 1.3;
   text-wrap: balance;
 
   @media (max-width: ${({ theme }) => theme.breakpoints.sm}) {
-    font-size: 0.74rem;
-    line-height: 1.32;
+    font-size: 0.6rem;
+    letter-spacing: 0.05em;
   }
 `;
 
@@ -703,38 +722,36 @@ const Hero = () => {
           <Actions>
             <PrimaryBtn href="#projects">{t.hero.primaryCta}</PrimaryBtn>
             <OutlineBtn href="#contact">{t.hero.secondaryCta}</OutlineBtn>
-            <OutlineBtn href={cvFile} download>{t.hero.cvCta}</OutlineBtn>
+            <TextLink href={cvFile} download>{t.hero.cvCta}</TextLink>
           </Actions>
         </Left>
 
         <Right>
           <PhotoWrapper>
             <PhotoGlow />
-            <PhotoRing />
-            <PhotoInner />
-            <Photo src={photo} alt={t.hero.photoAlt} fetchPriority="high" loading="eager" />
+            <PhotoCorner $pos="tl" />
+            <PhotoCorner $pos="br" />
+            <PhotoFrame>
+              <PhotoInner>
+                <Photo src={photo} alt={t.hero.photoAlt} fetchPriority="high" loading="eager" />
+              </PhotoInner>
+            </PhotoFrame>
           </PhotoWrapper>
 
-          <StatsRow>
-            <StatCard>
-              <StatInfo>
-                <StatValue>2.5+</StatValue>
-                <StatLabel>{t.hero.stats.experience}</StatLabel>
-              </StatInfo>
-            </StatCard>
-            <StatCard>
-              <StatInfo>
-                <StatValue>10+</StatValue>
-                <StatLabel>{t.hero.stats.projects}</StatLabel>
-              </StatInfo>
-            </StatCard>
-            <StatCard>
-              <StatInfo>
-                <StatValue>20+</StatValue>
-                <StatLabel>{t.hero.stats.technologies}</StatLabel>
-              </StatInfo>
-            </StatCard>
-          </StatsRow>
+          <StatsPanel>
+            <StatItem>
+              <StatValue>2.5+</StatValue>
+              <StatLabel>{t.hero.stats.experience}</StatLabel>
+            </StatItem>
+            <StatItem>
+              <StatValue>10+</StatValue>
+              <StatLabel>{t.hero.stats.projects}</StatLabel>
+            </StatItem>
+            <StatItem>
+              <StatValue>20+</StatValue>
+              <StatLabel>{t.hero.stats.technologies}</StatLabel>
+            </StatItem>
+          </StatsPanel>
         </Right>
       </Container>
 

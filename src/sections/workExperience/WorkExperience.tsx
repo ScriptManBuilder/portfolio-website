@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import styled, { keyframes } from 'styled-components';
 import { useLanguage } from '../../i18n/LanguageContext';
 import type { Translation } from '../../i18n/translations';
@@ -12,6 +13,10 @@ interface WorkExperienceItem {
 
 const WORK_EXPERIENCE: WorkExperienceItem[] = [
   {
+    id: 'current',
+    color: '#00e887',
+  },
+  {
     id: 'moun',
     color: '#00f0ff',
   },
@@ -19,11 +24,25 @@ const WORK_EXPERIENCE: WorkExperienceItem[] = [
     id: 'fireGroup',
     color: '#7b61ff',
   },
+  {
+    id: 'freelance',
+    color: '#38bdf8',
+  },
 ];
 
 const fadeUp = keyframes`
   from { opacity: 0; transform: translateY(16px); }
   to { opacity: 1; transform: translateY(0); }
+`;
+
+const pulseRing = keyframes`
+  0% { transform: scale(0.9); opacity: 0.7; }
+  70%, 100% { transform: scale(1.9); opacity: 0; }
+`;
+
+const dotPulse = keyframes`
+  0%, 100% { opacity: 0.5; transform: scale(1); }
+  50% { opacity: 1; transform: scale(1.25); }
 `;
 
 const draw = keyframes`
@@ -38,6 +57,10 @@ const Section = styled.section`
 
   @media (max-width: 480px) {
     padding: 5rem 1rem;
+  }
+
+  @media (max-width: 380px) {
+    padding: 4.5rem 0.75rem;
   }
 
   &::before {
@@ -64,45 +87,10 @@ const SectionLabel = styled.p`
 const SectionTitle = styled.h2`
   ${sectionTitleStyles}
   margin-bottom: 3.5rem;
-`;
 
-const CurrentCard = styled.div`
-  max-width: 860px;
-  margin-bottom: 1.25rem;
-  padding: 1rem 1.15rem;
-  border-radius: 14px;
-  border: 1px solid rgba(255, 84, 84, 0.22);
-  background: linear-gradient(135deg, rgba(255, 84, 84, 0.09), rgba(255, 84, 84, 0.03));
-  box-shadow: 0 8px 28px rgba(255, 84, 84, 0.06);
-`;
-
-const CurrentTop = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 1rem;
-  flex-wrap: wrap;
-  margin-bottom: 0.45rem;
-`;
-
-const CurrentLabel = styled.span`
-  font-size: 0.72rem;
-  font-family: ${({ theme }) => theme.fonts.mono};
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
-  color: #ff6b6b;
-`;
-
-const CurrentPeriod = styled.span`
-  font-size: 0.72rem;
-  font-family: ${({ theme }) => theme.fonts.mono};
-  color: ${({ theme }) => theme.colors.textSecondary};
-`;
-
-const CurrentNote = styled.p`
-  font-size: 0.92rem;
-  color: ${({ theme }) => theme.colors.textSecondary};
-  line-height: 1.55;
+  @media (max-width: 480px) {
+    margin-bottom: 2.5rem;
+  }
 `;
 
 const Timeline = styled.div`
@@ -124,6 +112,12 @@ const Timeline = styled.div`
     );
     animation: ${draw} 1s ease both;
   }
+
+  @media (max-width: 380px) {
+    &::before {
+      left: 13px;
+    }
+  }
 `;
 
 const Item = styled.div<{ $delay: number }>`
@@ -138,8 +132,12 @@ const Item = styled.div<{ $delay: number }>`
   }
 
   @media (max-width: 480px) {
-    padding-left: 42px;
+    padding-left: 38px;
     padding-bottom: 2rem;
+  }
+
+  @media (max-width: 380px) {
+    padding-left: 30px;
   }
 `;
 
@@ -154,6 +152,21 @@ const Dot = styled.div<{ $color: string }>`
   border: 2px solid ${({ $color }) => $color};
   box-shadow: 0 0 10px ${({ $color }) => $color}55;
   z-index: 1;
+
+  @media (max-width: 380px) {
+    left: 6px;
+    width: 14px;
+    height: 14px;
+  }
+`;
+
+const PulseRing = styled.span<{ $color: string }>`
+  position: absolute;
+  inset: -4px;
+  border-radius: 50%;
+  border: 1.5px solid ${({ $color }) => $color};
+  animation: ${pulseRing} 2s ease-out infinite;
+  pointer-events: none;
 `;
 
 const Card = styled.div<{ $color: string }>`
@@ -167,6 +180,11 @@ const Card = styled.div<{ $color: string }>`
 
   @media (max-width: 480px) {
     padding: 1rem 0.9rem;
+  }
+
+  @media (max-width: 380px) {
+    padding: 0.9rem 0.7rem;
+    border-radius: 12px;
   }
 
   &::before {
@@ -199,6 +217,23 @@ const CardTop = styled.div`
   gap: 1rem;
   margin-bottom: 0.35rem;
   flex-wrap: wrap;
+
+  @media (max-width: 480px) {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.4rem;
+  }
+`;
+
+const RoleGroup = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  flex-wrap: wrap;
+
+  @media (max-width: 380px) {
+    gap: 0.4rem;
+  }
 `;
 
 const Role = styled.h3`
@@ -207,6 +242,41 @@ const Role = styled.h3`
   font-family: ${({ theme }) => theme.fonts.heading};
   color: ${({ theme }) => theme.colors.white};
   line-height: 1.3;
+
+  @media (max-width: 380px) {
+    font-size: 0.92rem;
+  }
+`;
+
+const CurrentBadge = styled.span<{ $color: string }>`
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.2rem 0.6rem;
+  border-radius: 20px;
+  border: 1px solid ${({ $color }) => $color}45;
+  background: ${({ $color }) => $color}12;
+  color: ${({ $color }) => $color};
+  font-size: 0.66rem;
+  font-weight: 600;
+  font-family: ${({ theme }) => theme.fonts.mono};
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+
+  @media (max-width: 380px) {
+    font-size: 0.6rem;
+    padding: 0.18rem 0.5rem;
+  }
+
+  &::before {
+    content: '';
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: ${({ $color }) => $color};
+    flex-shrink: 0;
+    animation: ${dotPulse} 2s ease-in-out infinite;
+  }
 `;
 
 const Period = styled.span`
@@ -215,6 +285,10 @@ const Period = styled.span`
   color: ${({ theme }) => theme.colors.textSecondary};
   white-space: nowrap;
   padding-top: 2px;
+
+  @media (max-width: 480px) {
+    padding-top: 0;
+  }
 `;
 
 const CompanyRow = styled.div`
@@ -228,6 +302,10 @@ const CompanyRow = styled.div`
 const Company = styled.p`
   font-size: 0.92rem;
   color: ${({ theme }) => theme.colors.textSecondary};
+
+  @media (max-width: 380px) {
+    font-size: 0.84rem;
+  }
 `;
 
 const Separator = styled.span`
@@ -246,18 +324,27 @@ const TypeTag = styled.span<{ $color: string }>`
   border: 1px solid ${({ $color }) => $color}25;
   padding: 0.18rem 0.6rem;
   border-radius: 20px;
+
+  @media (max-width: 380px) {
+    font-size: 0.62rem;
+    padding: 0.16rem 0.5rem;
+  }
 `;
 
-const MetaLine = styled.p`
+const MetaLine = styled.span`
   font-size: 0.88rem;
   color: ${({ theme }) => theme.colors.textSecondary};
-  margin-bottom: 0.85rem;
+
+  @media (max-width: 380px) {
+    font-size: 0.8rem;
+  }
 `;
 
 const Summary = styled.p`
   font-size: 0.93rem;
   color: ${({ theme }) => theme.colors.text};
   line-height: 1.65;
+  margin-top: 0.85rem;
   margin-bottom: 0.95rem;
 `;
 
@@ -294,9 +381,77 @@ const Footer = styled.div`
   display: flex;
   align-items: flex-start;
   justify-content: space-between;
-  gap: 1rem;
-  flex-wrap: wrap;
+  gap: 0.75rem;
   margin-top: 0.95rem;
+
+  @media (max-width: 480px) {
+    flex-direction: column;
+  }
+`;
+
+const Actions = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0.5rem;
+  flex-shrink: 0;
+
+  @media (max-width: 480px) {
+    width: 100%;
+  }
+`;
+
+const ToggleBtn = styled.button<{ $color: string; $open: boolean }>`
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  padding: 0.18rem 0.55rem;
+  border-radius: 25px;
+  font-size: 0.65rem;
+  font-family: ${({ theme }) => theme.fonts.mono};
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  cursor: pointer;
+  background: transparent;
+  border: 1px solid ${({ $color }) => $color}30;
+  color: ${({ $color }) => $color};
+  transition: all ${({ theme }) => theme.transition};
+  flex-shrink: 0;
+
+  @media (max-width: 480px) {
+    padding: 0.32rem 0.75rem;
+    font-size: 0.7rem;
+  }
+
+  &::after {
+    content: '';
+    display: inline-block;
+    width: 0;
+    height: 0;
+    border-left: 4px solid transparent;
+    border-right: 4px solid transparent;
+    border-top: 4px solid currentColor;
+    transform: ${({ $open }) => ($open ? 'rotate(180deg)' : 'rotate(0deg)')};
+    transition: transform 0.3s ease;
+  }
+
+  &:hover {
+    background: ${({ $color }) => $color}12;
+    border-color: ${({ $color }) => $color}55;
+  }
+`;
+
+const HighlightsWrapper = styled.div<{ $open: boolean }>`
+  display: grid;
+  grid-template-rows: ${({ $open }) => ($open ? '1fr' : '0fr')};
+  margin-top: ${({ $open }) => ($open ? '0.95rem' : '0')};
+  transition: grid-template-rows 0.35s cubic-bezier(0.4, 0, 0.2, 1),
+              margin-top 0.35s ease;
+`;
+
+const HighlightsInner = styled.div`
+  overflow: hidden;
 `;
 
 const Stack = styled.div`
@@ -318,25 +473,36 @@ const StackTag = styled.span<{ $color: string }>`
 `;
 
 const SourceLink = styled.a<{ $color: string }>`
-  font-size: 0.72rem;
+  font-size: 0.68rem;
   font-family: ${({ theme }) => theme.fonts.mono};
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
   color: ${({ $color }) => $color};
+  background: ${({ $color }) => $color}12;
   text-decoration: none;
-  border: 1px solid ${({ $color }) => $color}30;
-  border-radius: 999px;
-  padding: 0.22rem 0.65rem;
+  border: 1px solid ${({ $color }) => $color}25;
+  border-radius: 20px;
+  padding: 0.18rem 0.6rem;
   transition: all ${({ theme }) => theme.transition};
   white-space: nowrap;
 
+  @media (max-width: 380px) {
+    font-size: 0.62rem;
+    padding: 0.16rem 0.5rem;
+  }
+
   &:hover {
-    background: ${({ $color }) => $color}12;
+    background: ${({ $color }) => $color}20;
     border-color: ${({ $color }) => $color}55;
   }
 `;
 
 const WorkExperience = () => {
+  const [openIndex, setOpenIndex] = useState<number | null>(0);
   const { t } = useLanguage();
-  const current = t.workExperience.current;
+
+  const toggle = (i: number) => setOpenIndex(prev => (prev === i ? null : i));
 
   return (
     <Section id="experience">
@@ -346,45 +512,46 @@ const WorkExperience = () => {
           {t.workExperience.titleLead}<span>{t.workExperience.titleAccent}</span>
         </SectionTitle>
 
-        {current ? (
-          <CurrentCard>
-            <CurrentTop>
-              <CurrentLabel>{current.label}</CurrentLabel>
-              <CurrentPeriod>{current.period}</CurrentPeriod>
-            </CurrentTop>
-            <CurrentNote>{current.note}</CurrentNote>
-          </CurrentCard>
-        ) : null}
-
         <Timeline>
           {WORK_EXPERIENCE.map((item, index) => {
             const content = t.workExperience.items[item.id];
+            const isOpen = openIndex === index;
+            const hasHighlights = content.highlights.length > 0;
 
             return (
               <Item key={item.id} $delay={index * 120}>
-                <Dot $color={item.color} />
+                <Dot $color={item.color}>
+                  {item.id === 'current' ? <PulseRing $color={item.color} /> : null}
+                </Dot>
                 <Card $color={item.color}>
                   <CardTop>
-                    <Role>{content.role}</Role>
+                    <RoleGroup>
+                      <Role>{content.role}</Role>
+                      <TypeTag $color={item.color}>{content.type}</TypeTag>
+                      {item.id === 'current' ? (
+                        <CurrentBadge $color={item.color}>{t.hero.status}</CurrentBadge>
+                      ) : null}
+                      {'sourceLabel' in content && content.sourceLabel ? (
+                        <SourceLink
+                          $color={item.color}
+                          href={content.sourceUrl || '#'}
+                          target={content.sourceUrl ? '_blank' : undefined}
+                          rel="noreferrer"
+                        >
+                          {content.sourceLabel}
+                        </SourceLink>
+                      ) : null}
+                    </RoleGroup>
                     <Period>{content.period}</Period>
                   </CardTop>
 
                   <CompanyRow>
                     <Company>{content.company}</Company>
                     <Separator>·</Separator>
-                    <TypeTag $color={item.color}>{content.type}</TypeTag>
+                    <MetaLine>{content.location}</MetaLine>
                   </CompanyRow>
 
-                  <MetaLine>{content.location}</MetaLine>
                   <Summary>{content.summary}</Summary>
-
-                  <HighlightsList $color={item.color}>
-                    {content.highlights.map((highlight) => (
-                      <HighlightItem key={highlight} $color={item.color}>
-                        {highlight}
-                      </HighlightItem>
-                    ))}
-                  </HighlightsList>
 
                   <Footer>
                     <Stack>
@@ -395,17 +562,32 @@ const WorkExperience = () => {
                       ))}
                     </Stack>
 
-                    {'sourceUrl' in content && content.sourceUrl ? (
-                      <SourceLink
-                        $color={item.color}
-                        href={content.sourceUrl}
-                        target="_blank"
-                        rel="noreferrer"
-                      >
-                        {content.sourceLabel}
-                      </SourceLink>
+                    {hasHighlights ? (
+                      <Actions>
+                        <ToggleBtn
+                          $color={item.color}
+                          $open={isOpen}
+                          onClick={() => toggle(index)}
+                        >
+                          {isOpen ? t.workExperience.hide : t.workExperience.details}
+                        </ToggleBtn>
+                      </Actions>
                     ) : null}
                   </Footer>
+
+                  {hasHighlights ? (
+                    <HighlightsWrapper $open={isOpen}>
+                      <HighlightsInner>
+                        <HighlightsList $color={item.color}>
+                          {content.highlights.map((highlight) => (
+                            <HighlightItem key={highlight} $color={item.color}>
+                              {highlight}
+                            </HighlightItem>
+                          ))}
+                        </HighlightsList>
+                      </HighlightsInner>
+                    </HighlightsWrapper>
+                  ) : null}
                 </Card>
               </Item>
             );

@@ -1,6 +1,11 @@
 import { useEffect, useState } from 'react';
-import styled from 'styled-components';
+import styled, { keyframes } from 'styled-components';
+import { FaHome, FaUser, FaCode, FaGraduationCap, FaBriefcase, FaFolderOpen, FaEnvelope } from 'react-icons/fa';
 import { useLanguage } from '../../i18n/LanguageContext';
+
+const spin = keyframes`
+  to { transform: rotate(360deg); }
+`;
 
 const Nav = styled.header`
   position: fixed;
@@ -24,6 +29,56 @@ const NavContainer = styled.div`
   height: 64px;
 `;
 
+const LogoMark = styled.span`
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  width: 34px;
+  height: 34px;
+  border-radius: 10px;
+  flex-shrink: 0;
+  overflow: hidden;
+  background: ${({ theme }) => theme.colors.bg};
+  box-shadow: 0 6px 18px rgba(2, 6, 23, 0.5);
+
+  &::before {
+    content: '';
+    position: absolute;
+    inset: -60%;
+    background: conic-gradient(
+      from 0deg,
+      transparent 0deg,
+      rgba(0, 240, 255, 0.9) 40deg,
+      transparent 100deg,
+      rgba(123, 97, 255, 0.85) 190deg,
+      transparent 250deg,
+      rgba(0, 232, 135, 0.8) 320deg,
+      transparent 360deg
+    );
+    animation: ${spin} 5s linear infinite;
+    transition: animation-duration 0.3s ease;
+  }
+
+  &::after {
+    content: '';
+    position: absolute;
+    inset: 1.5px;
+    border-radius: 8px;
+    background: ${({ theme }) => theme.colors.bg};
+  }
+`;
+
+const LogoMarkText = styled.span`
+  position: relative;
+  z-index: 1;
+  font-family: ${({ theme }) => theme.fonts.mono};
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: ${({ theme }) => theme.colors.primary};
+`;
+
 const Logo = styled.a`
   font-size: 1.1rem;
   font-weight: 700;
@@ -37,32 +92,9 @@ const Logo = styled.a`
   transition: opacity ${({ theme }) => theme.transition};
 
   &:hover { opacity: 0.85; }
-`;
 
-const LogoMark = styled.span`
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  position: relative;
-  width: 34px;
-  height: 34px;
-  border-radius: 11px;
-  background: ${({ theme }) => theme.colors.brandGradientBold};
-  font-size: 0.78rem;
-  font-weight: 800;
-  letter-spacing: -0.04em;
-  color: #07111f;
-  flex-shrink: 0;
-  box-shadow: 0 10px 24px rgba(56, 189, 248, 0.22), 0 0 0 1px rgba(124, 247, 255, 0.18);
-
-  &::before {
-    content: '';
-    position: absolute;
-    inset: 1px;
-    border-radius: 10px;
-    background: linear-gradient(180deg, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.02));
-    mix-blend-mode: screen;
-    pointer-events: none;
+  &:hover ${LogoMark}::before {
+    animation-duration: 1.2s;
   }
 `;
 
@@ -104,34 +136,54 @@ const DesktopActions = styled.div`
 
 const NavLink = styled.a`
   position: relative;
+  display: inline-flex;
+  align-items: center;
   color: ${({ theme }) => theme.colors.textSecondary};
   font-size: 0.88rem;
   font-weight: 500;
-  padding: 0.45rem 0.85rem;
-  border-radius: 6px;
-  transition: color ${({ theme }) => theme.transition},
-    background ${({ theme }) => theme.transition};
+  padding: 0.5rem 0.95rem;
+  border-radius: 4px;
+  transition: color 0.3s ease;
 
-  &::after {
-    content: '';
+  .trace {
     position: absolute;
-    bottom: 2px;
-    left: 50%;
-    transform: translateX(-50%) scaleX(0);
-    width: 60%;
-    height: 2px;
-    background: ${({ theme }) => theme.colors.gradient};
-    border-radius: 1px;
-    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    background: ${({ theme }) => theme.colors.primary};
+    transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+      height 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   }
 
-  &:hover {
-    color: ${({ theme }) => theme.colors.primary};
-    background: rgba(0, 240, 255, 0.04);
+  .trace-top,
+  .trace-bottom {
+    left: 0;
+    width: 0;
+    height: 1px;
   }
+  .trace-top { top: 0; transition-delay: 0s; }
+  .trace-bottom { bottom: 0; right: 0; left: auto; transition-delay: 0.24s; }
 
-  &:hover::after {
-    transform: translateX(-50%) scaleX(1);
+  .trace-right,
+  .trace-left {
+    top: 0;
+    width: 1px;
+    height: 0;
+  }
+  .trace-right { right: 0; transition-delay: 0.12s; }
+  .trace-left { left: 0; top: auto; bottom: 0; transition-delay: 0.36s; }
+
+  @media (hover: hover) and (pointer: fine) {
+    &:hover {
+      color: ${({ theme }) => theme.colors.primary};
+    }
+
+    &:hover .trace-top,
+    &:hover .trace-bottom {
+      width: 100%;
+    }
+
+    &:hover .trace-right,
+    &:hover .trace-left {
+      height: 100%;
+    }
   }
 `;
 
@@ -150,12 +202,14 @@ const HireMeBtn = styled.a`
   margin-left: 0.5rem;
   box-shadow: 0 0 16px rgba(0, 240, 255, 0.05);
 
-  &:hover {
-    background: linear-gradient(135deg, #00f0ff 0%, #5ef5d2 50%, #00e887 100%);
-    color: #060611;
-    border-color: transparent;
-    box-shadow: 0 6px 24px rgba(0, 240, 255, 0.4);
-    transform: translateY(-1px) scale(1.04);
+  @media (hover: hover) and (pointer: fine) {
+    &:hover {
+      background: linear-gradient(135deg, #00f0ff 0%, #5ef5d2 50%, #00e887 100%);
+      color: #060611;
+      border-color: transparent;
+      box-shadow: 0 6px 24px rgba(0, 240, 255, 0.4);
+      transform: translateY(-1px) scale(1.04);
+    }
   }
 `;
 
@@ -282,7 +336,7 @@ const MobileDrawer = styled.div<{ $open: boolean }>`
 const MobileNavLink = styled.a`
   display: flex;
   align-items: center;
-  gap: 0.75rem;
+  gap: 0.85rem;
   color: ${({ theme }) => theme.colors.textSecondary};
   font-size: 1rem;
   font-weight: 500;
@@ -292,12 +346,30 @@ const MobileNavLink = styled.a`
   border: 1px solid transparent;
   font-family: ${({ theme }) => theme.fonts.heading};
 
-  &:hover {
-    color: ${({ theme }) => theme.colors.primary};
-    background: rgba(0, 240, 255, 0.06);
-    border-color: rgba(0, 240, 255, 0.12);
-    transform: translateX(4px);
+  &:active {
+    background: rgba(0, 240, 255, 0.08);
+    transform: scale(0.98);
   }
+
+  @media (hover: hover) and (pointer: fine) {
+    &:hover {
+      color: ${({ theme }) => theme.colors.primary};
+      background: rgba(0, 240, 255, 0.06);
+      border-color: rgba(0, 240, 255, 0.12);
+      transform: translateX(4px);
+    }
+  }
+`;
+
+const MobileNavIcon = styled.span`
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  color: ${({ theme }) => theme.colors.primary};
+  opacity: 0.75;
+  font-size: 0.95rem;
+  flex-shrink: 0;
 `;
 
 const MobileDivider = styled.div`
@@ -341,7 +413,7 @@ const MobileLanguageButton = styled.button<{ $active: boolean }>`
   padding: 0.72rem 0.8rem;
   border: 0;
   border-radius: 14px;
-  background: ${({ $active }) => ($active ? 'linear-gradient(135deg, #00f0ff 0%, #5ef5d2 100%)' : 'transparent')};
+  background: ${({ $active, theme }) => ($active ? theme.colors.primary : 'transparent')};
   color: ${({ $active, theme }) => ($active ? '#060611' : theme.colors.textSecondary)};
   font-size: 0.76rem;
   font-weight: 800;
@@ -352,7 +424,7 @@ const MobileLanguageButton = styled.button<{ $active: boolean }>`
 
   &:hover {
     color: ${({ $active, theme }) => ($active ? '#060611' : theme.colors.primary)};
-    background: ${({ $active }) => ($active ? 'linear-gradient(135deg, #00f0ff 0%, #5ef5d2 100%)' : 'rgba(0, 240, 255, 0.08)')};
+    background: ${({ $active, theme }) => ($active ? theme.colors.primary : 'rgba(0, 240, 255, 0.08)')};
   }
 `;
 
@@ -360,31 +432,39 @@ const MobileHireBtn = styled.a`
   display: flex;
   align-items: center;
   justify-content: center;
+  gap: 0.4rem;
   margin-top: 0.75rem;
   padding: 0.9rem 1.5rem;
   border-radius: 50px;
-  background: linear-gradient(135deg, #00f0ff 0%, #5ee6cf 15%, #5ef5d2 100%);
-  color: #060611;
+  background: ${({ theme }) => theme.colors.primary};
+  color: #06101a;
   font-size: 0.95rem;
   font-weight: 700;
   letter-spacing: 0.3px;
   transition: all 0.3s ease;
-  box-shadow: 0 4px 20px rgba(0, 240, 255, 0.25);
+  box-shadow: 0 8px 26px rgba(0, 240, 255, 0.22);
 
-  &:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 8px 30px rgba(0, 240, 255, 0.4);
+  &:active {
+    transform: scale(0.98);
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    &:hover {
+      background: #5ef5d2;
+      transform: translateY(-2px);
+      box-shadow: 0 10px 34px rgba(0, 240, 255, 0.32);
+    }
   }
 `;
 
 const NAV_ITEMS = [
-  { id: 'home', icon: '⌂' },
-  { id: 'about', icon: '◈' },
-  { id: 'skills', icon: '◉' },
-  { id: 'education', icon: '◎' },
-  { id: 'experience', icon: '◌' },
-  { id: 'projects', icon: '▦' },
-  { id: 'contact', icon: '✉' },
+  { id: 'home', Icon: FaHome },
+  { id: 'about', Icon: FaUser },
+  { id: 'skills', Icon: FaCode },
+  { id: 'education', Icon: FaGraduationCap },
+  { id: 'experience', Icon: FaBriefcase },
+  { id: 'projects', Icon: FaFolderOpen },
+  { id: 'contact', Icon: FaEnvelope },
 ] as const;
 
 const Header = () => {
@@ -406,14 +486,20 @@ const Header = () => {
       <Nav>
         <NavContainer>
           <Logo href="#home" onClick={close}>
-            <LogoMark>DH</LogoMark>
+            <LogoMark><LogoMarkText>DH</LogoMarkText></LogoMark>
             <LogoText>{profile.firstName} <em>{profile.lastName}</em></LogoText>
           </Logo>
 
           {/* Desktop */}
           <DesktopNav>
             {NAV_ITEMS.map(({ id }) => (
-              <NavLink key={id} href={`#${id}`}>{navigation[id]}</NavLink>
+              <NavLink key={id} href={`#${id}`}>
+                {navigation[id]}
+                <span className="trace trace-top" />
+                <span className="trace trace-right" />
+                <span className="trace trace-bottom" />
+                <span className="trace trace-left" />
+              </NavLink>
             ))}
           </DesktopNav>
           <DesktopActions>
@@ -450,9 +536,9 @@ const Header = () => {
       {/* Mobile drawer */}
       <Backdrop $open={open} onClick={close} />
       <MobileDrawer $open={open}>
-        {NAV_ITEMS.map(({ id, icon }) => (
+        {NAV_ITEMS.map(({ id, Icon }) => (
           <MobileNavLink key={id} href={`#${id}`} onClick={close}>
-            <span style={{ opacity: 0.5, fontFamily: 'monospace' }}>{icon}</span>
+            <MobileNavIcon><Icon /></MobileNavIcon>
             {navigation[id]}
           </MobileNavLink>
         ))}
@@ -478,7 +564,7 @@ const Header = () => {
             </MobileLanguageButton>
           </MobileLanguageSwitcher>
         </MobileLanguageBlock>
-        <MobileHireBtn href="#contact" onClick={close}>✦ {t.header.contactCta}</MobileHireBtn>
+        <MobileHireBtn href="#contact" onClick={close}><FaEnvelope /> {t.header.contactCta}</MobileHireBtn>
       </MobileDrawer>
     </>
   );
