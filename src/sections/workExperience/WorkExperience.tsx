@@ -231,8 +231,12 @@ const RoleGroup = styled.div`
   gap: 0.6rem;
   flex-wrap: wrap;
 
-  @media (max-width: 380px) {
+  @media (max-width: 480px) {
     gap: 0.4rem;
+  }
+
+  @media (max-width: 380px) {
+    gap: 0.32rem;
   }
 `;
 
@@ -243,8 +247,12 @@ const Role = styled.h3`
   color: ${({ theme }) => theme.colors.white};
   line-height: 1.3;
 
+  @media (max-width: 480px) {
+    font-size: 0.94rem;
+  }
+
   @media (max-width: 380px) {
-    font-size: 0.92rem;
+    font-size: 0.88rem;
   }
 `;
 
@@ -263,9 +271,15 @@ const CurrentBadge = styled.span<{ $color: string }>`
   text-transform: uppercase;
   letter-spacing: 0.06em;
 
+  @media (max-width: 480px) {
+    gap: 0.3rem;
+    font-size: 0.58rem;
+    padding: 0.16rem 0.5rem;
+  }
+
   @media (max-width: 380px) {
-    font-size: 0.6rem;
-    padding: 0.18rem 0.5rem;
+    font-size: 0.52rem;
+    padding: 0.14rem 0.42rem;
   }
 
   &::before {
@@ -325,9 +339,15 @@ const TypeTag = styled.span<{ $color: string }>`
   padding: 0.18rem 0.6rem;
   border-radius: 20px;
 
-  @media (max-width: 380px) {
-    font-size: 0.62rem;
+  @media (max-width: 480px) {
+    font-size: 0.6rem;
     padding: 0.16rem 0.5rem;
+    letter-spacing: 0.06em;
+  }
+
+  @media (max-width: 380px) {
+    font-size: 0.54rem;
+    padding: 0.14rem 0.42rem;
   }
 `;
 
@@ -458,6 +478,14 @@ const Stack = styled.div`
   display: flex;
   flex-wrap: wrap;
   gap: 0.45rem;
+
+  @media (max-width: 480px) {
+    gap: 0.32rem;
+  }
+
+  @media (max-width: 380px) {
+    gap: 0.26rem;
+  }
 `;
 
 const StackTag = styled.span<{ $color: string }>`
@@ -470,6 +498,17 @@ const StackTag = styled.span<{ $color: string }>`
   padding: 0.2rem 0.55rem;
   letter-spacing: 0.06em;
   text-transform: uppercase;
+
+  @media (max-width: 480px) {
+    font-size: 0.58rem;
+    padding: 0.16rem 0.45rem;
+    letter-spacing: 0.03em;
+  }
+
+  @media (max-width: 380px) {
+    font-size: 0.52rem;
+    padding: 0.14rem 0.4rem;
+  }
 `;
 
 const SourceLink = styled.a<{ $color: string }>`
@@ -487,9 +526,15 @@ const SourceLink = styled.a<{ $color: string }>`
   transition: all ${({ theme }) => theme.transition};
   white-space: nowrap;
 
-  @media (max-width: 380px) {
-    font-size: 0.62rem;
+  @media (max-width: 480px) {
+    font-size: 0.58rem;
     padding: 0.16rem 0.5rem;
+    letter-spacing: 0.06em;
+  }
+
+  @media (max-width: 380px) {
+    font-size: 0.52rem;
+    padding: 0.14rem 0.42rem;
   }
 
   &:hover {
